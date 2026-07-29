@@ -37,7 +37,7 @@ function ramp(direction: "x" | "y", from: string, to: string, inset: number) {
  * ~100px and read as a smear; a real lens deflects hard within a few pixels of
  * its rim and is optically flat through the middle.
  */
-const MAP_X = ramp("x", "#008080", "#ff8080", 0.035);
+const MAP_X = ramp("x", "#008080", "#ff8080", 0.05);
 /** The bar is short, so its vertical rim is a larger fraction of its height. */
 const MAP_Y = ramp("y", "#800080", "#80ff80", 0.3);
 
@@ -63,7 +63,7 @@ export function GlassFilter() {
           <feDisplacementMap
             in="SourceGraphic"
             in2="mapX"
-            scale="46"
+            scale="86"
             xChannelSelector="R"
             yChannelSelector="B"
             result="bentX"
@@ -72,14 +72,14 @@ export function GlassFilter() {
           <feDisplacementMap
             in="bentX"
             in2="mapY"
-            scale="9"
+            scale="30"
             xChannelSelector="B"
             yChannelSelector="G"
             result="bent"
           />
           {/* Half a pixel, purely to take the stair-stepping off the
               displaced edge without frosting the glass. */}
-          <feGaussianBlur in="bent" stdDeviation="0.4" />
+          <feGaussianBlur in="bent" stdDeviation="0.6" />
         </filter>
       </defs>
     </svg>
