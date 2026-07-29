@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { scrollState, syncCameraParam } from "@/lib/scroll-store";
+import { scrollState, syncChapterParam } from "@/lib/scroll-store";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,7 +26,7 @@ export function EpilogueTracker() {
       scrub: true,
       onUpdate: (self) => {
         scrollState.epilogue = self.progress;
-        syncCameraParam();
+        syncChapterParam();
       },
     });
 

@@ -1,5 +1,6 @@
 import { voices } from "@/lib/content";
 import { Reveal } from "@/components/Reveal";
+import { SplitHeading } from "@/components/SplitHeading";
 
 export function Voices() {
   return (
@@ -7,11 +8,13 @@ export function Voices() {
       <div className="shell shell--narrow">
         <Reveal>
           <p className="eyebrow eyebrow--center">{voices.eyebrow}</p>
-          <blockquote className="quote">
-            <p>{voices.quote}</p>
-            <cite>{voices.attribution}</cite>
-          </blockquote>
         </Reveal>
+        <blockquote className="quote">
+          <SplitHeading lines={voices.quote} as="h3" className="quote__text" />
+          <Reveal>
+            <cite>{voices.attribution}</cite>
+          </Reveal>
+        </blockquote>
       </div>
     </section>
   );

@@ -4,33 +4,35 @@ import { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AdaptiveDpr, Preload } from "@react-three/drei";
 import * as THREE from "three";
-import { keyframes } from "@/lib/keyframes";
-import { Artifact } from "./Artifact";
-import { Backdrop } from "./Backdrop";
-import { CameraRig } from "./CameraRig";
+import { ImageJourney } from "./ImageJourney";
+import { PetalDrift } from "./PetalDrift";
 import { Effects } from "./Effects";
-import { Lighting } from "./Lighting";
-import { Particles } from "./Particles";
 
 type Quality = {
   petals: number;
-  motes: number;
   dpr: [number, number];
   effects: boolean;
 };
 
-const HIGH: Quality = { petals: 280, motes: 900, dpr: [1, 1.6], effects: true };
-const LOW: Quality = { petals: 130, motes: 320, dpr: [1, 1.25], effects: false };
+const HIGH: Quality = { petals: 90, dpr: [1, 2], effects: true };
+const MID: Quality = { petals: 55, dpr: [1, 1.5], effects: true };
+const LOW: Quality = { petals: 26, dpr: [1, 1.25], effects: false };
 
+/**
+ * Tiering is deliberately aggressive. The image journey itself is cheap — one
+ * quad — so the budget goes to post FX and petal count, and both are the first
+ * things to go on a weak device.
+ */
 function detectQuality(): Quality {
-  if (typeof window === "undefined") return HIGH;
-  const narrow = window.innerWidth < 900;
+  if (typeof window === "undefined") return MID;
+  const memory = (navigator as Navigator & { deviceMemory?: number })
+    .deviceMemory;
+  const cores = navigator.hardwareConcurrency ?? 4;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
-  const thin =
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory !==
-      undefined &&
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory! <= 4;
-  return narrow || coarse || thin ? LOW : HIGH;
+
+  if (coarse || window.innerWidth < 760) return LOW;
+  if ((memory !== undefined && memory <= 4) || cores <= 4) return MID;
+  return HIGH;
 }
 
 export function Scene() {
@@ -42,26 +44,21 @@ export function Scene() {
     <div className="scene" aria-hidden="true">
       <Canvas
         dpr={quality.dpr}
-        camera={{
-          position: keyframes[0].position.toArray(),
-          fov: keyframes[0].fov,
-          near: 0.1,
-          far: 120,
-        }}
+        camera={{ position: [0, 0, 5], fov: 45, near: 0.1, far: 40 }}
         gl={{
-          antialias: !quality.effects,
+          antialias: false,
           alpha: false,
           powerPreference: "high-performance",
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.05,
+          toneMapping: THREE.NoToneMapping,
         }}
       >
         <Suspense fallback={null}>
-          <Backdrop />
-          <Lighting />
-          <Artifact count={quality.petals} />
-          <Particles count={quality.motes} />
-          <CameraRig />
+          <ImageJourney />
+
+          <ambientLight intensity={1.4} />
+          <directionalLight position={[2, 3, 4]} intensity={2.2} />
+          <PetalDrift count={quality.petals} />
+
           {quality.effects && <Effects />}
           <AdaptiveDpr pixelated={false} />
           <Preload all />

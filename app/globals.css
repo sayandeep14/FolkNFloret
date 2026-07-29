@@ -1,33 +1,28 @@
 /* ==========================================================================
-   Folk & Floret — design system
-   The WebGL layer supplies the page background, so almost everything here is
-   transparent and relies on scrims for contrast rather than solid fills.
+   Folk & Floret — design system (v2, photoreal)
+   The WebGL layer renders the photography, so the DOM is almost entirely
+   transparent and leans on scrims for contrast.
    ========================================================================== */
 
 :root {
-  /* Palette — lifted from the production bible's colour progression. */
   --cream: #f7f1e8;
-  --cream-dim: #e8dccd;
   --plum: #2a1b24;
   --plum-deep: #1a1016;
   --ink: #0d1316;
   --rose: #c98b96;
-  --green: #4a5d46;
   --gold: #c9a24a;
-  --cocoa: #5a3a2e;
 
   --font-display: "Cormorant Garamond", "Didot", "Bodoni MT", ui-serif, Georgia,
     serif;
   --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
 
-  /* Type scale */
   --step-eyebrow: clamp(0.62rem, 0.55rem + 0.2vw, 0.72rem);
   --step-body: clamp(0.95rem, 0.9rem + 0.25vw, 1.06rem);
   --step-lede: clamp(1rem, 0.94rem + 0.4vw, 1.2rem);
   --step-md: clamp(2.4rem, 1.6rem + 3.4vw, 4.6rem);
   --step-lg: clamp(3rem, 1.9rem + 4.6vw, 6.2rem);
-  --step-brand: clamp(3.4rem, 1.4rem + 8vw, 11rem);
+  --step-chapter: clamp(2rem, 1rem + 5vw, 6.6rem);
 
   --shell: 78rem;
   --gutter: clamp(1.25rem, 0.6rem + 3vw, 4.5rem);
@@ -47,7 +42,6 @@ html {
 
 body {
   margin: 0;
-  /* Fallback only — the Backdrop sphere is the real background. */
   background: var(--ink);
   color: var(--cream);
   font-family: var(--font-body);
@@ -102,6 +96,7 @@ canvas {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  background: var(--ink);
 }
 
 .scene canvas {
@@ -109,13 +104,12 @@ canvas {
   height: 100% !important;
 }
 
-/* Film grain — keeps large flat gradients from banding on cheap panels. */
 .grain {
   position: fixed;
   inset: -50%;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.045;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -130,6 +124,60 @@ main,
    over it at an equal z-index. */
 .site-header {
   z-index: 10;
+}
+
+/* --------------------------------------------------------------------------
+   Custom cursor
+   -------------------------------------------------------------------------- */
+
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  display: none;
+}
+
+.has-custom-cursor {
+  cursor: none;
+}
+
+.has-custom-cursor .cursor {
+  display: block;
+}
+
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor [data-cursor] {
+  cursor: none;
+}
+
+.cursor__dot,
+.cursor__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.cursor__dot {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--cream);
+}
+
+.cursor__ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgb(247 241 232 / 0.55);
+  transition: background-color 0.4s var(--ease-out);
+}
+
+.cursor__ring[data-active="true"] {
+  background: rgb(247 241 232 / 0.12);
 }
 
 /* --------------------------------------------------------------------------
@@ -148,13 +196,32 @@ main,
   text-align: center;
 }
 
+/* Split headings: each line clips its own characters so they rise out of a
+   hard edge rather than fading in place. */
+.split-mask {
+  display: block;
+  overflow: hidden;
+  /* Descenders would be clipped by the mask without this breathing room. */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.split-line {
+  display: block;
+  /* Each line is authored as one line; letting it wrap would break a word in
+     half between two masks. Size is controlled by the clamp instead. */
+  white-space: nowrap;
+}
+
+.split-char {
+  will-change: transform;
+}
+
 .display {
   font-family: var(--font-display);
   font-weight: 300;
-  line-height: 0.98;
+  line-height: 1;
   letter-spacing: -0.015em;
-  /* Titles in content.ts carry their own line breaks. */
-  white-space: pre-line;
   text-wrap: balance;
 }
 
@@ -195,17 +262,12 @@ main,
   transition:
     background-color 0.5s var(--ease-out),
     border-color 0.5s var(--ease-out),
-    color 0.5s var(--ease-out),
-    transform 0.5s var(--ease-out);
+    color 0.5s var(--ease-out);
 }
 
 .button b {
   font-weight: 300;
   transition: transform 0.5s var(--ease-out);
-}
-
-.button:hover {
-  transform: translateY(-2px);
 }
 
 .button:hover b {
@@ -214,12 +276,12 @@ main,
 
 .button--ghost {
   border: 1px solid currentColor;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .button--ghost:hover {
   opacity: 1;
-  background: rgb(247 241 232 / 0.1);
+  background: rgb(247 241 232 / 0.12);
 }
 
 .button--solid {
@@ -247,6 +309,13 @@ a:focus-visible {
   outline-offset: 4px;
 }
 
+/* Magnetic wrapper is inline-block so transforms apply. */
+.chapter__cta,
+.actions > span {
+  display: inline-block;
+  will-change: transform;
+}
+
 /* --------------------------------------------------------------------------
    Header
    -------------------------------------------------------------------------- */
@@ -261,18 +330,23 @@ a:focus-visible {
   justify-content: space-between;
   gap: 2rem;
   padding: clamp(1.1rem, 2vh, 2.1rem) var(--gutter);
-  color: var(--plum);
-  transition:
-    color 0.9s var(--ease-out),
-    padding 0.7s var(--ease-out);
+  color: var(--cream);
+  text-shadow: 0 1px 24px rgb(13 19 22 / 0.55);
+  transition: padding 0.7s var(--ease-out);
+}
+
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 180%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgb(9 13 15 / 0.5), transparent);
 }
 
 .site-header.is-condensed {
   padding-block: clamp(0.8rem, 1.4vh, 1.3rem);
-}
-
-.site-header.is-inverted {
-  color: var(--cream);
 }
 
 .site-header__mark {
@@ -295,7 +369,7 @@ a:focus-visible {
   font-size: var(--step-eyebrow);
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  opacity: 0.55;
+  opacity: 0.6;
 }
 
 .site-header__nav {
@@ -309,11 +383,10 @@ a:focus-visible {
 .site-header__nav a {
   position: relative;
   padding-block: 0.3em;
-  opacity: 0.72;
+  opacity: 0.8;
   transition: opacity 0.4s var(--ease-out);
 }
 
-/* Underline grows from the left on hover. */
 .site-header__nav a::after {
   content: "";
   position: absolute;
@@ -336,7 +409,7 @@ a:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   The journey — pinned, five chapters
+   The journey — pinned chapters over the photography
    -------------------------------------------------------------------------- */
 
 .journey {
@@ -356,45 +429,29 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(1rem, 2.2vh, 1.9rem);
-  padding: 0 var(--gutter);
-  padding-block: 22vh 16vh;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.4vh, 2rem);
+  padding: 22vh var(--gutter) 16vh;
   will-change: opacity, transform;
 }
 
-/* A soft scrim so type never has to compete with the moving artifact. */
+/* The photographs run bright to dark, so rather than switching text colour
+   per chapter the copy always sits on an ink wash anchored to the left edge. */
 .chapter::before {
   content: "";
   position: absolute;
-  inset: -20%;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-}
-
-.chapter--on-light {
-  color: var(--plum);
-}
-
-.chapter--on-light::before {
-  background: radial-gradient(
-    62% 58% at 26% 50%,
-    rgb(249 243 233 / 0.82) 0%,
-    rgb(249 243 233 / 0.42) 45%,
-    transparent 78%
-  );
-}
-
-.chapter--on-dark {
-  color: var(--cream);
-}
-
-.chapter--on-dark::before {
-  background: radial-gradient(
-    62% 58% at 26% 50%,
-    rgb(13 19 22 / 0.72) 0%,
-    rgb(13 19 22 / 0.36) 46%,
-    transparent 78%
-  );
+  background:
+    linear-gradient(
+      100deg,
+      rgb(9 13 15 / 0.86) 0%,
+      rgb(9 13 15 / 0.62) 34%,
+      rgb(9 13 15 / 0.12) 62%,
+      transparent 80%
+    ),
+    linear-gradient(to top, rgb(9 13 15 / 0.5), transparent 42%);
 }
 
 .chapter__eyebrow {
@@ -404,62 +461,36 @@ a:focus-visible {
   font-size: var(--step-eyebrow);
   letter-spacing: 0.34em;
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 0.78;
 }
 
 .chapter__numeral {
   font-family: var(--font-display);
   font-size: 1.5em;
   letter-spacing: 0.1em;
-  opacity: 0.8;
 }
 
-/* Rule trailing the chapter numeral. */
 .chapter__eyebrow::after {
   content: "";
   flex: 0 0 clamp(2rem, 6vw, 5rem);
   height: 1px;
   background: currentColor;
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 .chapter__title {
-  display: flex;
-  flex-direction: column;
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: var(--step-lg);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
-  max-width: 16ch;
-}
-
-.chapter__title--brand {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.18em;
-  font-size: var(--step-brand);
-  letter-spacing: -0.03em;
-  max-width: none;
-}
-
-.chapter__title--brand i {
-  font-style: italic;
-  font-size: 0.52em;
-  opacity: 0.55;
+  font-size: var(--step-chapter);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
 }
 
 .chapter__body {
   max-width: 42ch;
   font-size: var(--step-lede);
   line-height: 1.68;
-  opacity: 0.76;
-}
-
-.chapter .button {
-  align-self: flex-start;
-  margin-top: 0.6rem;
+  opacity: 0.82;
 }
 
 .chapter__cue {
@@ -472,10 +503,9 @@ a:focus-visible {
   font-size: var(--step-eyebrow);
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
-/* Travelling tick under the scroll cue. */
 .chapter__cue b {
   display: block;
   width: clamp(3rem, 8vw, 6rem);
@@ -500,25 +530,40 @@ a:focus-visible {
   }
 }
 
-/* Progress rail down the right edge of the pinned viewport. */
+/* Chapter counter and progress rail, right edge. */
 .journey__rail {
   position: absolute;
   right: var(--gutter);
   top: 50%;
   translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  opacity: 0.85;
+}
+
+.journey__rail-track {
+  display: block;
   width: 1px;
-  height: clamp(6rem, 18vh, 11rem);
-  background: var(--cream);
-  opacity: 0.2;
+  height: clamp(5rem, 14vh, 9rem);
+  background: rgb(247 241 232 / 0.28);
 }
 
 .journey__rail-fill {
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--gold);
+  background: var(--cream);
   transform: scaleY(0);
   transform-origin: top;
+}
+
+.journey__total {
+  opacity: 0.5;
 }
 
 .epilogue-marker {
@@ -527,27 +572,16 @@ a:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   Content sections
+   Content below the journey
    -------------------------------------------------------------------------- */
 
-/* Everything below the journey sits on blue-hour ink; this scrim guarantees
-   the contrast regardless of what the artifact is doing behind it. */
 .content {
   position: relative;
-}
-
-.content::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    rgb(13 19 22 / 0.72) 12%,
-    rgb(13 19 22 / 0.86) 50%,
-    rgb(13 19 22 / 0.92) 100%
+    rgb(13 19 22 / 0.55) 0%,
+    var(--ink) 14%,
+    var(--ink) 100%
   );
 }
 
@@ -572,111 +606,153 @@ a:focus-visible {
   align-items: start;
 }
 
-.section__head {
+/* --------------------------------------------------------------------------
+   Horizontal gallery
+   -------------------------------------------------------------------------- */
+
+.gallery {
+  position: relative;
+}
+
+.gallery__viewport {
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  /* Clears the fixed header, which the cards were tucking under. */
+  padding-top: 4rem;
+}
+
+.gallery__track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  padding-inline: var(--gutter);
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 auto;
+  will-change: transform;
+}
+
+.slide--intro,
+.slide--outro {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  margin-bottom: clamp(3rem, 8vh, 5.5rem);
+  width: min(78vw, 34rem);
+  align-items: flex-start;
 }
 
-/* Collections -------------------------------------------------------------- */
-
-.cards {
-  display: grid;
-  gap: clamp(1rem, 2vw, 1.75rem);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.card {
-  position: relative;
+.gallery__hint {
   display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-  min-height: clamp(22rem, 42vh, 30rem);
-  padding: clamp(1.6rem, 2.4vw, 2.4rem);
-  border: 1px solid rgb(247 241 232 / 0.14);
-  border-radius: 2px;
-  background: rgb(247 241 232 / 0.03);
-  backdrop-filter: blur(14px);
-  overflow: hidden;
-  transition:
-    border-color 0.7s var(--ease-out),
-    background-color 0.7s var(--ease-out),
-    transform 0.7s var(--ease-out);
-}
-
-/* Warm wash that rises out of the card on hover. */
-.card::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 60%;
-  pointer-events: none;
-  background: linear-gradient(to top, rgb(201 139 150 / 0.16), transparent);
-  opacity: 0;
-  transition: opacity 0.7s var(--ease-out);
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  border-color: rgb(247 241 232 / 0.3);
-  background: rgb(247 241 232 / 0.06);
-}
-
-.card:hover::after {
-  opacity: 1;
-}
-
-.card__no {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
+  align-items: center;
+  gap: 0.9em;
+  margin-top: 1rem;
+  font-size: var(--step-eyebrow);
   letter-spacing: 0.3em;
-  opacity: 0.45;
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 
-.card__body {
+.gallery__hint b {
+  animation: nudge 2.2s var(--ease-out) infinite;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.5rem);
+  }
+}
+
+.slide--card {
+  width: min(80vw, 27rem);
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  margin-top: auto;
+  gap: 1.6rem;
 }
 
-.card__latin {
+.slide__frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(247 241 232 / 0.04);
+}
+
+.slide__frame img {
+  transition: transform 1.1s var(--ease-out);
+}
+
+.slide--card:hover .slide__frame img {
+  transform: scale(1.05);
+}
+
+.slide__no {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-shadow: 0 1px 12px rgb(13 19 22 / 0.7);
+}
+
+.slide__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.slide__latin {
   font-family: var(--font-display);
   font-style: italic;
   font-size: 0.95rem;
-  letter-spacing: 0.06em;
   color: var(--rose);
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-.card__name {
+.slide__name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.9rem);
+  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.7rem);
   line-height: 1;
-  letter-spacing: -0.01em;
 }
 
-.card__text {
+.slide__text {
   font-size: 0.95rem;
   line-height: 1.62;
   opacity: 0.66;
 }
 
-.card__foot {
+.slide__meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 1.4rem;
-  border-top: 1px solid rgb(247 241 232 / 0.12);
+  margin-top: 0.6rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(247 241 232 / 0.14);
   font-size: var(--step-eyebrow);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
-/* Craft -------------------------------------------------------------------- */
+.slide__outro-copy {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+  line-height: 1.15;
+}
+
+/* --------------------------------------------------------------------------
+   Craft
+   -------------------------------------------------------------------------- */
 
 .craft__aside {
   position: sticky;
@@ -727,7 +803,9 @@ a:focus-visible {
   max-width: 46ch;
 }
 
-/* Voices ------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------
+   Voices & invitation
+   -------------------------------------------------------------------------- */
 
 .section--voices {
   text-align: center;
@@ -740,14 +818,13 @@ a:focus-visible {
   gap: 2rem;
 }
 
-.quote p {
+.quote__text {
   font-family: var(--font-display);
   font-weight: 300;
   font-style: italic;
-  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3.4rem);
-  line-height: 1.24;
+  font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3.2rem);
+  line-height: 1.22;
   letter-spacing: -0.01em;
-  text-wrap: balance;
 }
 
 .quote cite {
@@ -757,8 +834,6 @@ a:focus-visible {
   text-transform: uppercase;
   opacity: 0.55;
 }
-
-/* Invitation --------------------------------------------------------------- */
 
 .section--invitation {
   text-align: center;
@@ -872,15 +947,6 @@ a:focus-visible {
     position: static;
   }
 
-  .cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .card {
-    min-height: auto;
-    gap: 1.6rem;
-  }
-
   .site-footer__top {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -896,25 +962,17 @@ a:focus-visible {
   }
 
   .chapter {
-    padding-block: 26vh 20vh;
+    padding-block: 24vh 22vh;
   }
 
-  /* Centre the scrim once the type spans the full width. */
-  .chapter--on-light::before {
-    background: radial-gradient(
-      90% 60% at 50% 50%,
-      rgb(249 243 233 / 0.86) 0%,
-      rgb(249 243 233 / 0.5) 55%,
-      transparent 85%
-    );
-  }
-
-  .chapter--on-dark::before {
-    background: radial-gradient(
-      90% 60% at 50% 50%,
-      rgb(13 19 22 / 0.8) 0%,
-      rgb(13 19 22 / 0.45) 55%,
-      transparent 85%
+  /* With the copy full width, the wash has to come from the bottom instead. */
+  .chapter::before {
+    background: linear-gradient(
+      to top,
+      rgb(9 13 15 / 0.94) 0%,
+      rgb(9 13 15 / 0.84) 52%,
+      rgb(9 13 15 / 0.46) 78%,
+      rgb(9 13 15 / 0.24) 100%
     );
   }
 
@@ -951,8 +1009,7 @@ a:focus-visible {
     transform: scaleX(1);
   }
 
-  .card:hover,
-  .button:hover {
-    transform: none;
+  .cursor {
+    display: none !important;
   }
 }

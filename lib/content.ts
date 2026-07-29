@@ -15,74 +15,58 @@ export const nav = [
   { label: "Commissions", href: "#invitation" },
 ];
 
-/** The five chapters of the pinned 3D journey. */
-export const chapters = [
-  {
-    index: "I",
-    eyebrow: "Welcome",
-    title: ["Folk", "Floret"],
-    body: "Bespoke gifts, composed by hand for the moments that deserve more than a gesture.",
-    cue: "Scroll to begin",
-  },
-  {
-    index: "II",
-    eyebrow: "The Bouquet",
-    title: ["Cut at", "first light"],
-    body: "Garden roses, ranunculus and cosmos, gathered the morning they are given. Never held in cold storage, never repeated twice.",
-  },
-  {
-    index: "III",
-    eyebrow: "The Flame",
-    title: ["Poured", "in small batch"],
-    body: "Single-origin wax and botanical oils, set by hand in ceramic thrown for us alone. Forty hours of quiet, amber light.",
-  },
-  {
-    index: "IV",
-    eyebrow: "The Confection",
-    title: ["Tempered", "by hand"],
-    body: "Cocoa from a single estate, folded with cardamom, rose and burnt honey. Made in the morning, boxed by noon.",
-  },
-  {
-    index: "V",
-    eyebrow: "The Gift",
-    title: ["Given", "with feeling"],
-    body: "Three crafts, one composition — arranged, wrapped and delivered as a single act of attention.",
-    cta: { label: "Explore the collections", href: "#collections" },
-  },
-];
-
 export const collections = {
   eyebrow: "The Collections",
-  title: "Three crafts,\nendlessly composed",
-  body: "Each collection stands alone, and each was designed to be given together. Choose a single piece, or let us compose the whole.",
+  title: ["Three crafts,", "endlessly composed"],
+  body: "Each collection stands alone, and each was designed to be given together.",
+  /**
+   * `focus` is a CSS object-position. The candle and the chocolates are two
+   * different crops of the same packaging photograph — the only shot in the
+   * library where either product appears.
+   */
   items: [
     {
       no: "01",
       name: "Bouquets",
       latin: "Florilegium",
-      body: "Loose, garden-grown arrangements built around a season rather than a formula.",
+      body: "Loose, garden-grown arrangements built around a season rather than a formula. Cut at dawn on the estate and never held in cold storage.",
       meta: "From ₹4,800",
+      image: "/imagery/estate-closeup.jpg",
+      focus: "50% 62%",
     },
     {
       no: "02",
       name: "Candles",
       latin: "Lumen",
-      body: "Hand-poured botanical wax in thrown ceramic, scented to a single memory.",
+      body: "Single-origin wax and botanical oils, hand-poured into ceramic thrown for us alone. Forty hours of quiet, amber light.",
       meta: "From ₹3,200",
+      image: "/imagery/packaging.jpg",
+      focus: "22% 42%",
     },
     {
       no: "03",
       name: "Chocolates",
       latin: "Confectio",
-      body: "Single-estate cocoa tempered by hand and finished with cardamom and rose.",
+      body: "Cocoa from a single estate, tempered by hand and folded with cardamom, rose and burnt honey. Made in the morning, boxed by noon.",
       meta: "From ₹2,600",
+      image: "/imagery/packaging.jpg",
+      focus: "90% 74%",
+    },
+    {
+      no: "04",
+      name: "The Composed Gift",
+      latin: "Totum",
+      body: "All three, arranged as one idea — flowers, flame and flavour wrapped in dusty rose and botanical silk, delivered to the hour.",
+      meta: "From ₹9,400",
+      image: "/imagery/couple.jpg",
+      focus: "50% 40%",
     },
   ],
 };
 
 export const craft = {
   eyebrow: "The Craft",
-  title: "Nothing here\nis kept in stock",
+  title: ["Nothing here", "is kept in stock"],
   body: "A Folk & Floret commission begins as a conversation and ends at a doorway. Between the two, four days of deliberate work.",
   steps: [
     {
@@ -110,14 +94,17 @@ export const craft = {
 
 export const voices = {
   eyebrow: "In their words",
-  quote:
-    "It arrived at eight in the morning, still cold from the field. She has kept the ribbon.",
+  quote: [
+    "It arrived at eight in the morning,",
+    "still cold from the field.",
+    "She has kept the ribbon.",
+  ],
   attribution: "Ananya R. — a commission for a first anniversary",
 };
 
 export const invitation = {
   eyebrow: "Commissions",
-  title: "Begin something\nworth remembering",
+  title: ["Begin something", "worth remembering"],
   body: "We take a limited number of bespoke commissions each week so that every one receives the whole of our attention.",
   primary: { label: "Start a commission", href: "#invitation" },
   secondary: { label: "Speak with a curator", href: "#invitation" },

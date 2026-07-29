@@ -1,3 +1,5 @@
+import { CHAPTER_SPAN } from "./journey";
+
 /**
  * A tiny mutable store shared between the DOM (GSAP/Lenis) and the WebGL
  * layer. Deliberately not React state: the canvas reads these values inside
@@ -7,13 +9,20 @@
 export type ScrollState = {
   /** 0 -> 1 across the pinned journey. */
   journey: number;
-  /** 0 -> 1 across everything after the journey releases. */
+  /** 0 -> 1 across the hand-off into the content below. */
   epilogue: number;
-  /** Camera keyframe parameter, 0 -> KEYFRAME_COUNT - 1. */
+  /** Chapter parameter, 0 -> CHAPTER_SPAN. */
   u: number;
-  /** Normalised pointer, -1 -> 1 on both axes. */
+  /** Signed, normalised scroll velocity, roughly -1 -> 1. Drives distortion. */
+  velocity: number;
+  /** Pointer in 0 -> 1 UV space, eased. What the shaders actually read. */
+  uvX: number;
+  uvY: number;
+  /** Raw pointer, -1 -> 1, for parallax. */
   pointerX: number;
   pointerY: number;
+  /** How fast the pointer is moving, 0 -> 1. Drives the ripple strength. */
+  pointerSpeed: number;
   /** Set once we know the device would rather we calmed down. */
   reducedMotion: boolean;
 };
@@ -22,14 +31,15 @@ export const scrollState: ScrollState = {
   journey: 0,
   epilogue: 0,
   u: 0,
+  velocity: 0,
+  uvX: 0.5,
+  uvY: 0.5,
   pointerX: 0,
   pointerY: 0,
+  pointerSpeed: 0,
   reducedMotion: false,
 };
 
-/** Journey covers keyframes 0..4, the epilogue eases on to keyframe 5. */
-export const JOURNEY_SPAN = 4;
-
-export function syncCameraParam() {
-  scrollState.u = scrollState.journey * JOURNEY_SPAN + scrollState.epilogue;
+export function syncChapterParam() {
+  scrollState.u = scrollState.journey * CHAPTER_SPAN + scrollState.epilogue;
 }

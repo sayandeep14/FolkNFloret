@@ -1,5 +1,7 @@
 import { invitation } from "@/lib/content";
 import { Reveal } from "@/components/Reveal";
+import { SplitHeading } from "@/components/SplitHeading";
+import { Magnetic } from "@/components/Magnetic";
 
 export function Invitation() {
   return (
@@ -7,16 +9,30 @@ export function Invitation() {
       <div className="shell shell--narrow">
         <Reveal>
           <p className="eyebrow eyebrow--center">{invitation.eyebrow}</p>
-          <h2 className="display display--lg">{invitation.title}</h2>
+        </Reveal>
+
+        <SplitHeading
+          lines={invitation.title}
+          className="display display--lg"
+        />
+
+        <Reveal>
           <p className="lede lede--center">{invitation.body}</p>
           <div className="actions">
-            <a className="button button--solid" href={invitation.primary.href}>
-              <span>{invitation.primary.label}</span>
-              <b aria-hidden="true">↗</b>
-            </a>
-            <a className="button button--quiet" href={invitation.secondary.href}>
-              <span>{invitation.secondary.label}</span>
-            </a>
+            <Magnetic>
+              <a className="button button--solid" href={invitation.primary.href}>
+                <span>{invitation.primary.label}</span>
+                <b aria-hidden="true">↗</b>
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.25}>
+              <a
+                className="button button--quiet"
+                href={invitation.secondary.href}
+              >
+                <span>{invitation.secondary.label}</span>
+              </a>
+            </Magnetic>
           </div>
         </Reveal>
       </div>

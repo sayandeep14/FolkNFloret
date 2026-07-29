@@ -1,10 +1,11 @@
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { SceneMount } from "@/components/canvas/SceneMount";
+import { Cursor } from "@/components/Cursor";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { EpilogueTracker } from "@/components/EpilogueTracker";
 import { Journey } from "@/components/sections/Journey";
-import { Collections } from "@/components/sections/Collections";
+import { Gallery } from "@/components/sections/Gallery";
 import { Craft } from "@/components/sections/Craft";
 import { Voices } from "@/components/sections/Voices";
 import { Invitation } from "@/components/sections/Invitation";
@@ -15,6 +16,7 @@ export default function Home() {
       {/* Code-split and client-only: the type should paint before the WebGL. */}
       <SceneMount />
       <div className="grain" aria-hidden="true" />
+      <Cursor />
 
       <SiteHeader />
 
@@ -23,7 +25,7 @@ export default function Home() {
         <EpilogueTracker />
 
         <div className="content">
-          <Collections />
+          <Gallery />
           <Craft />
           <Voices />
           <Invitation />
