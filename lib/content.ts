@@ -20,9 +20,9 @@ export const collections = {
   title: ["Three crafts,", "endlessly composed"],
   body: "Each collection stands alone, and each was designed to be given together.",
   /**
-   * `focus` is a CSS object-position. The candle and the chocolates are two
-   * different crops of the same packaging photograph — the only shot in the
-   * library where either product appears.
+   * `focus` is a CSS object-position, used to crop each landscape frame to a
+   * 4:5 card. Chocolates is still a crop of the packaging still — it is the
+   * only frame in the library where the confections are the subject.
    */
   items: [
     {
@@ -31,8 +31,8 @@ export const collections = {
       latin: "Florilegium",
       body: "Loose, garden-grown arrangements built around a season rather than a formula. Cut at dawn on the estate and never held in cold storage.",
       meta: "From ₹4,800",
-      image: "/imagery/estate-closeup.jpg",
-      focus: "50% 62%",
+      image: "/imagery/bouquet-tying.jpg",
+      focus: "62% 40%",
     },
     {
       no: "02",
@@ -40,8 +40,8 @@ export const collections = {
       latin: "Lumen",
       body: "Single-origin wax and botanical oils, hand-poured into ceramic thrown for us alone. Forty hours of quiet, amber light.",
       meta: "From ₹3,200",
-      image: "/imagery/packaging.jpg",
-      focus: "22% 42%",
+      image: "/imagery/candle-lighting.jpg",
+      focus: "48% 52%",
     },
     {
       no: "03",
@@ -50,7 +50,10 @@ export const collections = {
       body: "Cocoa from a single estate, tempered by hand and folded with cardamom, rose and burnt honey. Made in the morning, boxed by noon.",
       meta: "From ₹2,600",
       image: "/imagery/packaging.jpg",
-      focus: "90% 74%",
+      // A 4:5 card crops a 16:9 frame to its middle 45%, so the far corner
+      // where the chocolates sit is only reachable at the extreme. See
+      // docs/IMAGE_BRIEF.md §2.1 — this slot wants its own photograph.
+      focus: "100% 50%",
     },
     {
       no: "04",
@@ -58,8 +61,8 @@ export const collections = {
       latin: "Totum",
       body: "All three, arranged as one idea — flowers, flame and flavour wrapped in dusty rose and botanical silk, delivered to the hour.",
       meta: "From ₹9,400",
-      image: "/imagery/couple.jpg",
-      focus: "50% 40%",
+      image: "/imagery/gift-opening.jpg",
+      focus: "58% 55%",
     },
   ],
 };

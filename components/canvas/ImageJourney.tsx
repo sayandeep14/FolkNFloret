@@ -8,6 +8,8 @@ import { chapters, CHAPTER_SPAN, journeyImages } from "@/lib/journey";
 import { scrollState } from "@/lib/scroll-store";
 import { fragmentShader, vertexShader } from "./imageJourneyShader";
 
+const ZERO_SHIFT: [number, number] = [0, 0];
+
 /**
  * The backbone of the page: one full-screen quad that cross-dissolves through
  * the chapter photographs with a noise-displaced wipe, warping under scroll
@@ -74,10 +76,24 @@ export function ImageJourney() {
     // sampled per-image rather than interpolated between neighbours.
     u.uZoomA.value = THREE.MathUtils.lerp(from.zoom[0], from.zoom[1], progress);
     u.uZoomB.value = THREE.MathUtils.lerp(to.zoom[0], to.zoom[1], progress);
-    u.uPanA.value.set(from.pan[0] * progress, from.pan[1] * progress);
+    // On a portrait viewport a 16:9 frame cover-crops to roughly its middle
+    // half, which can drop the subject out of shot entirely. Bias the window
+    // back toward it, ramped in so landscape phones are barely affected.
+    const portrait = THREE.MathUtils.clamp(
+      (1.05 - size.width / size.height) / 0.35,
+      0,
+      1,
+    );
+    const shiftA = from.mobileShift ?? ZERO_SHIFT;
+    const shiftB = to.mobileShift ?? ZERO_SHIFT;
+
+    u.uPanA.value.set(
+      from.pan[0] * progress + shiftA[0] * portrait,
+      from.pan[1] * progress + shiftA[1] * portrait,
+    );
     u.uPanB.value.set(
-      to.pan[0] * (progress - 1),
-      to.pan[1] * (progress - 1),
+      to.pan[0] * (progress - 1) + shiftB[0] * portrait,
+      to.pan[1] * (progress - 1) + shiftB[1] * portrait,
     );
 
     // Hold each photograph steady while its chapter is being read, and

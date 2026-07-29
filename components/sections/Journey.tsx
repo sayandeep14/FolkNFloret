@@ -123,9 +123,7 @@ export function Journey() {
           <article
             key={chapter.index}
             data-chapter={index}
-            className={`chapter chapter--${chapter.tone}${
-              index === 0 ? " chapter--opening" : ""
-            }`}
+            className={`chapter${index === 0 ? " chapter--opening" : ""}`}
           >
             <p className="chapter__eyebrow">
               <span className="chapter__numeral">{chapter.index}</span>

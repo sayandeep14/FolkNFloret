@@ -27,6 +27,17 @@ export type ScrollState = {
   reducedMotion: boolean;
 };
 
+/**
+ * Resolved at module load, not in an effect. React runs child effects before
+ * parent ones, so components like SplitHeading used to read this before
+ * SmoothScroll had set it — and took the full-motion path under reduced
+ * motion, leaving half-animated headlines stranded inside their masks.
+ */
+function initialReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export const scrollState: ScrollState = {
   journey: 0,
   epilogue: 0,
@@ -37,7 +48,7 @@ export const scrollState: ScrollState = {
   pointerX: 0,
   pointerY: 0,
   pointerSpeed: 0,
-  reducedMotion: false,
+  reducedMotion: initialReducedMotion(),
 };
 
 export function syncChapterParam() {
