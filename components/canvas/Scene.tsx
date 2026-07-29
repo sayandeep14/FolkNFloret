@@ -74,7 +74,13 @@ export function Scene() {
           antialias: !quality.effects,
           alpha: false,
           powerPreference: "high-performance",
-          toneMapping: THREE.ACESFilmicToneMapping,
+          // Tone mapping belongs inside the effect chain, so bloom and depth
+          // of field see genuine HDR values. The bottom tier has no chain, so
+          // it keeps ACES on the renderer instead — without either, the
+          // brightest speculars have nothing mapping them down and roll over.
+          toneMapping: quality.effects
+            ? THREE.NoToneMapping
+            : THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.05,
         }}
       >

@@ -7,20 +7,28 @@ import {
   DepthOfField,
   EffectComposer,
   Noise,
+  ToneMapping,
   Vignette,
 } from "@react-three/postprocessing";
-import { BlendFunction, KernelSize } from "postprocessing";
+import { BlendFunction, KernelSize, ToneMappingMode } from "postprocessing";
 import type { DepthOfFieldEffect } from "postprocessing";
 import { cameraState } from "@/lib/camera-state";
 
 /**
  * Bloom makes the glazed petals read as ceramic rather than plastic. Depth of
  * field is what makes the whole thing read as photographed rather than
- * rendered — it was dropped from an earlier pass as too expensive, and is back
- * now because it is the largest remaining gain. It runs on the top tier only.
+ * rendered; it runs on the top tier only. The focal plane is driven from the
+ * camera rig every frame, so each chapter gets a real focus pull.
  *
- * The focal plane is driven from the camera rig every frame, so each chapter
- * gets a real focus pull rather than a fixed blur.
+ * Order matters here, and getting it wrong was a real bug. Tone mapping must
+ * happen *inside* this chain, after the passes that want true HDR (depth of
+ * field, bloom) and before the ones that expect display range (vignette,
+ * grain). The renderer itself is left on NoToneMapping — see Scene.
+ *
+ * Previously the renderer tone-mapped per material and the composer then
+ * worked on an already-mapped image, which left the brightest speculars with
+ * nothing to map them down: they rolled over channel by channel into a cyan
+ * ring around a blue ring around a black core.
  */
 export function Effects({ depthOfField }: { depthOfField: boolean }) {
   const dofRef = useRef<DepthOfFieldEffect>(null);
@@ -54,6 +62,7 @@ export function Effects({ depthOfField }: { depthOfField: boolean }) {
         kernelSize={KernelSize.LARGE}
         mipmapBlur
       />
+      <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
       <Vignette offset={0.28} darkness={0.62} eskil={false} />
       <Noise premultiply blendFunction={BlendFunction.SOFT_LIGHT} opacity={0.18} />
     </EffectComposer>
