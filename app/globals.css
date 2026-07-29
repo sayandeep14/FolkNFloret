@@ -835,8 +835,43 @@ a:focus-visible {
   opacity: 0.55;
 }
 
+.craft__figure {
+  position: relative;
+  margin: 1rem 0 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(247 241 232 / 0.04);
+}
+
 .section--invitation {
   text-align: center;
+  /* Sits above the fixed canvas but below its own copy. */
+  isolation: isolate;
+  padding-block: clamp(8rem, 22vh, 15rem);
+}
+
+.invitation__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Ink wash: the aerial is dark already, but the centred cream type needs a
+   guaranteed floor regardless of where the candles fall. */
+.invitation__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      70% 55% at 50% 42%,
+      rgb(13 19 22 / 0.82) 0%,
+      rgb(13 19 22 / 0.55) 55%,
+      transparent 100%
+    ),
+    linear-gradient(to bottom, var(--ink), transparent 22%, transparent 72%, var(--ink));
 }
 
 .section--invitation .eyebrow {

@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AdaptiveDpr, Preload } from "@react-three/drei";
 import * as THREE from "three";
+import { scrollState } from "@/lib/scroll-store";
 import { ImageJourney } from "./ImageJourney";
 import { PetalDrift } from "./PetalDrift";
 import { Effects } from "./Effects";
@@ -12,11 +13,12 @@ type Quality = {
   petals: number;
   dpr: [number, number];
   effects: boolean;
+  film: "full" | "small" | "off";
 };
 
-const HIGH: Quality = { petals: 90, dpr: [1, 2], effects: true };
-const MID: Quality = { petals: 55, dpr: [1, 1.5], effects: true };
-const LOW: Quality = { petals: 26, dpr: [1, 1.25], effects: false };
+const HIGH: Quality = { petals: 90, dpr: [1, 2], effects: true, film: "full" };
+const MID: Quality = { petals: 55, dpr: [1, 1.5], effects: true, film: "small" };
+const LOW: Quality = { petals: 26, dpr: [1, 1.25], effects: false, film: "small" };
 
 /**
  * Tiering is deliberately aggressive. The image journey itself is cheap — one
@@ -30,9 +32,19 @@ function detectQuality(): Quality {
   const cores = navigator.hardwareConcurrency ?? 4;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
 
-  if (coarse || window.innerWidth < 760) return LOW;
-  if ((memory !== undefined && memory <= 4) || cores <= 4) return MID;
-  return HIGH;
+  // Never spend several megabytes on a film the visitor has asked us not to
+  // play, or is paying for by the megabyte.
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } })
+    .connection?.saveData;
+  const noFilm = scrollState.reducedMotion || saveData === true;
+
+  const tier = coarse || window.innerWidth < 760
+    ? LOW
+    : (memory !== undefined && memory <= 4) || cores <= 4
+      ? MID
+      : HIGH;
+
+  return noFilm ? { ...tier, film: "off" } : tier;
 }
 
 export function Scene() {
@@ -53,7 +65,7 @@ export function Scene() {
         }}
       >
         <Suspense fallback={null}>
-          <ImageJourney />
+          <ImageJourney film={quality.film} />
 
           <ambientLight intensity={1.4} />
           <directionalLight position={[2, 3, 4]} intensity={2.2} />

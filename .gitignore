@@ -5,3 +5,6 @@ out
 *.log
 .env*
 !.env.example
+
+# Large video sources — web derivatives live in public/films
+assets/ref/*.mp4

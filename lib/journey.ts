@@ -26,6 +26,15 @@ export type Chapter = {
    * 9:16 portrait masters exist — see docs/IMAGE_BRIEF.md §2.3.
    */
   mobileShift?: [number, number];
+  /**
+   * Optional scroll-scrubbed film for this chapter. The still above stays the
+   * poster and the fallback: the video only takes over once a frame has
+   * decoded, so a refused autoplay, a slow connection or a weak device simply
+   * leaves the photograph in place.
+   *
+   * Sources must be encoded all-intra — see docs/IMAGE_BRIEF.md §4.
+   */
+  film?: { src: string; srcSmall: string; size: [number, number] };
   cue?: string;
   cta?: { label: string; href: string };
 };
@@ -40,6 +49,11 @@ export const chapters: Chapter[] = [
     size: [1920, 1071],
     zoom: [1.12, 1.0],
     pan: [0, 0.02],
+    film: {
+      src: "/films/estate-descent.mp4",
+      srcSmall: "/films/estate-descent-sm.mp4",
+      size: [1280, 720],
+    },
     cue: "Scroll to begin",
   },
   {
@@ -72,7 +86,7 @@ export const chapters: Chapter[] = [
     // The left third of this frame is bare wall and linen — the calmest copy
     // space in the whole library, so the type sits directly on the photograph.
     image: "/imagery/atelier-table.jpg",
-    size: [1376, 768],
+    size: [1920, 1071],
     zoom: [1.0, 1.1],
     pan: [0.02, -0.01],
     mobileShift: [0.2, -0.03],

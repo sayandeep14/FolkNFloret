@@ -19,11 +19,7 @@ export const collections = {
   eyebrow: "The Collections",
   title: ["Three crafts,", "endlessly composed"],
   body: "Each collection stands alone, and each was designed to be given together.",
-  /**
-   * `focus` is a CSS object-position, used to crop each landscape frame to a
-   * 4:5 card. Chocolates is still a crop of the packaging still — it is the
-   * only frame in the library where the confections are the subject.
-   */
+  /** `focus` is a CSS object-position, cropping each landscape frame to a 4:5 card. */
   items: [
     {
       no: "01",
@@ -49,11 +45,8 @@ export const collections = {
       latin: "Confectio",
       body: "Cocoa from a single estate, tempered by hand and folded with cardamom, rose and burnt honey. Made in the morning, boxed by noon.",
       meta: "From ₹2,600",
-      image: "/imagery/packaging.jpg",
-      // A 4:5 card crops a 16:9 frame to its middle 45%, so the far corner
-      // where the chocolates sit is only reachable at the extreme. See
-      // docs/IMAGE_BRIEF.md §2.1 — this slot wants its own photograph.
-      focus: "100% 50%",
+      image: "/imagery/chocolates.jpg",
+      focus: "62% 55%",
     },
     {
       no: "04",
@@ -69,6 +62,10 @@ export const collections = {
 
 export const craft = {
   eyebrow: "The Craft",
+  image: {
+    src: "/imagery/candles.jpg",
+    alt: "Botanical wax poured by hand from a brass pitcher into a ceramic vessel",
+  },
   title: ["Nothing here", "is kept in stock"],
   body: "A Folk & Floret commission begins as a conversation and ends at a doorway. Between the two, four days of deliberate work.",
   steps: [
@@ -107,6 +104,10 @@ export const voices = {
 
 export const invitation = {
   eyebrow: "Commissions",
+  image: {
+    src: "/imagery/estate-night.jpg",
+    alt: "The flower estate at night, candlelit paths leading to the lit atelier",
+  },
   title: ["Begin something", "worth remembering"],
   body: "We take a limited number of bespoke commissions each week so that every one receives the whole of our attention.",
   primary: { label: "Start a commission", href: "#invitation" },
