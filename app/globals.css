@@ -27,7 +27,7 @@
   --step-lede: clamp(1rem, 0.94rem + 0.4vw, 1.2rem);
   --step-md: clamp(2.4rem, 1.6rem + 3.4vw, 4.6rem);
   --step-lg: clamp(3rem, 1.9rem + 4.6vw, 6.2rem);
-  --step-brand: clamp(2.6rem, 1rem + 7.4vw, 10rem);
+  --step-brand: clamp(3.4rem, 1.2rem + 9.4vw, 13rem);
 
   --shell: 78rem;
   --gutter: clamp(1.25rem, 0.6rem + 3vw, 4.5rem);
@@ -459,18 +459,6 @@ a:focus-visible {
   );
 }
 
-/* The caps lockup reaches further right than any other chapter's copy, past
-   where the shared scrim falls off. Widened here only, so the other chapters
-   keep as much of the form lit as possible. */
-.chapter--brand::before {
-  background: radial-gradient(
-    76% 62% at 30% 50%,
-    rgb(9 10 12 / 0.8) 0%,
-    rgb(9 10 12 / 0.44) 52%,
-    transparent 82%
-  );
-}
-
 .chapter__eyebrow {
   display: flex;
   align-items: center;
@@ -509,16 +497,23 @@ a:focus-visible {
 }
 
 .chapter__title--brand {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.16em;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
   font-size: var(--step-brand);
   text-transform: uppercase;
   /* Caps need air where lowercase needed tightening — the negative tracking
      that suited "Folk & Floret" reads as cramped set in capitals. */
   letter-spacing: 0.015em;
+  /* Stacked, so the two lines want to sit close enough to read as one mark. */
+  line-height: 0.88;
   max-width: none;
+}
+
+.brand-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.16em;
 }
 
 .chapter__title--brand i {
@@ -1016,6 +1011,29 @@ a:focus-visible {
 
   .cursor {
     display: none !important;
+  }
+
+  /* One slide at a time, plus a deliberate sliver of the next to signal the
+     change of axis. Below this width the old sizes put two slides on screen
+     with barely a gutter between them, and the intro's copy collided with the
+     first card. */
+  .gallery__track {
+    gap: 2rem;
+  }
+
+  .slide--intro,
+  .slide--outro {
+    width: 80vw;
+  }
+
+  .slide--card {
+    width: 78vw;
+  }
+
+  /* Give the heading room inside its own slide rather than filling it edge to
+     edge — the lines cannot wrap, so they have to be sized to fit. */
+  .slide--intro .display--md {
+    font-size: clamp(1.9rem, 1.1rem + 3.2vw, 2.4rem);
   }
 
   .site-footer__columns {

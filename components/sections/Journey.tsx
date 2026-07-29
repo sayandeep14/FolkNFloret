@@ -141,9 +141,11 @@ export function Journey() {
 
             {index === 0 ? (
               <h1 className="chapter__title chapter__title--brand">
-                <span>{chapter.title[0]}</span>
-                <i aria-hidden="true">&amp;</i>
-                <span>{chapter.title[1]}</span>
+                <span className="brand-line">
+                  <span>{chapter.title[0]}</span>
+                  <i aria-hidden="true">&amp;</i>
+                </span>
+                <span className="brand-line">{chapter.title[1]}</span>
               </h1>
             ) : (
               <SplitHeading
