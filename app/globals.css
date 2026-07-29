@@ -127,9 +127,10 @@ main,
 }
 
 /* Above the content, which follows it in the DOM and would otherwise paint
-   over it at an equal z-index. */
+   over it at an equal z-index, and above the menu panel so the toggle stays
+   reachable while the menu is open. */
 .site-header {
-  z-index: 10;
+  z-index: 50;
 }
 
 /* --------------------------------------------------------------------------
@@ -408,6 +409,146 @@ a:focus-visible {
 
 .site-header__nav a:hover::after {
   transform: scaleX(1);
+}
+
+/* Menu toggle -------------------------------------------------------------- */
+
+.menu-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0.4rem 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-body);
+  font-size: var(--step-eyebrow);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Two hairlines, matching the rules used for eyebrows and the journey rail,
+   rather than a three-bar icon from a different design language. */
+.menu-toggle__bars {
+  position: relative;
+  display: block;
+  width: 1.65rem;
+  height: 0.75rem;
+}
+
+.menu-toggle__bars span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.menu-toggle__bars span:first-child {
+  top: 0;
+}
+
+.menu-toggle__bars span:last-child {
+  bottom: 0;
+}
+
+.site-header.is-open .menu-toggle__bars span:first-child {
+  transform: translateY(0.375rem) rotate(45deg);
+}
+
+.site-header.is-open .menu-toggle__bars span:last-child {
+  transform: translateY(-0.375rem) rotate(-45deg);
+}
+
+.menu-toggle__label {
+  min-width: 3.4em;
+  text-align: left;
+}
+
+/* Menu panel --------------------------------------------------------------- */
+
+.site-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  /* Hidden rather than merely transparent: this is what keeps the links out
+     of the tab order and the accessibility tree while the menu is closed. */
+  visibility: hidden;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(2rem, 6vh, 3.5rem);
+  padding: 7rem var(--gutter) clamp(2rem, 6vh, 3.5rem);
+  background: rgb(8 9 11 / 0.96);
+  backdrop-filter: blur(20px);
+  /* Stops a flick inside the panel chaining to the page behind it. */
+  overscroll-behavior: contain;
+  overflow-y: auto;
+}
+
+.site-menu__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-menu__row {
+  display: block;
+  will-change: transform;
+}
+
+.site-menu__row a {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.9rem, 4vw, 1.4rem);
+  padding-block: clamp(0.7rem, 2.2vh, 1.2rem);
+  border-bottom: 1px solid rgb(247 241 232 / 0.14);
+  transition: opacity 0.4s var(--ease-out);
+}
+
+.site-menu__row a:hover,
+.site-menu__row a:focus-visible {
+  opacity: 0.62;
+}
+
+.site-menu__no {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  opacity: 0.45;
+}
+
+.site-menu__label {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.1rem, 1.3rem + 5vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+}
+
+.site-menu__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  will-change: transform;
+}
+
+.site-menu__note,
+.site-menu__tagline {
+  font-size: var(--step-eyebrow);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.site-menu__tagline {
+  font-family: var(--font-display);
+  letter-spacing: 0.18em;
+  opacity: 0.4;
 }
 
 /* --------------------------------------------------------------------------
@@ -987,8 +1128,14 @@ a:focus-visible {
     display: none;
   }
 
+  /* Three tracked-out links do not survive this width; they move into the
+     panel instead of being hidden one by one. */
   .site-header__nav {
-    gap: 1rem;
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
   }
 
   .chapter {
@@ -1041,12 +1188,6 @@ a:focus-visible {
   }
 }
 
-@media (max-width: 520px) {
-  .site-header__nav a:not(:last-child) {
-    display: none;
-  }
-}
-
 /* --------------------------------------------------------------------------
    Reduced motion — the page must stay fully navigable, just calm
    -------------------------------------------------------------------------- */
@@ -1057,7 +1198,13 @@ a:focus-visible {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    /* `transition-duration: 0.01ms` is the usual reduced-motion reset, but
+       transition-property defaults to `all`, which makes visibility a
+       transitioned property. Visibility transitions discretely, so its
+       computed value lags a frame behind the style change — which silently
+       broke moving focus into the menu panel, and only under reduced motion.
+       Nothing here listens for transitionend, so removing them is safe. */
+    transition: none !important;
   }
 
   .chapter__cue b {

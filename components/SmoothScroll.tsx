@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { damp } from "@/lib/math";
+import { scrollLock } from "@/lib/scroll-lock";
 import { scrollState } from "@/lib/scroll-store";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -46,8 +47,21 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
     // With reduced motion we hand scrolling back to the browser entirely.
     if (query.matches) {
+      // No Lenis on this path, so the menu locks the document instead.
+      // Toggling overflow on the root preserves scroll position; touching
+      // scrollTop would not.
+      scrollLock.lock = () => {
+        document.documentElement.style.overflow = "hidden";
+      };
+      scrollLock.unlock = () => {
+        document.documentElement.style.overflow = "";
+      };
+
       ScrollTrigger.refresh();
       return () => {
+        scrollLock.lock = () => {};
+        scrollLock.unlock = () => {};
+        document.documentElement.style.overflow = "";
         gsap.ticker.remove(easeVelocity);
         query.removeEventListener("change", onPreferenceChange);
         window.removeEventListener("pointermove", onPointerMove);
@@ -65,6 +79,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       rawVelocity = clamp(instance.velocity / VELOCITY_CEILING);
       ScrollTrigger.update();
     });
+    scrollLock.lock = () => lenis.stop();
+    scrollLock.unlock = () => lenis.start();
+
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
@@ -72,6 +89,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     ScrollTrigger.refresh();
 
     return () => {
+      scrollLock.lock = () => {};
+      scrollLock.unlock = () => {};
       gsap.ticker.remove(easeVelocity);
       gsap.ticker.remove(tick);
       query.removeEventListener("change", onPreferenceChange);
