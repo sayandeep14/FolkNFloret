@@ -17,20 +17,42 @@ type Quality = {
   motes: number;
   dpr: [number, number];
   effects: boolean;
+  /** Depth of field is the most expensive pass here, so it is top tier only. */
+  depthOfField: boolean;
 };
 
-const HIGH: Quality = { petals: 280, motes: 900, dpr: [1, 1.6], effects: true };
-const LOW: Quality = { petals: 130, motes: 320, dpr: [1, 1.25], effects: false };
+const HIGH: Quality = {
+  petals: 280,
+  motes: 900,
+  dpr: [1, 1.6],
+  effects: true,
+  depthOfField: true,
+};
+const MID: Quality = {
+  petals: 200,
+  motes: 600,
+  dpr: [1, 1.5],
+  effects: true,
+  depthOfField: false,
+};
+const LOW: Quality = {
+  petals: 130,
+  motes: 320,
+  dpr: [1, 1.25],
+  effects: false,
+  depthOfField: false,
+};
 
 function detectQuality(): Quality {
   if (typeof window === "undefined") return HIGH;
-  const narrow = window.innerWidth < 900;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
-  const thin =
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory !==
-      undefined &&
-    (navigator as Navigator & { deviceMemory?: number }).deviceMemory! <= 4;
-  return narrow || coarse || thin ? LOW : HIGH;
+  const memory = (navigator as Navigator & { deviceMemory?: number })
+    .deviceMemory;
+  const cores = navigator.hardwareConcurrency ?? 4;
+
+  if (coarse || window.innerWidth < 900) return LOW;
+  if ((memory !== undefined && memory <= 4) || cores <= 4) return MID;
+  return HIGH;
 }
 
 export function Scene() {
@@ -62,7 +84,9 @@ export function Scene() {
           <Artifact count={quality.petals} />
           <Particles count={quality.motes} />
           <CameraRig />
-          {quality.effects && <Effects />}
+          {quality.effects && (
+            <Effects depthOfField={quality.depthOfField} />
+          )}
           <AdaptiveDpr pixelated={false} />
           <Preload all />
         </Suspense>

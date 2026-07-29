@@ -148,6 +148,86 @@ main,
   text-align: center;
 }
 
+/* Split headings: each line clips its own characters so they rise out of a
+   hard edge rather than fading in place. */
+.split-mask {
+  display: block;
+  overflow: hidden;
+  /* Descenders would be clipped by the mask without this breathing room. */
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.split-line {
+  display: block;
+  /* Each line is authored as one line; wrapping would break a word across
+     two masks. Size is controlled by the clamp instead. */
+  white-space: nowrap;
+}
+
+.split-char {
+  will-change: transform;
+}
+
+/* Custom cursor ------------------------------------------------------------ */
+
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  display: none;
+}
+
+.has-custom-cursor {
+  cursor: none;
+}
+
+.has-custom-cursor .cursor {
+  display: block;
+}
+
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor [data-cursor] {
+  cursor: none;
+}
+
+.cursor__dot,
+.cursor__ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.cursor__dot {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--cream);
+}
+
+.cursor__ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgb(247 241 232 / 0.55);
+  transition: background-color 0.4s var(--ease-out);
+}
+
+.cursor__ring[data-active="true"] {
+  background: rgb(247 241 232 / 0.12);
+}
+
+/* Magnetic wrappers need to be transformable. */
+.actions > span,
+.slide--outro > span {
+  display: inline-block;
+  will-change: transform;
+}
+
 .display {
   font-family: var(--font-display);
   font-weight: 300;
@@ -261,18 +341,13 @@ a:focus-visible {
   justify-content: space-between;
   gap: 2rem;
   padding: clamp(1.1rem, 2vh, 2.1rem) var(--gutter);
-  color: var(--plum);
-  transition:
-    color 0.9s var(--ease-out),
-    padding 0.7s var(--ease-out);
+  color: var(--cream);
+  text-shadow: 0 1px 24px rgb(9 10 12 / 0.6);
+  transition: padding 0.7s var(--ease-out);
 }
 
 .site-header.is-condensed {
   padding-block: clamp(0.8rem, 1.4vh, 1.3rem);
-}
-
-.site-header.is-inverted {
-  color: var(--cream);
 }
 
 .site-header__mark {
@@ -371,28 +446,15 @@ a:focus-visible {
   pointer-events: none;
 }
 
-.chapter--on-light {
-  color: var(--plum);
-}
-
-.chapter--on-light::before {
-  background: radial-gradient(
-    62% 58% at 26% 50%,
-    rgb(249 243 233 / 0.82) 0%,
-    rgb(249 243 233 / 0.42) 45%,
-    transparent 78%
-  );
-}
-
-.chapter--on-dark {
+.chapter {
   color: var(--cream);
 }
 
-.chapter--on-dark::before {
+.chapter::before {
   background: radial-gradient(
     62% 58% at 26% 50%,
-    rgb(13 19 22 / 0.72) 0%,
-    rgb(13 19 22 / 0.36) 46%,
+    rgb(9 10 12 / 0.74) 0%,
+    rgb(9 10 12 / 0.38) 46%,
     transparent 78%
   );
 }
@@ -579,101 +641,132 @@ a:focus-visible {
   margin-bottom: clamp(3rem, 8vh, 5.5rem);
 }
 
-/* Collections -------------------------------------------------------------- */
+/* Horizontal gallery ------------------------------------------------------ */
 
-.cards {
-  display: grid;
-  gap: clamp(1rem, 2vw, 1.75rem);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.gallery {
+  position: relative;
 }
 
-.card {
-  position: relative;
+.gallery__viewport {
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  /* Clears the fixed header, which the slides would otherwise tuck under. */
+  padding-top: 3rem;
+}
+
+.gallery__track {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(1.5rem, 3vw, 3.5rem);
+  padding-inline: var(--gutter);
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 auto;
+  will-change: transform;
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
-  min-height: clamp(22rem, 42vh, 30rem);
-  padding: clamp(1.6rem, 2.4vw, 2.4rem);
-  border: 1px solid rgb(247 241 232 / 0.14);
-  border-radius: 2px;
-  background: rgb(247 241 232 / 0.03);
-  backdrop-filter: blur(14px);
-  overflow: hidden;
-  transition:
-    border-color 0.7s var(--ease-out),
-    background-color 0.7s var(--ease-out),
-    transform 0.7s var(--ease-out);
 }
 
-/* Warm wash that rises out of the card on hover. */
-.card::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 60%;
-  pointer-events: none;
-  background: linear-gradient(to top, rgb(201 139 150 / 0.16), transparent);
-  opacity: 0;
-  transition: opacity 0.7s var(--ease-out);
+.slide--intro,
+.slide--outro {
+  gap: 1.6rem;
+  width: min(78vw, 34rem);
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.card:hover {
-  transform: translateY(-6px);
-  border-color: rgb(247 241 232 / 0.3);
-  background: rgb(247 241 232 / 0.06);
+.gallery__hint {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  margin-top: 1rem;
+  font-size: var(--step-eyebrow);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.6;
 }
 
-.card:hover::after {
-  opacity: 1;
+.gallery__hint b {
+  animation: nudge 2.2s var(--ease-out) infinite;
 }
 
-.card__no {
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.5rem);
+  }
+}
+
+/* The cards carry no imagery — a hairline, a numeral and the type do the work. */
+.slide--card {
+  width: min(80vw, 24rem);
+  gap: 1rem;
+  padding: clamp(2rem, 4vh, 3.2rem) 0 clamp(1.6rem, 3vh, 2.4rem);
+  border-top: 1px solid rgb(247 241 232 / 0.18);
+  transition: border-color 0.7s var(--ease-out);
+}
+
+.slide--card:hover {
+  border-top-color: rgb(247 241 232 / 0.5);
+}
+
+.slide__no {
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   letter-spacing: 0.3em;
   opacity: 0.45;
 }
 
-.card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
+.slide__latin {
   margin-top: auto;
-}
-
-.card__latin {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: 0.95rem;
-  letter-spacing: 0.06em;
-  color: var(--rose);
+  font-size: 0.98rem;
+  letter-spacing: 0.04em;
+  color: var(--gold);
   opacity: 0.85;
 }
 
-.card__name {
+.slide__name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.9rem);
+  font-size: clamp(2.2rem, 1.5rem + 2.2vw, 3.4rem);
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
-.card__text {
+.slide__text {
+  margin-top: 0.4rem;
   font-size: 0.95rem;
   line-height: 1.62;
-  opacity: 0.66;
+  opacity: 0.62;
 }
 
-.card__foot {
+.slide__meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 1.4rem;
+  margin-top: 1.6rem;
+  padding-top: 1rem;
   border-top: 1px solid rgb(247 241 232 / 0.12);
   font-size: var(--step-eyebrow);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   opacity: 0.7;
+}
+
+.slide__outro-copy {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+  line-height: 1.15;
 }
 
 /* Craft -------------------------------------------------------------------- */
@@ -872,15 +965,6 @@ a:focus-visible {
     position: static;
   }
 
-  .cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .card {
-    min-height: auto;
-    gap: 1.6rem;
-  }
-
   .site-footer__top {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -900,26 +984,21 @@ a:focus-visible {
   }
 
   /* Centre the scrim once the type spans the full width. */
-  .chapter--on-light::before {
+  .chapter::before {
     background: radial-gradient(
       90% 60% at 50% 50%,
-      rgb(249 243 233 / 0.86) 0%,
-      rgb(249 243 233 / 0.5) 55%,
-      transparent 85%
-    );
-  }
-
-  .chapter--on-dark::before {
-    background: radial-gradient(
-      90% 60% at 50% 50%,
-      rgb(13 19 22 / 0.8) 0%,
-      rgb(13 19 22 / 0.45) 55%,
+      rgb(9 10 12 / 0.82) 0%,
+      rgb(9 10 12 / 0.48) 55%,
       transparent 85%
     );
   }
 
   .journey__rail {
     display: none;
+  }
+
+  .cursor {
+    display: none !important;
   }
 
   .site-footer__columns {
@@ -951,8 +1030,11 @@ a:focus-visible {
     transform: scaleX(1);
   }
 
-  .card:hover,
   .button:hover {
     transform: none;
+  }
+
+  .cursor {
+    display: none !important;
   }
 }

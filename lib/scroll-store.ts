@@ -11,6 +11,8 @@ export type ScrollState = {
   epilogue: number;
   /** Camera keyframe parameter, 0 -> KEYFRAME_COUNT - 1. */
   u: number;
+  /** Signed, normalised scroll velocity, roughly -1 -> 1. */
+  velocity: number;
   /** Normalised pointer, -1 -> 1 on both axes. */
   pointerX: number;
   pointerY: number;
@@ -18,13 +20,24 @@ export type ScrollState = {
   reducedMotion: boolean;
 };
 
+/**
+ * Resolved at module load, not in an effect. React runs child effects before
+ * parent ones, so components that read this during their own effect would
+ * otherwise see the default before SmoothScroll had a chance to set it.
+ */
+function initialReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export const scrollState: ScrollState = {
   journey: 0,
   epilogue: 0,
   u: 0,
+  velocity: 0,
   pointerX: 0,
   pointerY: 0,
-  reducedMotion: false,
+  reducedMotion: initialReducedMotion(),
 };
 
 /** Journey covers keyframes 0..4, the epilogue eases on to keyframe 5. */

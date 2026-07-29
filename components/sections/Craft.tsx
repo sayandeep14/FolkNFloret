@@ -1,5 +1,6 @@
 import { craft } from "@/lib/content";
 import { Reveal } from "@/components/Reveal";
+import { SplitHeading } from "@/components/SplitHeading";
 
 export function Craft() {
   return (
@@ -9,7 +10,7 @@ export function Craft() {
             itself so its flex gap applies to the copy, not to a lone wrapper. */}
         <Reveal className="craft__aside">
           <p className="eyebrow">{craft.eyebrow}</p>
-          <h2 className="display display--md">{craft.title}</h2>
+          <SplitHeading lines={craft.titleLines} className="display display--md" />
           <p className="lede">{craft.body}</p>
         </Reveal>
 

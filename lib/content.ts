@@ -53,7 +53,7 @@ export const chapters = [
 
 export const collections = {
   eyebrow: "The Collections",
-  title: "Three crafts,\nendlessly composed",
+  titleLines: ["Three crafts,", "endlessly composed"],
   body: "Each collection stands alone, and each was designed to be given together. Choose a single piece, or let us compose the whole.",
   items: [
     {
@@ -82,7 +82,7 @@ export const collections = {
 
 export const craft = {
   eyebrow: "The Craft",
-  title: "Nothing here\nis kept in stock",
+  titleLines: ["Nothing here", "is kept in stock"],
   body: "A Folk & Floret commission begins as a conversation and ends at a doorway. Between the two, four days of deliberate work.",
   steps: [
     {
@@ -117,7 +117,7 @@ export const voices = {
 
 export const invitation = {
   eyebrow: "Commissions",
-  title: "Begin something\nworth remembering",
+  titleLines: ["Begin something", "worth remembering"],
   body: "We take a limited number of bespoke commissions each week so that every one receives the whole of our attention.",
   primary: { label: "Start a commission", href: "#invitation" },
   secondary: { label: "Speak with a curator", href: "#invitation" },

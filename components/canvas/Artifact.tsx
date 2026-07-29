@@ -16,6 +16,9 @@ export function Artifact({ count }: { count: number }) {
   const groupRef = useRef<THREE.Group>(null);
   const materialRef = useRef<THREE.MeshPhysicalMaterial>(null);
   const coreRef = useRef<THREE.PointLight>(null);
+  // Integrated rather than derived from elapsed time, so the rate can vary with
+  // scroll speed without the rotation ever jumping.
+  const spin = useRef(0);
 
   const geometry = useMemo(() => createPetalGeometry(), []);
   const layouts = useMemo(() => buildLayouts(count), [count]);
@@ -39,7 +42,7 @@ export function Artifact({ count }: { count: number }) {
     return () => geometry.dispose();
   }, [geometry]);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
 
@@ -50,6 +53,9 @@ export function Artifact({ count }: { count: number }) {
     const lower = Math.floor(u);
     const upper = Math.min(lower + 1, MAX_U);
     const blend = u - lower;
+
+    // Direction-agnostic: scrolling either way opens the form.
+    const spread = still ? 0 : Math.min(Math.abs(scrollState.velocity), 1) * 0.85;
     const from = layouts[layoutAtKeyframe[lower]];
     const to = layouts[layoutAtKeyframe[upper]];
 
@@ -72,6 +78,15 @@ export function Artifact({ count }: { count: number }) {
           Math.sin(phase * 0.6) * 0.07,
         );
         scratch.quaternion.multiply(scratch.wobble);
+
+        // Scrolling hard loosens the form: every petal eases outward along its
+        // own radius and tips back, then draws in again as the page settles.
+        // The whole mass inhales and exhales with the reader.
+        if (spread !== 0) {
+          scratch.position.multiplyScalar(1 + spread * (0.1 + (i % 7) * 0.012));
+          scratch.wobble.setFromAxisAngle(scratch.wobbleAxis, spread * 0.22);
+          scratch.quaternion.multiply(scratch.wobble);
+        }
       }
 
       scratch.matrix.compose(
@@ -85,7 +100,8 @@ export function Artifact({ count }: { count: number }) {
     mesh.instanceMatrix.needsUpdate = true;
 
     if (groupRef.current && !still) {
-      groupRef.current.rotation.y = time * 0.045;
+      spin.current += delta * (0.045 + Math.abs(scrollState.velocity) * 0.16);
+      groupRef.current.rotation.y = spin.current;
     }
 
     const material = materialRef.current;
@@ -97,7 +113,8 @@ export function Artifact({ count }: { count: number }) {
       // Petals only self-illuminate meaningfully during The Flame, and never
       // hard enough to push the bloom buffer into blown-out artefacts.
       material.emissiveIntensity =
-        0.03 + (sampleNumber("coreIntensity", scrollState.u) / 7.5) * 0.14;
+        0.03 + (sampleNumber("coreIntensity", scrollState.u) / 3.4) * 0.1;
+      material.envMapIntensity = sampleNumber("envIntensity", scrollState.u);
     }
 
     const core = coreRef.current;
@@ -119,21 +136,26 @@ export function Artifact({ count }: { count: number }) {
         receiveShadow={false}
       >
         {/*
-          Opaque, and no iridescence. Both were tried: transparency turned 280
-          unsorted overlapping instances into mush, and thin-film iridescence
-          threw neon green and blue across a palette that has neither.
-          Sheen alone gives the soft petal falloff this needs.
+          Glazed porcelain. Opaque and non-iridescent by decision: transparency
+          turned 280 unsorted overlapping instances into mush, and thin-film
+          iridescence threw neon across a palette that has none.
+
+          The low roughness and high clearcoat only pay off because there is a
+          studio probe to reflect — see Lighting. Sheen supplies the soft
+          fall-off at grazing angles that reads as a petal rather than a chip
+          of ceramic.
         */}
         <meshPhysicalMaterial
           ref={materialRef}
           side={THREE.DoubleSide}
-          roughness={0.44}
+          roughness={0.28}
           metalness={0}
-          clearcoat={0.35}
-          clearcoatRoughness={0.5}
-          sheen={1}
-          sheenRoughness={0.62}
-          sheenColor="#fff1e4"
+          clearcoat={0.85}
+          clearcoatRoughness={0.22}
+          sheen={0.9}
+          sheenRoughness={0.55}
+          sheenColor="#fff3e6"
+          envMapIntensity={1}
         />
       </instancedMesh>
 

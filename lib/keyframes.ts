@@ -4,8 +4,19 @@ export type Keyframe = {
   position: THREE.Vector3;
   target: THREE.Vector3;
   fov: number;
-  /** Radians of dutch roll applied after lookAt. */
+  /** Radians of dutch roll applied after lookAt, on top of automatic banking. */
   roll: number;
+  /**
+   * Where the lens focuses, as a multiple of the distance to the target. 1 sits
+   * the focal plane on the target; below 1 pulls focus in front of it, throwing
+   * the far side of the form out — which is what makes a close hold read as a
+   * macro rather than as a small object.
+   */
+  focus: number;
+  /** Aperture. Larger blurs harder. */
+  bokeh: number;
+  /** How far the camera keeps drifting while holding here, in world units. */
+  orbit: number;
 };
 
 /**
@@ -19,19 +30,27 @@ export type Keyframe = {
  * pushed left of origin to compose the form into the right.
  */
 export const keyframes: Keyframe[] = [
-  // 0 — Arrival. High and back, looking down onto the open bloom.
+  // 0 — Arrival. Well above the rim, so the phyllotaxis spiral reads as a
+  // spiral. At a shallower elevation the dome flattens into a shell.
   {
-    position: new THREE.Vector3(0.4, 2.9, 10.5),
-    target: new THREE.Vector3(-1.5, 0.1, 0),
+    position: new THREE.Vector3(1.6, 7.0, 10.6),
+    target: new THREE.Vector3(-0.7, 0.2, 0),
     fov: 34,
     roll: 0,
+    focus: 1.0,
+    bokeh: 0.9,
+    orbit: 0.5,
   },
-  // 1 — The Bouquet. Dropped low and swung round to the right.
+  // 1 — The Bouquet. Swings right and drops toward the rim, but stays above it
+  // — from below the bloom reads as an underside.
   {
-    position: new THREE.Vector3(5.8, -0.7, 7.4),
-    target: new THREE.Vector3(-1.1, 0.3, 0),
+    position: new THREE.Vector3(6.8, 2.2, 7.4),
+    target: new THREE.Vector3(-0.7, 0.35, 0),
     fov: 40,
     roll: -0.05,
+    focus: 0.86,
+    bokeh: 2.4,
+    orbit: 0.75,
   },
   // 2 — The Flame. Crosses to the left and climbs as the column forms.
   {
@@ -39,6 +58,9 @@ export const keyframes: Keyframe[] = [
     target: new THREE.Vector3(-1.3, 0.6, 0),
     fov: 36,
     roll: 0.07,
+    focus: 0.94,
+    bokeh: 1.7,
+    orbit: 0.6,
   },
   // 3 — The Confection. Closest hold of the journey, tight on the orb.
   {
@@ -46,6 +68,9 @@ export const keyframes: Keyframe[] = [
     target: new THREE.Vector3(-0.9, 0.05, 0),
     fov: 32,
     roll: -0.09,
+    focus: 0.78,
+    bokeh: 3.4,
+    orbit: 0.35,
   },
   // 4 — The Gift. Pulls back and up, outside the scattering cloud.
   {
@@ -53,6 +78,9 @@ export const keyframes: Keyframe[] = [
     target: new THREE.Vector3(-1.4, 0.2, 0),
     fov: 44,
     roll: 0.03,
+    focus: 1.05,
+    bokeh: 1.2,
+    orbit: 0.9,
   },
   // 5 — Epilogue. Far off to the left, leaving the frame clear for content.
   {
@@ -60,6 +88,9 @@ export const keyframes: Keyframe[] = [
     target: new THREE.Vector3(-0.4, 0, 0),
     fov: 38,
     roll: 0,
+    focus: 1.0,
+    bokeh: 1.0,
+    orbit: 0.7,
   },
 ];
 

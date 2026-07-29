@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { chapters } from "@/lib/content";
 import { JOURNEY_SPAN, scrollState, syncCameraParam } from "@/lib/scroll-store";
+import { CHAPTER_ENTER, SplitHeading } from "@/components/SplitHeading";
+import { Magnetic } from "@/components/Magnetic";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,8 +42,23 @@ export function Journey() {
       ? (gsap.quickSetter(railRef.current, "scaleY") as (v: number) => void)
       : null;
 
+    let active = -1;
+
     const paint = (progress: number) => {
       const u = progress * JOURNEY_SPAN;
+
+      // Whichever station we are nearest owns the screen. Replaying the
+      // headline on entry is what makes the choreography worth having.
+      const nearest = Math.round(u);
+      if (nearest !== active) {
+        panels[active]?.removeAttribute("data-active");
+        active = nearest;
+        const panel = panels[active];
+        if (panel) {
+          panel.dataset.active = "true";
+          panel.dispatchEvent(new CustomEvent(CHAPTER_ENTER));
+        }
+      }
 
       setters.forEach(({ panel, opacity, y, scale }, index) => {
         const offset = u - index;
@@ -113,15 +130,9 @@ export function Journey() {
           <article
             key={chapter.index}
             data-chapter={index}
-            // The backdrop crosses from dawn cream to blue-hour ink partway
-            // through, so each chapter carries its own text polarity and scrim.
-            className={[
-              "chapter",
-              index <= 1 ? "chapter--on-light" : "chapter--on-dark",
-              index === 0 ? "chapter--brand" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
+            // One room, one polarity: the backdrop never leaves ink, so every
+            // chapter uses the same cream type and the same scrim.
+            className={`chapter${index === 0 ? " chapter--brand" : ""}`}
           >
             <p className="chapter__eyebrow">
               <span className="chapter__numeral">{chapter.index}</span>
@@ -135,19 +146,22 @@ export function Journey() {
                 <span>{chapter.title[1]}</span>
               </h1>
             ) : (
-              <h2 className="chapter__title">
-                <span>{chapter.title[0]}</span>
-                <span>{chapter.title[1]}</span>
-              </h2>
+              <SplitHeading
+                lines={chapter.title}
+                className="chapter__title"
+                chapterScoped
+              />
             )}
 
             <p className="chapter__body">{chapter.body}</p>
 
             {chapter.cta ? (
-              <a className="button button--ghost" href={chapter.cta.href}>
-                <span>{chapter.cta.label}</span>
-                <b aria-hidden="true">↓</b>
-              </a>
+              <Magnetic className="chapter__cta">
+                <a className="button button--ghost" href={chapter.cta.href}>
+                  <span>{chapter.cta.label}</span>
+                  <b aria-hidden="true">↓</b>
+                </a>
+              </Magnetic>
             ) : null}
 
             {chapter.cue ? (
