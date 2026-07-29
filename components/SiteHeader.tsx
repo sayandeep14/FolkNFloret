@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { brand, nav } from "@/lib/content";
 import { scrollLock } from "@/lib/scroll-lock";
 import { scrollState } from "@/lib/scroll-store";
+import { GlassFilter } from "@/components/GlassFilter";
 
 export function SiteHeader() {
   const [condensed, setCondensed] = useState(false);
@@ -150,45 +151,48 @@ export function SiteHeader() {
 
   return (
     <>
+      <GlassFilter />
+
       <header
         className={`site-header${condensed ? " is-condensed" : ""}${
           open ? " is-open" : ""
         }`}
       >
-        <a className="site-header__mark" href="#top" onClick={close}>
-          <span>Folk</span>
-          <i aria-hidden="true">&amp;</i>
-          <span>Floret</span>
-        </a>
+        {/* The glass surface, separate from the fixed positioning frame so it
+            can float centred on wide screens and go full-bleed on narrow ones. */}
+        <div className="site-header__bar">
+          <a className="site-header__mark" href="#top" onClick={close}>
+            <span>Folk</span>
+            <i aria-hidden="true">&amp;</i>
+            <span>Floret</span>
+          </a>
 
-        <p className="site-header__note">{brand.note}</p>
+          {/* <p className="site-header__note">{brand.note}</p> */}
 
-        <nav className="site-header__nav" aria-label="Primary">
-          {nav.map((item) => (
-            <a key={item.href} href={item.href}>
-              {item.label}
-            </a>
-          ))}
-        </nav>
+          <nav className="site-header__nav" aria-label="Primary">
+            {nav.map((item) => (
+              <a key={item.href} href={item.href}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        <button
-          ref={toggleRef}
-          type="button"
-          className="menu-toggle"
-          aria-expanded={open}
-          aria-controls="site-menu"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-          data-cursor
-        >
-          <span className="menu-toggle__bars" aria-hidden="true">
-            <span />
-            <span />
-          </span>
-          <span className="menu-toggle__label" aria-hidden="true">
-            {open ? "Close" : "Menu"}
-          </span>
-        </button>
+          <button
+            ref={toggleRef}
+            type="button"
+            className="menu-toggle"
+            aria-expanded={open}
+            aria-controls="site-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+            data-cursor
+          >
+            <span className="menu-toggle__bars" aria-hidden="true">
+              <span />
+              <span />
+            </span>
+          </button>
+        </div>
       </header>
 
       <div
