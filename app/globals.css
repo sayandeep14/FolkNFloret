@@ -27,7 +27,7 @@
   --step-lede: clamp(1rem, 0.94rem + 0.4vw, 1.2rem);
   --step-md: clamp(2.4rem, 1.6rem + 3.4vw, 4.6rem);
   --step-lg: clamp(3rem, 1.9rem + 4.6vw, 6.2rem);
-  --step-brand: clamp(3.4rem, 1.4rem + 8vw, 11rem);
+  --step-brand: clamp(2.6rem, 1rem + 7.4vw, 10rem);
 
   --shell: 78rem;
   --gutter: clamp(1.25rem, 0.6rem + 3vw, 4.5rem);
@@ -459,6 +459,18 @@ a:focus-visible {
   );
 }
 
+/* The caps lockup reaches further right than any other chapter's copy, past
+   where the shared scrim falls off. Widened here only, so the other chapters
+   keep as much of the form lit as possible. */
+.chapter--brand::before {
+  background: radial-gradient(
+    76% 62% at 30% 50%,
+    rgb(9 10 12 / 0.8) 0%,
+    rgb(9 10 12 / 0.44) 52%,
+    transparent 82%
+  );
+}
+
 .chapter__eyebrow {
   display: flex;
   align-items: center;
@@ -500,16 +512,21 @@ a:focus-visible {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.18em;
+  gap: 0.16em;
   font-size: var(--step-brand);
-  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  /* Caps need air where lowercase needed tightening — the negative tracking
+     that suited "Folk & Floret" reads as cramped set in capitals. */
+  letter-spacing: 0.015em;
   max-width: none;
 }
 
 .chapter__title--brand i {
   font-style: italic;
-  font-size: 0.52em;
-  opacity: 0.55;
+  /* Nearly the cap height: the italic ampersand is a good glyph and should
+     read as part of the lockup, not as a footnote between two words. */
+  font-size: 0.8em;
+  opacity: 0.62;
 }
 
 .chapter__body {
