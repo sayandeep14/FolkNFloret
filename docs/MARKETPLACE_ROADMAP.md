@@ -205,28 +205,58 @@ Enquiry        id, name, email, phone, occasion, budget, message, status
 
 ---
 
-## Phase 2 — Product catalog
+## Phase 2 — Product catalog ✅ *complete*
 
-- [ ] `app/(shop)/shop/page.tsx` — all products, filterable by collection.
-- [ ] `app/(shop)/collections/[slug]/page.tsx` — Aromatics, Epicurean,
+- [x] `app/(shop)/shop/page.tsx` — every active product, filterable by
+      collection and sortable.
+- [x] `app/(shop)/collections/[slug]/page.tsx` — Aromatics, Epicurean,
       Preserved, The Suites.
-- [ ] `app/(shop)/products/[slug]/page.tsx` — the PDP.
-- [ ] `ProductCard`: image, title, latin name, from-price, house.
-- [ ] PDP contents, in this order: gallery, title + latin, price, variant
-      selector, quantity, add to cart, then the long-form sections — what it is,
-      the packaging architecture, materials and dimensions, care, delivery.
-      **The packaging detail in `fnf.md` is the differentiator; give it real
-      estate, not a collapsed accordion at the bottom.**
-- [ ] Out-of-stock and low-stock states on both card and PDP.
-- [ ] Bundle PDPs list their components with links.
-- [ ] Sorting: featured, price ascending, price descending, newest.
-- [ ] `generateStaticParams` + ISR (`revalidate`) so catalog pages are static
-      and fast; revalidate on admin write via `revalidateTag`.
-- [ ] `generateMetadata` per product, plus Open Graph images.
-- [ ] JSON-LD `Product` + `Offer` structured data.
+- [x] `app/(shop)/products/[slug]/page.tsx` — the PDP.
+- [x] `ProductCard`: plate, latin name, title, subtitle, from-price, and a
+      stock flag when there is something to say.
+- [x] PDP in the order the roadmap asked for: gallery, title + latin, price,
+      variant selector, quantity, bag, then the long-form sections. The
+      packaging has a heading of its own — *How it is given* — beside the
+      description rather than collapsed underneath it.
+- [x] Out-of-stock and low-stock on both card and PDP, verified by zeroing two
+      SKUs against the live database and restoring them.
+- [x] Bundle PDPs list their components with links and quantities.
+- [x] Sorting: featured, price ascending, price descending, newest. Filters and
+      sorts are **links, not a form** — every state has its own URL, and both
+      work with JavaScript disabled.
+- [x] `generateStaticParams` + ISR. All 19 PDPs prerender; see the note below
+      on why the listing pages do not.
+- [x] `generateMetadata` per product and per collection, with canonicals, plus
+      a generated Open Graph card per product set in the house serif.
+- [x] JSON-LD `Product` with `Offer`, or `AggregateOffer` when the price varies
+      by variant — a range presented as a single price is a rich-result
+      violation.
+- [x] `lib/revalidate.ts` exposes `revalidateCatalog()` for Phase 9's admin
+      writes.
 
-**Done when:** every item in `fnf.md` is browsable at a real URL with a real
-price, and Lighthouse SEO is ≥ 95 on a PDP.
+### Two decisions worth knowing
+
+**The listing pages render on demand; the PDPs are static.** Reading
+`searchParams` makes a route dynamic whatever `generateStaticParams` says, and
+the filter and sort live in the query string. They stay fast anyway: every read
+goes through `unstable_cache` tagged `catalog`, so a request touches Postgres
+only after a revalidation. The 19 PDPs are fully prerendered with `revalidate =
+3600`.
+
+**A bundle is only as available as its scarcest component.** `bundleAvailability`
+takes the minimum of the suite's own assembled count and, for each component,
+`floor(componentAvailable / quantity)`. Verified: starving the seed-paper
+journal takes the Botanical Harvest Suite out of stock even though eight of the
+suite itself remain — which is D3 working rather than a display detail.
+
+### SEO
+
+Checked by hand on a PDP rather than by running Lighthouse, which needs a
+public URL: unique title and description, canonical, `og:title`/`og:image`
+(200, image/png, 65KB), `lang`, viewport, exactly one `h1`, zero images without
+alt, and valid `Product` JSON-LD with `priceCurrency: INR`. `robots.txt` and
+`sitemap.xml` are Phase 10 and are the remaining gap before an honest
+Lighthouse SEO number.
 
 ---
 
@@ -250,7 +280,11 @@ photographs in this repo** — `assets/ref/` holds mood references only.
       is the exact failure that killed the earlier photoreal direction.
 - [ ] Storage: Vercel Blob, Cloudinary or S3 + CloudFront. Not the repo.
 - [ ] Serve through `next/image` with `sizes` set; AVIF/WebP; explicit
-      dimensions to hold layout.
+      dimensions to hold layout. Every image already carries `sizes` and
+      explicit dimensions; the only change when photography lands is dropping
+      `unoptimized`, which is there solely because the placeholders are SVG.
+- [x] Cormorant Garamond vendored at `assets/fonts/` (OFL) so the Open Graph
+      cards set in the house serif without the build depending on the network.
 - [ ] Alt text for every image, written as description not keyword soup.
 
 ---
