@@ -34,33 +34,51 @@ Provisioning takes a couple of minutes.
 
 ---
 
-## 2. Copy the two connection strings
+## 2. Copy the connection string
 
 Open **Connect** in the top bar (older dashboards: **Project Settings →
-Database → Connection string**). Choose the **URI** tab. You will see three
-options; you need two of them.
+Database → Connection string**), and choose the **URI** tab.
 
-| | Host | Port | Use it for |
-|---|---|---|---|
-| Direct connection | `db.<ref>.supabase.co` | 5432 | Nothing, unless you have IPv6. See below. |
-| **Session pooler** | `...pooler.supabase.com` | 5432 | **`DIRECT_URL`** — migrations, seed, Studio |
-| **Transaction pooler** | `...pooler.supabase.com` | 6543 | **`DATABASE_URL`** — the app |
+**Start with whichever string you can see.** Most dashboards show a *Direct
+connection* most prominently, and that is enough for everything up to
+deployment — building locally opens a handful of connections, which is exactly
+what a direct connection is for.
 
-Two things that trip people up here:
+```
+postgresql://postgres:[YOUR-PASSWORD]@db.<projectref>.supabase.co:5432/postgres
+```
 
-- **Direct connections are IPv6-only** on the free plan. Most home and office
-  networks in India are IPv4-only, so a direct URL will simply time out.
-  The session pooler is the IPv4 path to the same thing, which is why this
-  guide uses it for migrations rather than the direct URL its name suggests.
-- **The username differs.** Direct connections use `postgres`; both poolers use
-  `postgres.<projectref>`. Copy the whole string rather than editing one.
+Replace `[YOUR-PASSWORD]` with the password from step 1. If it contains
+`@ : / ? # [ ] %`, percent-encode it — `@` becomes `%40` — or the URL parses
+wrongly and you get an authentication error that looks like a wrong password.
 
-Replace `[YOUR-PASSWORD]` in each string with the password from step 1. If the
-password contains `@ : / ? # [ ] %`, percent-encode it — `@` becomes `%40` —
-or the URL will parse wrongly and you will get an authentication error that
-looks like a wrong password.
+### If the direct connection will not connect
 
----
+Supabase direct connections are **IPv6-only** on the free plan. If your network
+has no IPv6 route out, the host resolves but never answers. `npm run db:check`
+(step 4) tests for this and tells you which case you are in.
+
+The fix is a **pooler** URL, which is IPv4-friendly. In the same **Connect**
+modal, scroll past the direct connection — the poolers are listed below it. If
+you cannot see them there, try **Project Settings → Database → Connection
+pooling**.
+
+| | Host | Port | Username | Use for |
+|---|---|---|---|---|
+| Direct | `db.<ref>.supabase.co` | 5432 | `postgres` | Local work, if you have IPv6 |
+| Session pooler | `...pooler.supabase.com` | 5432 | `postgres.<ref>` | `DIRECT_URL` — migrations |
+| Transaction pooler | `...pooler.supabase.com` | 6543 | `postgres.<ref>` | `DATABASE_URL` — serverless |
+
+Note the username differs between them: direct connections use `postgres`,
+both poolers use `postgres.<projectref>`. Copy the whole string rather than
+editing one into another.
+
+### When you actually need the poolers
+
+At deployment, not before. Vercel is serverless and opens a connection per
+invocation, which exhausts a direct connection's limit quickly — so production
+must use the transaction pooler. That is a Phase 11 concern; today, one URL is
+fine.
 
 ## 3. Put them in `.env.local`
 
@@ -68,7 +86,15 @@ looks like a wrong password.
 cp .env.example .env.local
 ```
 
-Then edit it so it reads roughly:
+Starting out, one URL does for both jobs:
+
+```
+DATABASE_URL="postgresql://postgres:PASSWORD@db.abcdefgh.supabase.co:5432/postgres"
+```
+
+`DIRECT_URL` is optional and falls back to `DATABASE_URL`. Set it only once
+`DATABASE_URL` points at a **transaction pooler** (port 6543), which will be at
+deployment:
 
 ```
 DATABASE_URL="postgresql://postgres.abcdefgh:PASSWORD@aws-1-ap-south-1.pooler.supabase.com:6543/postgres"
@@ -86,7 +112,17 @@ lock, and an advisory lock taken on one connection is not held on the next.
 
 ---
 
-## 4. Apply the migration
+## 4. Check the connection, then apply the migration
+
+```bash
+npm run db:check        # what each URL points at, and whether it answers
+```
+
+It names the fault rather than the symptom — a hostname that does not resolve,
+an IPv6-only host on an IPv4 network, a paused project, a pooler URL with the
+wrong username, an unencoded password. Get a clean run before going further;
+a bad URL surfaces as a migration that hangs, which is a slower way to learn
+the same thing.
 
 ```bash
 npm run db:generate     # build the Prisma client from the schema
@@ -188,7 +224,8 @@ Not needed today; noted so it is not a surprise in Phase 11.
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `P1001: Can't reach database server` | Direct URL on an IPv4-only network | Use the session pooler URL (port 5432, `pooler.supabase.com`) |
+| `Can't reach database server`, host does not resolve | Wrong project reference, or the project is still provisioning | Compare the ref against the dashboard URL: `.../project/<REF>`. Wait a minute if it is new. |
+| `P1001: Can't reach database server`, host resolves | Direct URL on an IPv4-only network | Use the session pooler URL (port 5432, `pooler.supabase.com`) |
 | `Tenant or user not found` | Pooler URL with username `postgres` | Pooler needs `postgres.<projectref>`; re-copy the whole string |
 | `password authentication failed` but the password is right | Unencoded special character in the URL | Percent-encode it: `@` → `%40`, `#` → `%23` |
 | `prepared statement "s0" already exists` | Transaction pooler used for migrations | That is what `DIRECT_URL` is for — check it is set and on port 5432 |
