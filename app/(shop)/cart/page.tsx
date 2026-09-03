@@ -1,15 +1,22 @@
 import type { Metadata } from "next";
-import { ButtonLink, EmptyState } from "@/components/ui";
+import { readCart } from "@/lib/cart";
+import { Breadcrumb } from "@/components/ui";
+import { CartPageClient } from "@/components/cart/CartPageClient";
 
 export const metadata: Metadata = { title: "Your bag — Folks & Florets" };
 
-export default function CartPage() {
+/** Reads the cookie, so it can never be static. */
+export const dynamic = "force-dynamic";
+
+export default async function CartPage() {
+  // Server-rendered so the bag is real content on first paint — no spinner,
+  // and it still reads correctly with JavaScript disabled.
+  const cart = await readCart();
+
   return (
-    <EmptyState
-      eyebrow="Your bag"
-      title="Nothing kept yet"
-      body="The bag arrives with Phase 4 of the build. Until then, the collections are worth a look."
-      action={<ButtonLink href="/shop">Browse the shop</ButtonLink>}
-    />
+    <>
+      <Breadcrumb trail={[{ label: "Home", href: "/" }, { label: "Your bag" }]} />
+      <CartPageClient initialCart={cart} />
+    </>
   );
 }

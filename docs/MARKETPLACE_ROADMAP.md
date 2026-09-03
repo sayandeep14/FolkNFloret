@@ -289,23 +289,58 @@ photographs in this repo** — `assets/ref/` holds mood references only.
 
 ---
 
-## Phase 4 — Cart
+## Phase 4 — Cart ✅ *complete*
 
-- [ ] Cart identity: signed HTTP-only cookie holding a cart token. Same cart
-      works for guests and, after login, merges into the customer's cart.
-- [ ] Server actions: `addItem`, `updateQuantity`, `removeItem`, `applyDiscount`.
-- [ ] **Re-price on the server every read.** Never trust a price sent from the
-      client. The client sends a variant id and a quantity, nothing more.
-- [ ] Validate stock on add and again at checkout.
-- [ ] Cart drawer (slide-over) plus a full `/cart` page for small screens.
-- [ ] Optimistic UI with `useOptimistic`, reconciled against the server result.
-- [ ] Order summary component: subtotal, shipping, GST, discount, total —
-      shared verbatim between cart, checkout and the order confirmation, so the
-      three can never disagree.
-- [ ] Empty state that routes back into the collections.
+- [x] Cart identity: an HttpOnly cookie holding a 256-bit random token. See the
+      note below on why it is not signed.
+- [x] Server actions: `addItem`, `updateQuantity`, `removeItem`,
+      `applyDiscount`, each returning the recomputed cart.
+- [x] **Re-priced on the server on every read.** The client sends a variant id
+      and a quantity and never a price. Verified by raising a variant's price
+      in the database: the line moved from ₹1,650 to ₹2,000 on the next load
+      even though the cart row still cached the old figure.
+- [x] Stock validated on add, and again on every read — a line whose stock has
+      moved under it is trimmed or dropped with a notice, rather than
+      discovered at checkout. Verified.
+- [x] Cart drawer plus a full `/cart` page. The page is server-rendered, so the
+      bag is real content on first paint and reads correctly with JavaScript
+      disabled — checked with `javaScriptEnabled: false`.
+- [x] Optimistic quantity changes with `useOptimistic`, reconciled against the
+      server's answer.
+- [x] `OrderSummary` is one component, used verbatim by the drawer and the cart
+      page, computing from `lib/pricing.ts`. Checkout and the confirmation will
+      use the same one.
+- [x] Empty state routing back into the collections.
 
-**Done when:** items survive a page reload and a browser restart, and editing a
-product's price in the database changes the cart total on next load.
+**Verified end to end:** add with a variant and quantity → drawer opens → badge
+counts → survives a reload → survives a fresh browser context carrying the same
+cookies → the no-JS page renders the same total.
+
+### Three decisions
+
+**Prices are GST-inclusive.** That is the Indian retail norm: ₹1,450 is what
+the customer pays, and the tax is a component of it rather than an addition to
+it. So `lib/pricing.ts` *shows* GST and never *adds* it. Getting this backwards
+inflates every price by 12–18% at the last step. Mixed rates in one bag are
+handled per line — honey at 5% beside chocolate at 18% is the normal case here.
+
+**The cookie is not signed**, which the roadmap originally called for. The token
+is 256 bits of randomness and is looked up in the database, so a forged one
+resolves to no cart rather than to someone else's. A signature would only let
+us reject garbage a millisecond earlier, which is a rate-limiting problem
+rather than a cryptographic one, and it would add a secret whose rotation
+silently empties every cart.
+
+**A second, readable cookie carries only the item count.** The marketing page
+is static; fetching a cart on every visit would put a round trip in front of a
+page that needs none. Now the badge paints from the cookie and the real cart
+loads only when the bag is opened — measured at **zero requests** on the
+marketing page with a bag held, and one when it is opened. The count is
+advisory: nothing is priced from it, and it corrects itself as soon as the
+real cart arrives.
+
+**Done when:** ✅ items survive a page reload and a browser restart, and editing
+a product's price in the database changes the cart total on next load.
 
 ---
 

@@ -3,15 +3,12 @@
 import { useState } from "react";
 import { LOW_STOCK_AT, type VariantView } from "@/lib/catalog-types";
 import { Button } from "@/components/ui";
+import { useCart } from "@/components/cart/CartProvider";
 import { Money } from "@/components/ui/Money";
 
 /**
  * Variant choice, quantity and the bag. Client-side because price and
  * availability have to answer to the selected variant without a round trip.
- *
- * The button is inert until Phase 4 adds the cart. It is rendered rather than
- * hidden so the layout, the focus order and the disabled styling are all
- * settled now — wiring it up should be a change of handler, not of markup.
  */
 export function PurchasePanel({
   productTitle,
@@ -20,6 +17,7 @@ export function PurchasePanel({
   productTitle: string;
   variants: VariantView[];
 }) {
+  const { add, pending } = useCart();
   const firstInStock = variants.find((v) => v.available > 0) ?? variants[0];
   const [variantId, setVariantId] = useState(firstInStock.id);
   const [quantity, setQuantity] = useState(1);
@@ -98,15 +96,14 @@ export function PurchasePanel({
           </button>
         </div>
 
-        <Button full disabled aria-describedby="bag-note">
-          {soldOut ? "Sold out" : "Add to bag"}
+        <Button
+          full
+          disabled={soldOut || pending}
+          onClick={() => add(variant.id, quantity)}
+        >
+          {soldOut ? "Sold out" : pending ? "Adding…" : "Add to bag"}
         </Button>
       </div>
-
-      <p className="purchase__note" id="bag-note">
-        The bag opens shortly. Until then, write to us and we will take the
-        order by hand.
-      </p>
 
       <p className="purchase__sku">SKU {variant.sku}</p>
     </div>

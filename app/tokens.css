@@ -33,6 +33,14 @@
   --step-lg: clamp(3rem, 1.9rem + 4.6vw, 6.2rem);
   --step-brand: clamp(3.4rem, 1.2rem + 9.4vw, 13rem);
 
+  /* Light-surface palette. The journey is a near-black room; the shop and the
+     bag drawer are not, and both need the same alabaster ground. */
+  --shop-ground: #f4ede2;
+  --shop-ground-alt: #ece2d5;
+  --shop-ink: #221822;
+  --shop-line: rgb(34 24 34 / 0.14);
+  --shop-muted: rgb(34 24 34 / 0.62);
+
   --shell: 78rem;
   --gutter: clamp(1.25rem, 0.6rem + 3vw, 4.5rem);
 

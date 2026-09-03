@@ -6,6 +6,7 @@ import { brand, nav } from "@/lib/content";
 import { scrollLock } from "@/lib/scroll-lock";
 import { scrollState } from "@/lib/scroll-store";
 import { GlassFilter } from "@/components/GlassFilter";
+import { CartButton } from "@/components/cart/CartButton";
 
 /**
  * `glass` is the floating liquid-glass capsule that belongs over the WebGL
@@ -198,8 +199,7 @@ export function SiteHeader({ variant = "glass" }: { variant?: HeaderVariant }) {
             <a href="/shop">Shop</a>
           </nav>
 
-          {/* Account and cart. Inert until phases 5 and 4 respectively — the
-              cart badge appears once there is a cart to count. */}
+          {/* Account is still inert (Phase 5). The bag is live. */}
           <div className="site-header__tools">
             <a
               className="site-header__tool"
@@ -213,17 +213,7 @@ export function SiteHeader({ variant = "glass" }: { variant?: HeaderVariant }) {
               </svg>
             </a>
 
-            <a
-              className="site-header__tool"
-              href="/cart"
-              aria-label="Your bag"
-              data-cursor
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M5.4 8h13.2l-1.1 12H6.5z" />
-                <path d="M9 8V6.2a3 3 0 0 1 6 0V8" />
-              </svg>
-            </a>
+            <CartButton />
           </div>
 
           <button
