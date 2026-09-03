@@ -50,7 +50,7 @@ export const stops: Stop[] = [
     coreIntensity: 1.0,
     envIntensity: 1.0,
   },
-  // 1 — The Bouquet. Closer, and the key swings round.
+  // 1 — The Preserved. Closer, and the key swings round.
   {
     skyTop: c("#262320"),
     skyBottom: c("#121110"),
@@ -76,7 +76,7 @@ export const stops: Stop[] = [
     coreIntensity: 3.4,
     envIntensity: 0.9,
   },
-  // 3 — The Confection. Deepest, tightest, warmest stone.
+  // 3 — The Table. Deepest, tightest, warmest stone.
   {
     skyTop: c("#1e1b18"),
     skyBottom: c("#0d0c0b"),

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Folk & Floret — The Art of Curated Connection",
+  title: "Folk & Floret — The Art of Keeping",
   description:
-    "Bespoke bouquets, hand-poured candles and hand-tempered chocolates, composed for the moments that deserve more than a gesture.",
+    "Preserved botanicals, hand-poured candles and estate provisions, composed into keepsake suites for the moments meant to be kept.",
 };
 
 export default function RootLayout({

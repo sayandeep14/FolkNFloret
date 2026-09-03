@@ -41,11 +41,13 @@ export const keyframes: Keyframe[] = [
     bokeh: 0.9,
     orbit: 0.5,
   },
-  // 1 — The Bouquet. Swings right and drops toward the rim, but stays above it
-  // — from below the bloom reads as an underside.
+  // 1 — The Preserved. Swings right and drops in close over the lens. Held far
+  // higher than a bloom would need: at a shallow elevation a flat stratum goes
+  // edge-on and reads as nothing at all. The move from station 0 is proximity
+  // — same elevation, a third of the distance.
   {
-    position: new THREE.Vector3(6.8, 2.2, 7.4),
-    target: new THREE.Vector3(-0.7, 0.35, 0),
+    position: new THREE.Vector3(6.2, 5.0, 6.2),
+    target: new THREE.Vector3(-1.5, 0.3, 0),
     fov: 40,
     roll: -0.05,
     focus: 0.86,
@@ -62,7 +64,7 @@ export const keyframes: Keyframe[] = [
     bokeh: 1.7,
     orbit: 0.6,
   },
-  // 3 — The Confection. Closest hold of the journey, tight on the orb.
+  // 3 — The Table. Closest hold of the journey, tight on the orb.
   {
     position: new THREE.Vector3(2.1, 0.5, 4.4),
     target: new THREE.Vector3(-0.9, 0.05, 0),
@@ -97,14 +99,16 @@ export const keyframes: Keyframe[] = [
 export const KEYFRAME_COUNT = keyframes.length;
 
 /**
- * Which layout the artifact holds at each keyframe. Arrival and The Bouquet
- * share the bloom — the difference between them is entirely camera.
+ * Which layout the artifact holds at each keyframe. Arrival opens on the living
+ * bloom and the second station settles it into the suspended lens, so the first
+ * movement of the page is growth being stopped and kept — which is the whole
+ * proposition of the house.
  */
-export type LayoutName = "bloom" | "taper" | "orb" | "disperse";
+export type LayoutName = "bloom" | "suspend" | "taper" | "orb" | "disperse";
 
 export const layoutAtKeyframe: LayoutName[] = [
   "bloom",
-  "bloom",
+  "suspend",
   "taper",
   "orb",
   "disperse",

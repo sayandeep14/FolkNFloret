@@ -5,8 +5,8 @@
 
 export const brand = {
   name: "Folk & Floret",
-  tagline: "The Art of Curated Connection",
-  note: "Flowers · Flame · Flavour · Feeling",
+  tagline: "The Art of Keeping",
+  note: "Preserved · Poured · Tempered · Kept",
 };
 
 export const nav = [
@@ -21,89 +21,115 @@ export const chapters = [
     index: "I",
     eyebrow: "Welcome",
     title: ["Folk", "Floret"],
-    body: "Bespoke gifts, composed by hand for the moments that deserve more than a gesture.",
+    body: "An artisanal house of preserved botanicals, hand-poured light and estate provisions — composed for the moments meant to be kept.",
     cue: "Scroll to begin",
   },
   {
     index: "II",
-    eyebrow: "The Bouquet",
-    title: ["Cut at", "first light"],
-    body: "Garden roses, ranunculus and cosmos, gathered the morning they are given. Never held in cold storage, never repeated twice.",
+    eyebrow: "The Preserved",
+    title: ["Kept,", "never cut"],
+    body: "Whole florets, moss and pressed stems, dried slow and set beneath optical glass or clear resin. Nothing wilts, nothing is watered. It simply stays.",
   },
   {
     index: "III",
     eyebrow: "The Flame",
     title: ["Poured", "in small batch"],
-    body: "Single-origin wax and botanical oils, set by hand in ceramic thrown for us alone. Forty hours of quiet, amber light.",
+    body: "Coconut-soy wax and botanical oils, poured by hand into heavy frosted flint and capped in turned oak. Cedarwood, lavender, bergamot — forty hours of quiet, amber light.",
   },
   {
     index: "IV",
-    eyebrow: "The Confection",
+    eyebrow: "The Table",
     title: ["Tempered", "by hand"],
-    body: "Cocoa from a single estate, folded with cardamom, rose and burnt honey. Made in the morning, boxed by noon.",
+    body: "Single-estate couverture finished with rose and sea salt, and raw mono-floral honey sealed under a brass medallion set with dried chamomile.",
   },
   {
     index: "V",
     eyebrow: "The Gift",
-    title: ["Given", "with feeling"],
-    body: "Three crafts, one composition — arranged, wrapped and delivered as a single act of attention.",
+    title: ["Given", "to be kept"],
+    body: "Three houses, one composition — laid into velvet, veiled in vellum, closed with a wax seal holding a single dried floret.",
     cta: { label: "Explore the collections", href: "#collections" },
   },
 ];
 
 export const collections = {
   eyebrow: "The Collections",
-  titleLines: ["Three crafts,", "endlessly composed"],
-  body: "Each collection stands alone, and each was designed to be given together. Choose a single piece, or let us compose the whole.",
+  titleLines: ["Three houses,", "one language"],
+  body: "Aromatics, epicurean provisions and preserved botanicals. Each house stands alone, and each was drawn to be given alongside the others.",
   items: [
     {
       no: "01",
-      name: "Bouquets",
-      latin: "Florilegium",
-      body: "Loose, garden-grown arrangements built around a season rather than a formula.",
-      meta: "From ₹4,800",
+      name: "Aromatics",
+      latin: "Lumen",
+      body: "Hand-poured coconut-soy candles in frosted flint and turned oak, whole-flower tisanes and mineral botanical soaks.",
+      meta: "From ₹1,450",
     },
     {
       no: "02",
-      name: "Candles",
-      latin: "Lumen",
-      body: "Hand-poured botanical wax in thrown ceramic, scented to a single memory.",
-      meta: "From ₹3,200",
+      name: "Epicurean",
+      latin: "Mensa",
+      body: "Raw mono-floral honey, single-origin couverture finished with rose and salt, gilded truffles and glazed botanical nuts.",
+      meta: "From ₹1,250",
     },
     {
       no: "03",
-      name: "Chocolates",
-      latin: "Confectio",
-      body: "Single-estate cocoa tempered by hand and finished with cardamom and rose.",
-      meta: "From ₹2,600",
+      name: "Preserved",
+      latin: "Herbarium",
+      body: "Reindeer moss set in turned walnut and cast stone, pressed botanicals floating between optical glass, plantable seed-paper journals.",
+      meta: "From ₹1,100",
+    },
+  ],
+};
+
+export const suites = {
+  eyebrow: "The Suites",
+  titleLines: ["Composed", "in three tiers"],
+  body: "Every piece can be given on its own. Most are given together — and the architecture of that giving is drawn as carefully as the pieces inside it.",
+  items: [
+    {
+      no: "01",
+      name: "Statements",
+      body: "A single piece, given whole. The candle in its linen cube, the honey vault with its turned dipper, the moss vessel in cast stone.",
+      meta: "₹1,100 – ₹2,800",
+    },
+    {
+      no: "02",
+      name: "Rituals",
+      body: "Two pieces drawn to one another — flame and tisane, honey and tea, candle and seed-paper journal — set side by side in velvet-lined foam.",
+      meta: "₹2,800 – ₹3,800",
+    },
+    {
+      no: "03",
+      name: "Suites",
+      body: "The full house in a keepsake chest or a linen-bound trunk: aromatics, provisions, preserved botanicals and solid brass ritual tools.",
+      meta: "₹5,800 – ₹18,000",
     },
   ],
 };
 
 export const craft = {
   eyebrow: "The Craft",
-  titleLines: ["Nothing here", "is kept in stock"],
-  body: "A Folk & Floret commission begins as a conversation and ends at a doorway. Between the two, four days of deliberate work.",
+  titleLines: ["Nothing here", "is meant to wilt"],
+  body: "A Folk & Floret commission begins as a conversation and ends at a doorway. Between the two, weeks of slow and deliberate work.",
   steps: [
     {
       no: "01",
-      name: "The conversation",
-      body: "We ask who it is for, and what it is you are actually trying to say. Everything follows from the answer.",
+      name: "The gathering",
+      body: "Botanicals are taken at their fullest and straight to low heat. What we keep is chosen for how it will read in three years, not this afternoon.",
     },
     {
       no: "02",
-      name: "The composition",
-      body: "Stems, scent and cocoa are chosen together so the finished gift reads as one idea rather than three parcels.",
+      name: "The preserving",
+      body: "Pressed flat between blotting sheets, or suspended in clear resin and optical glass. Colour is held by glycerine, never by dye.",
     },
     {
       no: "03",
-      name: "The making",
-      body: "Cut at dawn, poured the same morning, tempered by hand. Nothing is assembled more than a day before it travels.",
+      name: "The composition",
+      body: "Scent, provision and preserved form are drawn together so a finished suite reads as one idea rather than several parcels.",
     },
     {
       no: "04",
-      name: "The giving",
-      body: "Wrapped in dusty rose, tied in botanical silk, and placed into the right hands at the right hour.",
+      name: "The presentation",
+      body: "Cut foam under ivory velvet, a veil of vellum, and a hand-poured wax seal set with dried florets. No shred, no filler, nothing loose.",
     },
   ],
 };
@@ -111,14 +137,14 @@ export const craft = {
 export const voices = {
   eyebrow: "In their words",
   quote:
-    "It arrived at eight in the morning, still cold from the field. She has kept the ribbon.",
+    "It arrived two winters ago. The candle is long since burned, and the pressed stems are still standing on her desk.",
   attribution: "Ananya R. — a commission for a first anniversary",
 };
 
 export const invitation = {
   eyebrow: "Commissions",
-  titleLines: ["Begin something", "worth remembering"],
-  body: "We take a limited number of bespoke commissions each week so that every one receives the whole of our attention.",
+  titleLines: ["Begin something", "worth keeping"],
+  body: "We take a limited number of bespoke commissions each week, and corporate suites by the season, so that every one receives the whole of our attention.",
   primary: { label: "Start a commission", href: "#invitation" },
   secondary: { label: "Speak with a curator", href: "#invitation" },
 };
@@ -127,17 +153,17 @@ export const footer = {
   columns: [
     {
       title: "Collections",
-      links: ["Bouquets", "Candles", "Chocolates", "The Composed Gift"],
+      links: ["Aromatics", "Epicurean", "Preserved", "The Suites"],
     },
     {
       title: "Studio",
-      links: ["Our craft", "The estate", "Seasonality", "Journal"],
+      links: ["Our craft", "Preserving", "Materials", "Journal"],
     },
     {
       title: "Care",
-      links: ["Delivery", "Keeping flowers", "Candle care", "Contact"],
+      links: ["Delivery", "Preserved botanicals", "Candle care", "Contact"],
     },
   ],
-  address: "The Flower Estate, Kotagiri, Nilgiris",
-  legal: "© 2026 Folk & Floret. Composed with care.",
+  address: "The Botanical Studio, Kotagiri, Nilgiris",
+  legal: "© 2026 Folk & Floret. Composed to be kept.",
 };

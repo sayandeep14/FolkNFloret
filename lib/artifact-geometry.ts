@@ -76,7 +76,7 @@ function emptyLayout(count: number): Layout {
   };
 }
 
-/** Phyllotaxis dome — the bouquet. Petals stand up at the heart, lie flat at the rim. */
+/** Phyllotaxis dome — the living form. Petals stand up at the heart, lie flat at the rim. */
 function buildBloom(count: number): Layout {
   const layout = emptyLayout(count);
   const direction = new THREE.Vector3();
@@ -100,6 +100,47 @@ function buildBloom(count: number): Layout {
 
     orient(direction, angle, layout.quaternions[i]);
     layout.scales[i] = THREE.MathUtils.lerp(0.26, 0.52, f);
+  }
+
+  return layout;
+}
+
+/**
+ * A shallow lens of stillness — botanicals suspended in cast resin. Petals lie
+ * flat at staggered depths inside a disc that is thickest at its axis, so the
+ * mass reads as one poured body rather than as a scatter. The deliberate order
+ * here is the point: it is the bloom, stopped.
+ */
+function buildSuspend(count: number, rng: () => number): Layout {
+  const layout = emptyLayout(count);
+  const direction = new THREE.Vector3();
+
+  for (let i = 0; i < count; i += 1) {
+    const f = i / (count - 1);
+    const radius = Math.sqrt(f) * 3.0;
+    const angle = i * GOLDEN_ANGLE;
+    // Lens profile: full thickness at the axis, tapering away to a thin rim.
+    const halfThickness = 0.3 * Math.sqrt(Math.max(0, 1 - f));
+
+    layout.positions[i].set(
+      Math.cos(angle) * radius,
+      (rng() - 0.5) * 2 * halfThickness,
+      Math.sin(angle) * radius,
+    );
+
+    // A petal's length runs along `direction`, so laying one flat means
+    // pointing it outward rather than upward. The scatter off the radial keeps
+    // the field from combing into visible spokes; the small vertical term stops
+    // every petal being exactly coplanar, which would flare as one sheet.
+    const sweep = angle + (rng() - 0.5) * 1.1;
+    direction
+      .set(Math.cos(sweep), (rng() - 0.5) * 0.14, Math.sin(sweep))
+      .normalize();
+
+    // Roll twists a petal about its own length. Held near zero so faces stay
+    // turned up to the probe, which is what makes the stratum catch light.
+    orient(direction, (rng() - 0.5) * 0.44, layout.quaternions[i]);
+    layout.scales[i] = 0.26 + rng() * 0.16;
   }
 
   return layout;
@@ -194,6 +235,7 @@ function buildDisperse(count: number, rng: () => number): Layout {
 export function buildLayouts(count: number): Record<LayoutName, Layout> {
   return {
     bloom: buildBloom(count),
+    suspend: buildSuspend(count, mulberry32(0xc0ffee)),
     taper: buildTaper(count),
     orb: buildOrb(count, mulberry32(0x5eed)),
     disperse: buildDisperse(count, mulberry32(0xb100d)),
