@@ -32,7 +32,17 @@ async function main() {
   let variantCount = 0;
 
   for (const product of products) {
-    const { variants, collections: slugs, ...fields } = product;
+    // taxRateBps and hsnCode are authored per product for readability but live
+    // on the variant, so they are pulled out here rather than spread into the
+    // product. TypeScript will not catch this: excess property checking does
+    // not apply through a spread.
+    const {
+      variants,
+      collections: slugs,
+      taxRateBps: _taxRateBps,
+      hsnCode: _hsnCode,
+      ...fields
+    } = product;
 
     const row = await db.product.upsert({
       where: { slug: product.slug },

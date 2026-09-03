@@ -177,16 +177,23 @@ nothing.
 
 **Do both of these:**
 
-**a. Turn RLS on for every table.** Open **SQL Editor → New query**, paste the
-contents of [`prisma/sql/lockdown.sql`](../prisma/sql/lockdown.sql), and run
-it. The final `SELECT` prints every table with its `rowsecurity` flag — all 17
-must read `true`.
+**a. Turn RLS on for every table.**
+
+```bash
+npm run db:lockdown
+```
+
+It applies [`prisma/sql/lockdown.sql`](../prisma/sql/lockdown.sql) and prints
+how many tables are protected — it must say every one of them. The SQL
+enumerates the schema rather than listing tables by name, so a table added by
+a later migration cannot be forgotten. You can also paste the file into the
+Supabase **SQL Editor** if you prefer to watch it run.
 
 **b. Stop exposing the schema at all.** **Project Settings → API → Exposed
 schemas**: remove `public`, leaving the list empty (or `graphql_public` alone).
 Save.
 
-Re-run (a) after any future migration that adds a table. Supabase's own
+Re-run `npm run db:lockdown` after any future migration that adds a table. Supabase's own
 Advisors panel will also flag an unprotected table under **Security**, which is
 a useful backstop.
 

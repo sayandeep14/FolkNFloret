@@ -98,11 +98,9 @@ rendered outside that wrapper the header will fall back to cream-on-dark.
 
 ## Phase 1 — Data model and database ✅ *schema complete, awaiting a database*
 
-- [ ] **Provision Postgres.** The one step I could not do — it needs an
-      account. Step-by-step walkthrough: **[docs/SUPABASE_SETUP.md](./SUPABASE_SETUP.md)**.
-      Note step 6 in particular: Supabase leaves RLS off on tables Prisma
-      creates, and publishes them through a REST API reachable with a key that
-      ships in browser JavaScript. `prisma/sql/lockdown.sql` closes it.
+- [x] **Postgres provisioned** on Supabase (`ap-southeast-1`), migration
+      applied, catalogue seeded, and row-level security enabled on all 18
+      tables. Walkthrough: **[docs/SUPABASE_SETUP.md](./SUPABASE_SETUP.md)**.
 - [x] Prisma added and pinned to **7.10.0**. Note `prisma@latest` currently
       resolves to `8.0.0-rc.12` — npm's `latest` tag is pointing at a release
       candidate, so the versions are pinned exactly rather than floating.
@@ -120,7 +118,7 @@ rendered outside that wrapper the header will fall back to cream-on-dark.
 - [x] **Stock rule** enforced. `stockOnHand` and `stockReserved` are separate
       columns on `ProductVariant`.
 - [x] Seed written from `fnf.md`: 4 collections, 19 products, 25 variants,
-      6 bundles. Idempotent — upserts by slug and SKU, and deliberately does
+      6 bundles with 27 components. Idempotent — upserts by slug and SKU, and deliberately does
       *not* overwrite `stockOnHand` on re-run, so a re-seed cannot undo the
       studio's inventory counts.
 - [x] Variants: candles × 3 fragrances, honey × 3 varietals, nuts × 2
