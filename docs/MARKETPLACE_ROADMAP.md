@@ -98,11 +98,11 @@ rendered outside that wrapper the header will fall back to cream-on-dark.
 
 ## Phase 1 — Data model and database ✅ *schema complete, awaiting a database*
 
-- [ ] **Provision Postgres.** The one step I could not do: a Postgres is
-      running on this machine at `localhost:5432` but it wants a password, and
-      guessing at your credentials is not something to do unasked. Either
-      create a **Neon** or **Supabase** project, or make a local database, then
-      put the URL in `.env.local` (see `.env.example`).
+- [ ] **Provision Postgres.** The one step I could not do — it needs an
+      account. Step-by-step walkthrough: **[docs/SUPABASE_SETUP.md](./SUPABASE_SETUP.md)**.
+      Note step 6 in particular: Supabase leaves RLS off on tables Prisma
+      creates, and publishes them through a REST API reachable with a key that
+      ships in browser JavaScript. `prisma/sql/lockdown.sql` closes it.
 - [x] Prisma added and pinned to **7.10.0**. Note `prisma@latest` currently
       resolves to `8.0.0-rc.12` — npm's `latest` tag is pointing at a release
       candidate, so the versions are pinned exactly rather than floating.
@@ -136,11 +136,17 @@ rendered outside that wrapper the header will fall back to cream-on-dark.
 ### Bringing the database up
 
 ```bash
-cp .env.example .env.local          # then fill in DATABASE_URL
+cp .env.example .env.local          # then fill in DATABASE_URL and DIRECT_URL
+npm run db:generate                 # build the client from the schema
 npm run db:deploy                   # apply prisma/migrations
 npm run db:seed                     # load the catalogue
 npm run db:studio                   # eyeball it
 ```
+
+On a managed host the app and the migrations need *different* connections:
+`DATABASE_URL` is pooled, `DIRECT_URL` is not. DDL cannot go through a
+transaction pooler, because Prisma's migration lock is a Postgres advisory lock
+and a pooler hands out a different backend per statement.
 
 `npm run db:generate` regenerates the client; `lib/generated/` is gitignored,
 so CI must run it before typechecking.
