@@ -6,3 +6,4 @@ out
 .env*
 !.env.example
 fnf.md
+lib/generated/

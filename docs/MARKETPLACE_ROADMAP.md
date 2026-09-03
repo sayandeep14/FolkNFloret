@@ -35,10 +35,9 @@ experience that shares the design system and the header, and nothing else.
 
 ## Decisions to make before Phase 1
 
-These change the schema, so they are worth settling first. My recommendation is
-given for each; overrule freely, but pick something.
+**All settled — see the answers column.** These shaped the Phase 1 schema.
 
-| # | Question | Recommendation |
+| # | Question | Decision |
 |---|---|---|
 | D1 | Do we hold real stock, or make to order? | **Track stock.** Candles and honey are batch goods; overselling a hamper you cannot assemble is the worst failure mode in gifting. |
 | D2 | Guest checkout, or accounts required? | **Guest checkout, with an optional account at the end.** Forcing signup before a first purchase is the largest single drop-off in Indian D2C. |
@@ -46,7 +45,7 @@ given for each; overrule freely, but pick something.
 | D4 | How are bespoke commissions handled? | **Enquiry, not checkout.** They are quoted individually. A form that creates a lead, not a cart item. |
 | D5 | Payment provider | **Razorpay.** Prices are in ₹, the buyer is in India, and it covers UPI, cards, netbanking and wallets in one integration. Stripe's India support for domestic-only businesses is not worth the friction. |
 | D6 | Do we offer Cash on Delivery? | **No, at least at launch.** COD on a ₹14,000 keepsake trunk is a returns liability, and it breaks the prepaid-only assumption that keeps Phase 7 simple. |
-| D7 | Who fulfils and ships? | Decide now: self-ship with manual AWB entry, or an aggregator (Shiprocket / Delhivery). It changes Phase 8. |
+| D7 | Who fulfils and ships? | **An aggregator** (Shiprocket / Delhivery). The `Shipment` model names its provider rather than assuming one, so switching aggregators is config, not a migration. |
 
 ---
 
@@ -97,13 +96,79 @@ rendered outside that wrapper the header will fall back to cream-on-dark.
 
 ---
 
-## Phase 1 — Data model and database
+## Phase 1 — Data model and database ✅ *schema complete, awaiting a database*
 
-- [ ] Provision Postgres. **Neon** or **Supabase** — both have a usable free
-      tier and work with Vercel.
-- [ ] Add **Prisma** (better tooling and migrations) or **Drizzle** (lighter,
-      SQL-shaped). Either is fine; Prisma is the safer default.
-- [ ] Model the schema. Minimum viable set:
+- [ ] **Provision Postgres.** The one step I could not do: a Postgres is
+      running on this machine at `localhost:5432` but it wants a password, and
+      guessing at your credentials is not something to do unasked. Either
+      create a **Neon** or **Supabase** project, or make a local database, then
+      put the URL in `.env.local` (see `.env.example`).
+- [x] Prisma added and pinned to **7.10.0**. Note `prisma@latest` currently
+      resolves to `8.0.0-rc.12` — npm's `latest` tag is pointing at a release
+      candidate, so the versions are pinned exactly rather than floating.
+- [x] Schema modelled: 17 tables, 8 enums, 29 indexes, 17 foreign keys.
+      Verified by compiling it to Postgres DDL with `prisma migrate diff`.
+- [x] **Snapshot rule** enforced in the schema. `OrderItem` carries
+      `titleSnapshot`, `variantSnapshot`, `skuSnapshot`, `hsnSnapshot`,
+      `imageSnapshot`, `unitPriceInPaise` and `taxRateBps`, and its variant
+      relation is `onDelete: SetNull` — an order survives its product being
+      archived.
+- [x] **Money rule** enforced. Every amount is `Int` paise. `lib/money.ts` is
+      the only formatter, and `scripts/check-catalog.mjs` fails the build on a
+      price that is not a whole number of rupees, which is what a rupee figure
+      written into a paise column looks like.
+- [x] **Stock rule** enforced. `stockOnHand` and `stockReserved` are separate
+      columns on `ProductVariant`.
+- [x] Seed written from `fnf.md`: 4 collections, 19 products, 25 variants,
+      6 bundles. Idempotent — upserts by slug and SKU, and deliberately does
+      *not* overwrite `stockOnHand` on re-run, so a re-seed cannot undo the
+      studio's inventory counts.
+- [x] Variants: candles × 3 fragrances, honey × 3 varietals, nuts × 2
+      varieties, moss bowl × 2 bases.
+- [x] Bundles: three duos and three suites, each with a component list.
+      Nesting is rejected by the checker — a bundle inside a bundle would make
+      stock reservation recursive for no commercial reason.
+- [x] `scripts/check-catalog.mjs` validates the catalogue **without a
+      database**: duplicate slugs and SKUs, unresolvable bundle components,
+      nested bundles, non-positive prices and weights, unmapped images,
+      implausible tax rates. Runs as `npm run check:catalog`.
+
+### Bringing the database up
+
+```bash
+cp .env.example .env.local          # then fill in DATABASE_URL
+npm run db:deploy                   # apply prisma/migrations
+npm run db:seed                     # load the catalogue
+npm run db:studio                   # eyeball it
+```
+
+`npm run db:generate` regenerates the client; `lib/generated/` is gitignored,
+so CI must run it before typechecking.
+
+### Two things that need a human
+
+**Prices.** `fnf.md` quotes *suggested* retail, as ranges, and only for some
+lines. Everything else is interpolated and marked `// Provisional` in
+`prisma/seed-data.ts`. The checker prints each bundle against the sum of its
+parts, and two currently come out **below** it:
+
+| Bundle | Price | Sum of parts | |
+|---|---|---|---|
+| The Tea & Honey Cellar Duo | ₹2,900 | ₹3,150 | −8% |
+| The Biophilic Sanctuary Chest | ₹8,500 | ₹9,700 | −12% |
+
+A hamper discount is a legitimate offer, so this is a warning and not an
+error. But both cases come from component prices *I* interpolated, not from
+`fnf.md` — most likely the brass care suite and the herbarium frame are priced
+too high. Correcting the components is probably right; discounting the chest
+deliberately is also fine. It needs a decision, not a guess.
+
+**GST rates.** `taxRateBps` is set per product from a best reading of HSN
+classification. It is not tax advice, and composite gift hampers are a
+genuinely contested classification — every rate needs the accountant's
+confirmation before the first invoice.
+
+### The schema, in brief
 
 ```
 Product        id, slug, title, latin, house, subtitle, description,
@@ -133,23 +198,6 @@ DiscountCode   code, type(percent|fixed), value, minSubtotal, usageLimit,
                usedCount, startsAt, endsAt
 Enquiry        id, name, email, phone, occasion, budget, message, status
 ```
-
-- [ ] **Snapshot rule:** `OrderItem` copies title, price and tax rate at time of
-      purchase. Orders must not change when a product is later edited. This is
-      the most common and most damaging schema mistake in a first store.
-- [ ] **Money rule:** every amount is an integer of paise. No `Float`,
-      no `Decimal` guesswork, no rupee strings in the database.
-- [ ] **Stock rule:** `stockOnHand` and `stockReserved` are separate. Available
-      = onHand − reserved. Reserve at checkout start, release on expiry.
-- [ ] Seed script from `fnf.md`: three collections, the full product line, and
-      the three suite tiers as bundles.
-- [ ] Variants worth getting right at seed time:
-      candles → 3 fragrances (Sylvan Mist, Herbal Solace, Sunlit Grove);
-      honey → 3 varietals (Kashmir Acacia, Himalayan Wild Forest, Raw Sidr);
-      moss bowl → 2 bases (walnut, cast stone).
-
-**Done when:** `npx prisma studio` shows the real catalog and every price is an
-integer.
 
 ---
 

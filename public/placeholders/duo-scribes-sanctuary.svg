@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="The Scribe's Sanctuary Duo — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 426.4973398903385 540, 373.5026601096615 392.9174617957324, 400 272.9174617957324" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 405.4 613.6 Q 463.8 539.2 522.2 573.2 Q 463.8 599.2 405.4 613.6 Z" fill="#4a5d46" fill-opacity="0.102" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 409.2 575.8 Q 351.0 489.8 292.8 523.8 Q 351.0 549.8 409.2 575.8 Z" fill="#4a5d46" fill-opacity="0.124" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 412.2 538.1 Q 464.0 466.9 515.8 500.9 Q 464.0 526.9 412.2 538.1 Z" fill="#4a5d46" fill-opacity="0.107" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 414.0 500.3 Q 345.8 420.6 277.6 454.6 Q 345.8 480.6 414.0 500.3 Z" fill="#4a5d46" fill-opacity="0.165" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 414.6 462.6 Q 474.0 367.9 533.5 401.9 Q 474.0 427.9 414.6 462.6 Z" fill="#4a5d46" fill-opacity="0.129" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 413.8 424.8 Q 365.2 352.1 316.7 386.1 Q 365.2 412.1 413.8 424.8 Z" fill="#4a5d46" fill-opacity="0.118" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 411.7 387.1 Q 457.4 295.0 503.2 329.0 Q 457.4 355.0 411.7 387.1 Z" fill="#4a5d46" fill-opacity="0.137" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.5 349.4 Q 357.6 280.5 306.7 314.5 Q 357.6 340.5 408.5 349.4 Z" fill="#4a5d46" fill-opacity="0.183" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="245.5" rx="19.7" ry="38.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(1.9 400 272.9174617957324)"/>
+    <ellipse cx="400" cy="248.8" rx="17.6" ry="33.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(61.5 400 272.9174617957324)"/>
+    <ellipse cx="400" cy="250.3" rx="19.2" ry="31.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(104.2 400 272.9174617957324)"/>
+    <ellipse cx="400" cy="250.8" rx="18.5" ry="30.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(158.5 400 272.9174617957324)"/>
+    <ellipse cx="400" cy="249.7" rx="21.5" ry="32.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(211.5 400 272.9174617957324)"/>
+    <ellipse cx="400" cy="251.0" rx="20.1" ry="30.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(267.0 400 272.9174617957324)"/>
+    <ellipse cx="400" cy="246.9" rx="17.4" ry="36.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(310.5 400 272.9174617957324)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">THE SCRIBE'S SANCTUARY DUO</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

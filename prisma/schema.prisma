@@ -1,0 +1,509 @@
+// Folks & Florets — commerce schema
+//
+// Three rules run through this file and are the expensive ones to retrofit:
+//
+//   Money   Every amount is an Int of paise. Never Float, never Decimal, never
+//           a formatted string. ₹1,450 is 145000. lib/money.ts is the only
+//           place it is turned back into a rupee sign.
+//
+//   Stock   stockOnHand and stockReserved are separate. Available is the
+//           difference. Checkout reserves; payment decrements on hand and
+//           releases the reservation; an abandoned checkout releases it alone.
+//
+//   Snapshot An OrderItem copies the title, price and tax rate it was bought
+//           at. Editing a product must never rewrite history.
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue
+// ---------------------------------------------------------------------------
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+model Product {
+  id       String        @id @default(cuid())
+  slug     String        @unique
+  title    String
+  /// The house's second name for a piece — Lumen, Mensa, Herbarium.
+  latin    String?
+  subtitle String?
+  status   ProductStatus @default(DRAFT)
+
+  /// A suite or duo: priced and photographed in its own right, but every
+  /// component's stock still moves when one sells. See BundleComponent.
+  isBundle Boolean @default(false)
+
+  description String @db.Text
+  /// The packaging architecture. It is the differentiator for this house, so
+  /// it is a first-class field rather than a paragraph buried in description.
+  packaging   String? @db.Text
+  materials   String? @db.Text
+  careNotes   String? @db.Text
+
+  /// Edibles carry statutory copy. Null for everything else.
+  foodNotes String? @db.Text
+
+  seoTitle       String?
+  seoDescription String?
+
+  variants    ProductVariant[]
+  images      ProductImage[]
+  collections ProductCollection[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  sku  String @unique
+  /// "No. 01 Sylvan Mist", "Walnut". Null when a product has one variant only.
+  name String?
+
+  priceInPaise Int
+  /// Struck-through reference price. Null when not on offer.
+  comparePaise Int?
+
+  /// Shipping weight, not net product weight — the flint glass and the velvet
+  /// insert are most of what the courier charges for.
+  weightGrams Int
+
+  /// Provisional. Confirm every rate with the accountant before Phase 10;
+  /// GST classification for gift hampers in particular is not obvious.
+  taxRateBps Int     @default(1800)
+  hsnCode    String?
+
+  stockOnHand   Int @default(0)
+  /// Held by in-flight checkouts. Available = stockOnHand - stockReserved.
+  stockReserved Int @default(0)
+
+  position Int @default(0)
+
+  /// This variant's own components, when its product is a bundle.
+  components BundleComponent[] @relation("BundleParent")
+  /// The bundles this variant appears inside.
+  partOf     BundleComponent[] @relation("BundleChild")
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model BundleComponent {
+  id String @id @default(cuid())
+
+  bundleVariantId String
+  bundleVariant   ProductVariant @relation("BundleParent", fields: [bundleVariantId], references: [id], onDelete: Cascade)
+
+  componentVariantId String
+  componentVariant   ProductVariant @relation("BundleChild", fields: [componentVariantId], references: [id], onDelete: Restrict)
+
+  quantity Int @default(1)
+  position Int @default(0)
+
+  @@unique([bundleVariantId, componentVariantId])
+  @@index([componentVariantId])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  url    String
+  alt    String
+  width  Int
+  height Int
+  position Int @default(0)
+
+  @@index([productId])
+}
+
+model Collection {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  title       String
+  description String? @db.Text
+  position    Int     @default(0)
+
+  products ProductCollection[]
+}
+
+model ProductCollection {
+  productId    String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  position     Int        @default(0)
+
+  @@id([productId, collectionId])
+  @@index([collectionId])
+}
+
+// ---------------------------------------------------------------------------
+// Customers
+// ---------------------------------------------------------------------------
+
+enum Role {
+  CUSTOMER
+  STAFF
+  ADMIN
+}
+
+model Customer {
+  id    String  @id @default(cuid())
+  email String  @unique
+  name  String?
+  phone String?
+  role  Role    @default(CUSTOMER)
+
+  marketingOptIn Boolean @default(false)
+
+  addresses Address[]
+  carts     Cart[]
+  orders    Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  name      String
+  line1     String
+  line2     String?
+  landmark  String?
+  city      String
+  state     String
+  /// Six digits. Validated at the edge, stored as text — leading zeros matter.
+  pincode   String
+  phone     String
+  isDefault Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+}
+
+// ---------------------------------------------------------------------------
+// Cart
+// ---------------------------------------------------------------------------
+
+enum CartStatus {
+  ACTIVE
+  CONVERTED
+  ABANDONED
+}
+
+model Cart {
+  id String @id @default(cuid())
+
+  /// Opaque value held in a signed cookie, so a guest keeps their cart.
+  token String @unique
+
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  status    CartStatus @default(ACTIVE)
+  expiresAt DateTime?
+
+  discountCodeId String?
+  discountCode   DiscountCode? @relation(fields: [discountCodeId], references: [id], onDelete: SetNull)
+
+  items CartItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([status, expiresAt])
+}
+
+model CartItem {
+  id     String @id @default(cuid())
+  cartId String
+  cart   Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+
+  quantity Int
+
+  /// Cached for display only. The cart is re-priced from the variant on every
+  /// read, and this is never what the order is built from.
+  unitPriceInPaise Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, variantId])
+  @@index([variantId])
+}
+
+// ---------------------------------------------------------------------------
+// Orders
+// ---------------------------------------------------------------------------
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  PAYMENT_FAILED
+  CANCELLED
+  REFUNDED
+}
+
+model Order {
+  id String @id @default(cuid())
+
+  /// Human-facing and quotable over the phone. Not the primary key.
+  orderNumber String @unique
+
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  /// Guest checkout means the email is on the order, not only on a customer.
+  email      String
+  phone      String?
+
+  status OrderStatus @default(PENDING)
+
+  subtotalInPaise Int
+  shippingInPaise Int @default(0)
+  taxInPaise      Int @default(0)
+  discountInPaise Int @default(0)
+  totalInPaise    Int
+
+  /// Frozen copies, not relations. The customer may edit or delete the address
+  /// afterwards; what was shipped to must not change.
+  shippingAddress Json
+  billingAddress  Json
+
+  /// This is a gifting house, so gift handling is structural rather than a
+  /// note field. giftHidePrices drives the packing slip.
+  isGift          Boolean   @default(false)
+  giftMessage     String?   @db.Text
+  giftRecipient   String?
+  giftHidePrices  Boolean   @default(true)
+  requestedFor    DateTime?
+
+  discountCodeId String?
+  discountCode   DiscountCode? @relation(fields: [discountCodeId], references: [id], onDelete: SetNull)
+
+  items     OrderItem[]
+  payments  Payment[]
+  shipments Shipment[]
+
+  placedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([customerId])
+  @@index([status])
+  @@index([email])
+}
+
+model OrderItem {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  /// Restrict, not Cascade: a variant that has ever been sold cannot be
+  /// deleted out from under its orders. Archive it instead.
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  // Snapshots. Everything needed to render or reprint this line without
+  // touching the catalogue.
+  titleSnapshot   String
+  variantSnapshot String?
+  skuSnapshot     String
+  hsnSnapshot     String?
+  imageSnapshot   String?
+
+  unitPriceInPaise Int
+  quantity         Int
+  taxRateBps       Int
+
+  @@index([orderId])
+}
+
+// ---------------------------------------------------------------------------
+// Payments
+// ---------------------------------------------------------------------------
+
+enum PaymentStatus {
+  CREATED
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+model Payment {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  provider        String @default("razorpay")
+  providerOrderId String?
+  /// Set once the gateway actually takes the money.
+  providerPaymentId String? @unique
+
+  status        PaymentStatus @default(CREATED)
+  amountInPaise Int
+  method        String?
+  failureReason String?
+
+  /// The gateway's own body, kept verbatim for reconciliation and disputes.
+  rawPayload Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([providerOrderId])
+}
+
+/// Webhook deliveries are at-least-once. Recording the id an event arrived
+/// with is what makes handling it idempotent.
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  provider    String
+  eventId     String
+  eventType   String
+  payload     Json
+  processedAt DateTime @default(now())
+
+  @@unique([provider, eventId])
+}
+
+// ---------------------------------------------------------------------------
+// Fulfilment — via an aggregator (D7)
+// ---------------------------------------------------------------------------
+
+enum ShipmentStatus {
+  PENDING
+  MANIFESTED
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  RETURNED
+}
+
+model Shipment {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  /// "shiprocket", "delhivery". Named rather than assumed, so a change of
+  /// aggregator does not need a migration.
+  provider           String
+  providerShipmentId String?
+  /// Airway bill. Unique across providers in practice, but not guaranteed, so
+  /// it is indexed rather than constrained.
+  awb                String?
+  courier            String?
+
+  labelUrl    String?
+  trackingUrl String?
+
+  status ShipmentStatus @default(PENDING)
+
+  shippedAt   DateTime?
+  deliveredAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([awb])
+}
+
+// ---------------------------------------------------------------------------
+// Discounts and leads
+// ---------------------------------------------------------------------------
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
+
+model DiscountCode {
+  id   String @id @default(cuid())
+  code String @unique
+
+  type DiscountType
+  /// Basis points for PERCENT, paise for FIXED. One column, two units, so the
+  /// type must always be read alongside it.
+  value Int
+
+  minSubtotalInPaise Int? 
+  usageLimit         Int?
+  usedCount          Int  @default(0)
+
+  startsAt DateTime?
+  endsAt   DateTime?
+  active   Boolean   @default(true)
+
+  carts  Cart[]
+  orders Order[]
+
+  createdAt DateTime @default(now())
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_CONVERSATION
+  QUOTED
+  WON
+  LOST
+}
+
+/// Bespoke commissions and corporate suites (D4): quoted individually, so they
+/// are a lead rather than anything that can enter a cart.
+model Enquiry {
+  id       String        @id @default(cuid())
+  name     String
+  email    String
+  phone    String?
+  occasion String?
+  /// Free text, not a number — "around 40 hampers, ₹5k each" is a real answer.
+  budget   String?
+  message  String        @db.Text
+  status   EnquiryStatus @default(NEW)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}

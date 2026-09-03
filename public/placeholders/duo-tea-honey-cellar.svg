@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="The Tea &amp; Honey Cellar Duo — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 426.3536218297668 540, 373.6463781702332 375.6534835975617, 400 255.65348359756172" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 405.3 611.5 Q 482.7 519.2 560.0 553.2 Q 482.7 579.2 405.3 611.5 Z" fill="#4a5d46" fill-opacity="0.124" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 409.2 572.1 Q 350.1 493.4 291.0 527.4 Q 350.1 553.4 409.2 572.1 Z" fill="#4a5d46" fill-opacity="0.115" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 412.1 532.6 Q 473.9 448.5 535.7 482.5 Q 473.9 508.5 412.1 532.6 Z" fill="#4a5d46" fill-opacity="0.173" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 414.0 493.2 Q 350.8 422.4 287.6 456.4 Q 350.8 482.4 414.0 493.2 Z" fill="#4a5d46" fill-opacity="0.198" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 414.5 453.8 Q 466.4 361.8 518.4 395.8 Q 466.4 421.8 414.5 453.8 Z" fill="#4a5d46" fill-opacity="0.158" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 413.7 414.4 Q 363.7 319.5 313.7 353.5 Q 363.7 379.5 413.7 414.4 Z" fill="#4a5d46" fill-opacity="0.100" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 411.6 374.9 Q 460.6 290.8 509.6 324.8 Q 460.6 350.8 411.6 374.9 Z" fill="#4a5d46" fill-opacity="0.187" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.4 335.5 Q 360.0 242.0 311.5 276.0 Q 360.0 302.0 408.4 335.5 Z" fill="#4a5d46" fill-opacity="0.163" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="228.4" rx="15.2" ry="37.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(2.8 400 255.65348359756172)"/>
+    <ellipse cx="400" cy="230.9" rx="21.1" ry="34.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(55.0 400 255.65348359756172)"/>
+    <ellipse cx="400" cy="232.5" rx="17.3" ry="32.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(113.6 400 255.65348359756172)"/>
+    <ellipse cx="400" cy="228.2" rx="16.7" ry="38.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(162.4 400 255.65348359756172)"/>
+    <ellipse cx="400" cy="232.0" rx="19.5" ry="32.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(206.4 400 255.65348359756172)"/>
+    <ellipse cx="400" cy="234.0" rx="17.0" ry="30.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(264.5 400 255.65348359756172)"/>
+    <ellipse cx="400" cy="228.6" rx="16.1" ry="37.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(309.5 400 255.65348359756172)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">THE TEA &amp; HONEY CELLAR DUO</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>
