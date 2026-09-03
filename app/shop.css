@@ -1,0 +1,398 @@
+/* ==========================================================================
+   Folks & Florets — shop
+   The journey is a near-black room. The shop is not: product photography needs
+   a light, neutral ground, and a checkout form needs contrast that does not
+   depend on a WebGL backdrop being present. So this file re-grounds the page
+   and overrides the chrome that assumed cream-on-dark.
+   ========================================================================== */
+
+.shop {
+  --shop-ground: #f4ede2;
+  --shop-ground-alt: #ece2d5;
+  --shop-ink: #221822;
+  --shop-line: rgb(34 24 34 / 0.14);
+  --shop-muted: rgb(34 24 34 / 0.62);
+
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--shop-ground);
+  color: var(--shop-ink);
+}
+
+.shop__main {
+  width: min(100% - var(--gutter) * 2, var(--shell));
+  margin-inline: auto;
+  /* Clears the fixed header. */
+  padding-block: clamp(7rem, 16vh, 10rem) clamp(4rem, 10vh, 7rem);
+  min-height: 70vh;
+}
+
+/* Chrome on a light ground -------------------------------------------------- */
+
+/* The liquid glass is built to bend a dark, moving backdrop. Over a pale
+   product grid it reads as a smudge, so the solid variant opts out of the
+   refraction entirely rather than trying to tune it. */
+.site-header--solid .site-header__bar,
+.shop .site-header--solid .site-header__bar {
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--shop-line);
+  background: rgb(244 237 226 / 0.86);
+  backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: none;
+  color: var(--shop-ink);
+  /* Align the mark and the tools with the content shell rather than with the
+     viewport edge, so the header sits on the same grid as the page under it. */
+  padding-inline: max(var(--gutter), (100% - var(--shell)) / 2);
+}
+
+.site-header--solid {
+  padding: 0;
+  color: var(--shop-ink);
+}
+
+.site-header--solid.is-condensed {
+  padding-block: 0;
+}
+
+.site-header--solid .site-header__bar::before {
+  display: none;
+}
+
+.site-header--solid .menu-toggle__bars span {
+  background: var(--shop-ink);
+}
+
+
+.site-header--solid .site-header__tool:hover {
+  background: rgb(34 24 34 / 0.07);
+}
+
+/* The footer is cream-on-dark by design and stays that way — it closes the
+   page on both experiences, and a light footer under a light shop would leave
+   nothing to end on. */
+.shop .site-footer {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+/* Type on a light ground ---------------------------------------------------- */
+
+.shop .eyebrow {
+  opacity: 0.55;
+}
+
+.shop .lede {
+  color: var(--shop-muted);
+  opacity: 1;
+}
+
+.shop__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 46rem;
+  margin-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+
+.shop__note {
+  margin-top: clamp(3rem, 8vh, 5rem);
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--shop-line);
+  font-size: 0.9rem;
+  color: var(--shop-muted);
+  max-width: 46ch;
+}
+
+/* Product grid -------------------------------------------------------------- */
+
+.product-grid {
+  display: grid;
+  gap: clamp(1.6rem, 3vw, 2.8rem) clamp(1.2rem, 2.4vw, 2rem);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  height: 100%;
+}
+
+/* Holds the aspect ratio before the image arrives, so the grid never reflows
+   under a slow connection. */
+.product-card__frame {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
+  background: var(--shop-ground-alt);
+  border: 1px solid var(--shop-line);
+}
+
+.product-card__frame--loading {
+  border-color: transparent;
+}
+
+.ui-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.product-card:hover .ui-product-image {
+  transform: scale(1.03);
+}
+
+.product-card__latin {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.86rem;
+  color: var(--gold);
+}
+
+.product-card__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(1.15rem, 1rem + 0.5vw, 1.45rem);
+  line-height: 1.15;
+}
+
+.product-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.06em;
+  color: var(--shop-muted);
+}
+
+/* Primitives ---------------------------------------------------------------- */
+
+.ui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.85rem 1.7rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    color 0.4s var(--ease-out);
+}
+
+.ui-button--sm {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.72rem;
+}
+
+.ui-button--full {
+  width: 100%;
+}
+
+.ui-button--solid {
+  background: var(--shop-ink);
+  color: var(--shop-ground);
+}
+
+.ui-button--solid:hover {
+  background: var(--plum);
+}
+
+.ui-button--ghost {
+  border-color: rgb(34 24 34 / 0.3);
+  color: var(--shop-ink);
+}
+
+.ui-button--ghost:hover {
+  border-color: var(--shop-ink);
+  background: rgb(34 24 34 / 0.05);
+}
+
+.ui-button--quiet {
+  color: var(--shop-muted);
+  padding-inline: 0.4rem;
+}
+
+.ui-button--quiet:hover {
+  color: var(--shop-ink);
+}
+
+.ui-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ui-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ui-field__label {
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+}
+
+.ui-input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--shop-line);
+  border-radius: 2px;
+  background: #fff;
+  color: var(--shop-ink);
+  font-family: inherit;
+  font-size: 0.98rem;
+}
+
+.ui-input:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 1px;
+  border-color: var(--gold);
+}
+
+.ui-input[aria-invalid="true"] {
+  border-color: #a33a3a;
+}
+
+.ui-textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.ui-select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 1.1rem center, right 0.85rem center;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2.4rem;
+}
+
+.ui-field__hint {
+  font-size: 0.82rem;
+  color: var(--shop-muted);
+}
+
+.ui-field__error {
+  font-size: 0.82rem;
+  color: #a33a3a;
+}
+
+.ui-badge {
+  display: inline-flex;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ui-badge--neutral {
+  color: var(--shop-muted);
+}
+
+.ui-badge--gold {
+  color: var(--gold);
+}
+
+.ui-badge--warn {
+  color: #a33a3a;
+}
+
+.ui-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+}
+
+.ui-breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ui-breadcrumb a:hover {
+  color: var(--shop-ink);
+}
+
+.ui-breadcrumb b {
+  opacity: 0.4;
+  font-weight: 400;
+}
+
+.ui-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  text-align: center;
+  padding-block: clamp(3rem, 12vh, 7rem);
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.ui-empty__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.2rem);
+  line-height: 1.05;
+}
+
+.ui-empty__body {
+  color: var(--shop-muted);
+  max-width: 44ch;
+}
+
+.ui-empty__action {
+  margin-top: 0.6rem;
+}
+
+.ui-skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--shop-ground-alt) 0%,
+    rgb(255 255 255 / 0.6) 50%,
+    var(--shop-ground-alt) 100%
+  );
+  background-size: 200% 100%;
+  animation: ui-shimmer 1.4s linear infinite;
+}
+
+@keyframes ui-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-skeleton {
+    animation: none;
+  }
+
+  .product-card:hover .ui-product-image {
+    transform: none;
+  }
+}

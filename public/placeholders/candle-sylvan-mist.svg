@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="No. 01 Sylvan Mist — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 407.5124591891654 540, 392.4875408108346 363.6677024140954, 400 243.6677024140954" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 401.5 610.0 Q 470.0 519.4 538.4 553.4 Q 470.0 579.4 401.5 610.0 Z" fill="#4a5d46" fill-opacity="0.185" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 402.9 555.9 Q 336.2 477.2 269.5 511.2 Q 336.2 537.2 402.9 555.9 Z" fill="#4a5d46" fill-opacity="0.156" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 403.8 501.8 Q 473.5 423.3 543.2 457.3 Q 473.5 483.3 403.8 501.8 Z" fill="#4a5d46" fill-opacity="0.154" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 404.1 447.7 Q 356.4 358.1 308.6 392.1 Q 356.4 418.1 404.1 447.7 Z" fill="#4a5d46" fill-opacity="0.171" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 403.7 393.5 Q 453.9 319.4 504.0 353.4 Q 453.9 379.4 403.7 393.5 Z" fill="#4a5d46" fill-opacity="0.138" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 402.7 339.4 Q 362.7 250.2 322.7 284.2 Q 362.7 310.2 402.7 339.4 Z" fill="#4a5d46" fill-opacity="0.103" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="218.4" rx="17.7" ry="35.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(7.4 400 243.6677024140954)"/>
+    <ellipse cx="400" cy="217.2" rx="15.8" ry="36.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(54.8 400 243.6677024140954)"/>
+    <ellipse cx="400" cy="216.8" rx="15.1" ry="37.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(106.7 400 243.6677024140954)"/>
+    <ellipse cx="400" cy="217.1" rx="15.6" ry="36.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(164.8 400 243.6677024140954)"/>
+    <ellipse cx="400" cy="219.5" rx="16.0" ry="33.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(213.8 400 243.6677024140954)"/>
+    <ellipse cx="400" cy="221.1" rx="17.8" ry="31.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(262.7 400 243.6677024140954)"/>
+    <ellipse cx="400" cy="216.6" rx="21.8" ry="37.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(314.2 400 243.6677024140954)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="36" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">NO. 01 SYLVAN MIST</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

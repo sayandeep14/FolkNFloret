@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Gilded Truffle Assortment — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 443.4172979462892 540, 356.5827020537108 375.18377407453954, 400 255.18377407453954" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 408.8 611.4 Q 487.4 521.1 566.1 555.1 Q 487.4 581.1 408.8 611.4 Z" fill="#4a5d46" fill-opacity="0.148" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 416.9 558.8 Q 349.5 463.8 282.0 497.8 Q 349.5 523.8 416.9 558.8 Z" fill="#4a5d46" fill-opacity="0.152" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 422.2 506.2 Q 478.9 423.4 535.6 457.4 Q 478.9 483.4 422.2 506.2 Z" fill="#4a5d46" fill-opacity="0.121" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 423.9 453.5 Q 360.7 381.9 297.6 415.9 Q 360.7 441.9 423.9 453.5 Z" fill="#4a5d46" fill-opacity="0.109" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 421.6 400.9 Q 473.4 330.8 525.3 364.8 Q 473.4 390.8 421.6 400.9 Z" fill="#4a5d46" fill-opacity="0.148" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 415.8 348.3 Q 377.8 264.7 339.9 298.7 Q 377.8 324.7 415.8 348.3 Z" fill="#4a5d46" fill-opacity="0.180" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="226.7" rx="21.4" ry="39.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(6.8 400 255.18377407453954)"/>
+    <ellipse cx="400" cy="231.3" rx="18.2" ry="33.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(53.9 400 255.18377407453954)"/>
+    <ellipse cx="400" cy="229.7" rx="18.4" ry="35.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(106.5 400 255.18377407453954)"/>
+    <ellipse cx="400" cy="230.1" rx="21.7" ry="34.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(156.5 400 255.18377407453954)"/>
+    <ellipse cx="400" cy="232.2" rx="21.2" ry="32.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(211.5 400 255.18377407453954)"/>
+    <ellipse cx="400" cy="232.4" rx="20.5" ry="31.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(263.1 400 255.18377407453954)"/>
+    <ellipse cx="400" cy="227.8" rx="16.8" ry="38.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(308.7 400 255.18377407453954)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">GILDED TRUFFLE ASSORTMENT</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

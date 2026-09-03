@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Gilded Scallop Catchall — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 415.723845846951 540, 384.276154153049 381.4054401870817, 400 261.4054401870817" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 403.2 612.2 Q 472.7 534.8 542.2 568.8 Q 472.7 594.8 403.2 612.2 Z" fill="#4a5d46" fill-opacity="0.152" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 406.6 550.0 Q 340.2 468.8 273.7 502.8 Q 340.2 528.8 406.6 550.0 Z" fill="#4a5d46" fill-opacity="0.193" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.5 487.8 Q 474.6 407.6 540.7 441.6 Q 474.6 467.6 408.5 487.8 Z" fill="#4a5d46" fill-opacity="0.164" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.3 425.6 Q 358.7 339.5 309.1 373.5 Q 358.7 399.5 408.3 425.6 Z" fill="#4a5d46" fill-opacity="0.162" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 406.2 363.4 Q 445.7 274.3 485.2 308.3 Q 445.7 334.3 406.2 363.4 Z" fill="#4a5d46" fill-opacity="0.192" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="239.5" rx="15.1" ry="30.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(0.1 400 261.4054401870817)"/>
+    <ellipse cx="400" cy="235.1" rx="16.2" ry="36.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(61.1 400 261.4054401870817)"/>
+    <ellipse cx="400" cy="237.6" rx="21.3" ry="33.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(112.4 400 261.4054401870817)"/>
+    <ellipse cx="400" cy="239.5" rx="17.6" ry="30.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(154.5 400 261.4054401870817)"/>
+    <ellipse cx="400" cy="238.8" rx="16.0" ry="31.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(207.6 400 261.4054401870817)"/>
+    <ellipse cx="400" cy="237.8" rx="19.2" ry="32.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(263.5 400 261.4054401870817)"/>
+    <ellipse cx="400" cy="236.8" rx="19.5" ry="34.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(315.9 400 261.4054401870817)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">GILDED SCALLOP CATCHALL</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

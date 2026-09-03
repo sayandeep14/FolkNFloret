@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Heirloom Seed Paper Journal — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 377.6524556707591 540, 422.3475443292409 398.7470292672515, 400 278.7470292672515" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 395.5 614.2 Q 454.3 529.0 513.1 563.0 Q 454.3 589.0 395.5 614.2 Z" fill="#4a5d46" fill-opacity="0.137" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 392.2 577.1 Q 328.2 502.0 264.2 536.0 Q 328.2 562.0 392.2 577.1 Z" fill="#4a5d46" fill-opacity="0.146" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 389.7 539.9 Q 463.6 446.9 537.4 480.9 Q 463.6 506.9 389.7 539.9 Z" fill="#4a5d46" fill-opacity="0.123" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 388.2 502.7 Q 329.6 408.3 271.0 442.3 Q 329.6 468.3 388.2 502.7 Z" fill="#4a5d46" fill-opacity="0.189" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 387.7 465.6 Q 441.5 396.3 495.3 430.3 Q 441.5 456.3 387.7 465.6 Z" fill="#4a5d46" fill-opacity="0.102" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 388.4 428.4 Q 340.4 346.1 292.4 380.1 Q 340.4 406.1 388.4 428.4 Z" fill="#4a5d46" fill-opacity="0.104" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 390.2 391.2 Q 430.1 299.7 470.0 333.7 Q 430.1 359.7 390.2 391.2 Z" fill="#4a5d46" fill-opacity="0.190" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 392.9 354.0 Q 349.1 265.3 305.4 299.3 Q 349.1 325.3 392.9 354.0 Z" fill="#4a5d46" fill-opacity="0.111" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="255.3" rx="22.0" ry="32.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(9.6 400 278.7470292672515)"/>
+    <ellipse cx="400" cy="253.3" rx="18.7" ry="35.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(56.6 400 278.7470292672515)"/>
+    <ellipse cx="400" cy="255.9" rx="15.5" ry="31.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(110.7 400 278.7470292672515)"/>
+    <ellipse cx="400" cy="251.1" rx="20.3" ry="38.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(162.0 400 278.7470292672515)"/>
+    <ellipse cx="400" cy="251.3" rx="16.6" ry="38.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(212.9 400 278.7470292672515)"/>
+    <ellipse cx="400" cy="253.4" rx="21.2" ry="35.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(257.8 400 278.7470292672515)"/>
+    <ellipse cx="400" cy="256.3" rx="15.9" ry="31.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(312.7 400 278.7470292672515)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="27" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">HEIRLOOM SEED PAPER JOURNAL</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

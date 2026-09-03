@@ -50,35 +50,50 @@ given for each; overrule freely, but pick something.
 
 ---
 
-## Phase 0 — Foundations
+## Phase 0 — Foundations ✅ *complete*
 
 Restructure so commerce can be added without dragging the WebGL along.
-**No user-visible change. This is the phase people skip and regret.**
+**No user-visible change on the marketing page. This is the phase people skip
+and regret.**
 
-- [ ] Split routes into groups: `app/(marketing)/` for the current page,
-      `app/(shop)/` for everything new. Each group gets its own `layout.tsx`.
-- [ ] Move `SceneMount`, `SmoothScroll`, `Cursor` and `EpilogueTracker` out of
+- [x] Split routes into groups: `app/(marketing)/` for the current page,
+      `app/(shop)/` for everything new. Each group has its own `layout.tsx`.
+- [x] Move `SceneMount`, `SmoothScroll`, `Cursor` and `EpilogueTracker` out of
       the shared root and into the **marketing layout only**.
-- [ ] Verify: a shop route renders with no WebGL context created and native
-      scrolling intact. Check `document.querySelectorAll('canvas').length === 0`.
-- [ ] Extract the design tokens block from `app/globals.css` into
-      `app/tokens.css` and import it in both layouts, so the shop inherits the
-      palette and type scale without inheriting the journey's layout rules.
-- [ ] Make `SiteHeader` work in two modes: the floating liquid-glass capsule on
-      marketing, and a solid, always-opaque bar on shop pages. The glass
-      refraction over a white product grid looks like a smudge.
-- [ ] Add cart and account affordances to the header (count badge, account
-      link) — inert for now.
-- [ ] Build the shop UI primitives against existing styles: `Button`, `Input`,
-      `Select`, `Field` (label + error + hint), `Money`, `Badge`,
-      `Breadcrumb`, `EmptyState`, `Skeleton`.
-- [ ] Add `<Money>` as the *only* place currency is formatted. Store paise as
-      integers everywhere; never a float, never a formatted string.
-- [ ] Error and loading conventions: `error.tsx`, `not-found.tsx`,
-      `loading.tsx` per shop route segment.
+- [x] Verify: shop routes create no WebGL context, add no `lenis` class, mount
+      no custom cursor, and `window.scrollTo` moves `scrollY` synchronously.
+      Checked on `/shop`, `/cart` and `/account`; the marketing page still has
+      all three.
+- [x] Extract the design tokens into `app/tokens.css`, imported at the root.
+- [x] Extract the shared furniture into `app/chrome.css` — header, menu,
+      footer, `.shell`, and the typographic and button primitives — so the shop
+      wears the same clothes without importing the journey's layout rules.
+      `app/globals.css` is now marketing-only and is imported by that group's
+      layout; `app/shop.css` is imported by the shop's.
+- [x] `SiteHeader` takes a `variant`: the floating liquid-glass capsule on
+      marketing, a solid alabaster bar on shop routes. Section links become
+      absolute (`/#collections`) in the solid variant, or they resolve to
+      nothing from a shop URL.
+- [x] Account and bag affordances in the header, on both variants. Inert —
+      the bag badge arrives with Phase 4.
+- [x] Shop UI primitives: `Button`, `ButtonLink`, `Field`, `Input`, `Textarea`,
+      `Select`, `Money`, `Badge`, `Breadcrumb`, `EmptyState`, `Skeleton`,
+      `PlaceholderImage`.
+- [x] `lib/money.ts` is the only place currency is formatted, and it takes
+      paise. `<Money paise={145000} />`, never rupees, so a price cannot be
+      rendered a hundred times too small.
+- [x] `error.tsx`, `not-found.tsx` for the shop group and `loading.tsx` for
+      `/shop`.
+- [x] Placeholder product imagery (see Phase 3).
 
-**Done when:** `/shop` renders an empty styled page, in brand, with no canvas
-and no Lenis, and the header shows a cart icon.
+**Landed:** `/shop` shows a preview grid of eight cards, `/cart` and `/account`
+show branded empty states. The product array in `app/(shop)/shop/page.tsx` is
+deliberately the shape the real query will return, so Phase 2 replaces the
+array and nothing else.
+
+**Known gap:** the shop's colour scheme is defined on `.shop` in `shop.css` and
+the header's solid variant is styled there too. If a shop route is ever
+rendered outside that wrapper the header will fall back to cream-on-dark.
 
 ---
 
@@ -165,8 +180,15 @@ price, and Lighthouse SEO is ≥ 95 on a PDP.
 
 ## Phase 3 — Product photography and media
 
-Blocking for Phase 2 to look like anything. **There are currently no product
+Blocking for Phase 2 to look like anything. **There are still no product
 photographs in this repo** — `assets/ref/` holds mood references only.
+
+- [x] Stand-in imagery so a catalogue page reads as the brand rather than as a
+      wireframe: `scripts/generate-placeholders.mjs` draws one pressed-specimen
+      plate per SKU in the house palette, into `public/placeholders/`. Re-run
+      the script after adding a slug, and register it in `lib/placeholders.ts`.
+      `PlaceholderImage` already sets the 4:5 ratio, `sizes` and alt text a
+      real photograph will need, so the swap is a change of `src`.
 
 - [ ] Shot list per SKU: hero on stone, three-quarter with lid off, scale/detail
       macro, the packaging closed, the packaging open, one styled lifestyle.

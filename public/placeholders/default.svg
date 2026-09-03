@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Folks &amp; Florets — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 440.8127551013604 540, 359.1872448986396 365.85754563100636, 400 245.85754563100636" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 408.3 610.3 Q 476.5 520.4 544.8 554.4 Q 476.5 580.4 408.3 610.3 Z" fill="#4a5d46" fill-opacity="0.162" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 414.9 564.2 Q 352.4 480.6 289.8 514.6 Q 352.4 540.6 414.9 564.2 Z" fill="#4a5d46" fill-opacity="0.154" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 419.8 518.0 Q 482.5 423.7 545.3 457.7 Q 482.5 483.7 419.8 518.0 Z" fill="#4a5d46" fill-opacity="0.180" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 422.2 471.9 Q 355.1 402.6 288.0 436.6 Q 355.1 462.6 422.2 471.9 Z" fill="#4a5d46" fill-opacity="0.118" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 422.0 425.7 Q 472.3 345.5 522.7 379.5 Q 472.3 405.5 422.0 425.7 Z" fill="#4a5d46" fill-opacity="0.184" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 419.1 379.6 Q 371.6 292.5 324.1 326.5 Q 371.6 352.5 419.1 379.6 Z" fill="#4a5d46" fill-opacity="0.198" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 413.8 333.4 Q 450.7 258.9 487.6 292.9 Q 450.7 318.9 413.8 333.4 Z" fill="#4a5d46" fill-opacity="0.163" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="220.7" rx="19.4" ry="34.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(5.8 400 245.85754563100636)"/>
+    <ellipse cx="400" cy="223.9" rx="19.0" ry="30.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(60.6 400 245.85754563100636)"/>
+    <ellipse cx="400" cy="218.0" rx="18.8" ry="38.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(114.2 400 245.85754563100636)"/>
+    <ellipse cx="400" cy="220.5" rx="19.2" ry="35.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(160.8 400 245.85754563100636)"/>
+    <ellipse cx="400" cy="217.9" rx="16.1" ry="38.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(209.8 400 245.85754563100636)"/>
+    <ellipse cx="400" cy="219.4" rx="16.2" ry="36.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(263.7 400 245.85754563100636)"/>
+    <ellipse cx="400" cy="220.4" rx="15.3" ry="35.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(310.8 400 245.85754563100636)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="36" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">FOLKS &amp; FLORETS</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

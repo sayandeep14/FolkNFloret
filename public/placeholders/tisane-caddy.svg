@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Whole-Flower Tisane — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 404.6424413542263 540, 395.3575586457737 381.6457935515791, 400 261.6457935515791" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 400.9 612.2 Q 466.2 530.8 531.5 564.8 Q 466.2 590.8 400.9 612.2 Z" fill="#4a5d46" fill-opacity="0.166" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.7 567.8 Q 344.6 497.3 287.6 531.3 Q 344.6 557.3 401.7 567.8 Z" fill="#4a5d46" fill-opacity="0.191" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 402.2 523.4 Q 469.7 432.5 537.2 466.5 Q 469.7 492.5 402.2 523.4 Z" fill="#4a5d46" fill-opacity="0.147" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 402.5 479.0 Q 340.3 387.3 278.1 421.3 Q 340.3 447.3 402.5 479.0 Z" fill="#4a5d46" fill-opacity="0.197" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 402.5 434.6 Q 450.4 344.9 498.3 378.9 Q 450.4 404.9 402.5 434.6 Z" fill="#4a5d46" fill-opacity="0.127" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 402.2 390.3 Q 359.6 298.8 317.1 332.8 Q 359.6 358.8 402.2 390.3 Z" fill="#4a5d46" fill-opacity="0.175" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.6 345.9 Q 447.2 261.7 492.9 295.7 Q 447.2 321.7 401.6 345.9 Z" fill="#4a5d46" fill-opacity="0.126" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="236.3" rx="18.1" ry="35.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(1.2 400 261.6457935515791)"/>
+    <ellipse cx="400" cy="238.5" rx="15.2" ry="32.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(57.9 400 261.6457935515791)"/>
+    <ellipse cx="400" cy="238.0" rx="17.0" ry="32.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(105.4 400 261.6457935515791)"/>
+    <ellipse cx="400" cy="239.0" rx="20.0" ry="31.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(155.1 400 261.6457935515791)"/>
+    <ellipse cx="400" cy="239.6" rx="15.4" ry="30.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(215.8 400 261.6457935515791)"/>
+    <ellipse cx="400" cy="234.1" rx="18.5" ry="38.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(268.3 400 261.6457935515791)"/>
+    <ellipse cx="400" cy="236.2" rx="21.9" ry="35.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(309.3 400 261.6457935515791)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">WHOLE-FLOWER TISANE</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

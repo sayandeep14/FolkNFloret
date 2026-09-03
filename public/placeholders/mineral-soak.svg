@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Himalayan Mineral Soak — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 357.63707569334656 540, 442.36292430665344 387.65020659193397, 400 267.65020659193397" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 391.4 612.9 Q 470.5 536.9 549.7 570.9 Q 470.5 596.9 391.4 612.9 Z" fill="#4a5d46" fill-opacity="0.167" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 384.5 569.2 Q 315.8 475.5 247.0 509.5 Q 315.8 535.5 384.5 569.2 Z" fill="#4a5d46" fill-opacity="0.164" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 379.5 525.5 Q 436.7 434.1 493.8 468.1 Q 436.7 494.1 379.5 525.5 Z" fill="#4a5d46" fill-opacity="0.191" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 376.9 481.8 Q 322.4 406.1 267.8 440.1 Q 322.4 466.1 376.9 481.8 Z" fill="#4a5d46" fill-opacity="0.145" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 377.2 438.0 Q 424.6 361.2 472.0 395.2 Q 424.6 421.2 377.2 438.0 Z" fill="#4a5d46" fill-opacity="0.135" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 380.2 394.3 Q 330.5 321.5 280.9 355.5 Q 330.5 381.5 380.2 394.3 Z" fill="#4a5d46" fill-opacity="0.120" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 385.6 350.6 Q 423.5 261.0 461.4 295.0 Q 423.5 321.0 385.6 350.6 Z" fill="#4a5d46" fill-opacity="0.162" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="240.9" rx="17.5" ry="37.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(3.5 400 267.65020659193397)"/>
+    <ellipse cx="400" cy="239.5" rx="15.8" ry="39.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(60.1 400 267.65020659193397)"/>
+    <ellipse cx="400" cy="241.3" rx="19.1" ry="36.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(103.4 400 267.65020659193397)"/>
+    <ellipse cx="400" cy="242.4" rx="20.8" ry="35.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(156.8 400 267.65020659193397)"/>
+    <ellipse cx="400" cy="246.0" rx="20.5" ry="30.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(216.9 400 267.65020659193397)"/>
+    <ellipse cx="400" cy="244.2" rx="17.7" ry="32.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(259.1 400 267.65020659193397)"/>
+    <ellipse cx="400" cy="245.4" rx="17.7" ry="30.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(314.3 400 267.65020659193397)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">HIMALAYAN MINERAL SOAK</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

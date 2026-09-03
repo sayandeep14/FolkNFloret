@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Brass Herbarium Frame — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 417.1761897136457 540, 382.8238102863543 383.2795294094831, 400 263.2795294094831" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 403.5 612.4 Q 484.2 530.4 565.0 564.4 Q 484.2 590.4 403.5 612.4 Z" fill="#4a5d46" fill-opacity="0.159" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 406.7 560.8 Q 349.6 463.0 292.5 497.0 Q 349.6 523.0 406.7 560.8 Z" fill="#4a5d46" fill-opacity="0.129" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.8 509.2 Q 474.0 435.7 539.2 469.7 Q 474.0 495.7 408.8 509.2 Z" fill="#4a5d46" fill-opacity="0.181" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 409.4 457.7 Q 345.5 366.3 281.6 400.3 Q 345.5 426.3 409.4 457.7 Z" fill="#4a5d46" fill-opacity="0.128" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.5 406.1 Q 457.5 316.1 506.4 350.1 Q 457.5 376.1 408.5 406.1 Z" fill="#4a5d46" fill-opacity="0.198" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 406.2 354.5 Q 363.6 279.7 321.0 313.7 Q 363.6 339.7 406.2 354.5 Z" fill="#4a5d46" fill-opacity="0.187" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="239.3" rx="20.0" ry="33.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(8.1 400 263.2795294094831)"/>
+    <ellipse cx="400" cy="237.3" rx="17.6" ry="36.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(58.7 400 263.2795294094831)"/>
+    <ellipse cx="400" cy="240.8" rx="15.4" ry="31.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(103.3 400 263.2795294094831)"/>
+    <ellipse cx="400" cy="235.8" rx="17.6" ry="38.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(155.5 400 263.2795294094831)"/>
+    <ellipse cx="400" cy="236.8" rx="20.6" ry="36.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(213.3 400 263.2795294094831)"/>
+    <ellipse cx="400" cy="236.3" rx="20.0" ry="37.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(262.1 400 263.2795294094831)"/>
+    <ellipse cx="400" cy="239.8" rx="15.7" ry="32.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(314.8 400 263.2795294094831)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">BRASS HERBARIUM FRAME</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Botanical Couverture Slab — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 417.4844625336118 540, 382.5155374663882 399.5625916030258, 400 279.5625916030258" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 403.5 614.3 Q 483.3 528.5 563.1 562.5 Q 483.3 588.5 403.5 614.3 Z" fill="#4a5d46" fill-opacity="0.137" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 407.3 555.0 Q 346.6 470.0 285.9 504.0 Q 346.6 530.0 407.3 555.0 Z" fill="#4a5d46" fill-opacity="0.108" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 409.4 495.7 Q 461.9 409.1 514.5 443.1 Q 461.9 469.1 409.4 495.7 Z" fill="#4a5d46" fill-opacity="0.113" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 409.3 436.3 Q 351.6 365.9 294.0 399.9 Q 351.6 425.9 409.3 436.3 Z" fill="#4a5d46" fill-opacity="0.172" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 406.9 377.0 Q 457.6 308.5 508.2 342.5 Q 457.6 368.5 406.9 377.0 Z" fill="#4a5d46" fill-opacity="0.114" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="255.0" rx="15.1" ry="34.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(5.7 400 279.5625916030258)"/>
+    <ellipse cx="400" cy="255.5" rx="18.9" ry="33.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(59.6 400 279.5625916030258)"/>
+    <ellipse cx="400" cy="254.2" rx="21.7" ry="35.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(110.1 400 279.5625916030258)"/>
+    <ellipse cx="400" cy="252.2" rx="16.6" ry="38.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(159.8 400 279.5625916030258)"/>
+    <ellipse cx="400" cy="255.6" rx="16.0" ry="33.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(206.0 400 279.5625916030258)"/>
+    <ellipse cx="400" cy="254.1" rx="15.8" ry="35.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(267.1 400 279.5625916030258)"/>
+    <ellipse cx="400" cy="254.0" rx="18.9" ry="35.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(313.0 400 279.5625916030258)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">BOTANICAL COUVERTURE SLAB</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

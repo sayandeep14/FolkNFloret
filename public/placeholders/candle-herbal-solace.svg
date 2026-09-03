@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="No. 02 Herbal Solace — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 398.2237301929854 540, 401.7762698070146 376.440382367, 400 256.440382367" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 399.6 611.6 Q 476.4 530.3 553.1 564.3 Q 476.4 590.3 399.6 611.6 Z" fill="#4a5d46" fill-opacity="0.102" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 399.3 559.1 Q 335.3 461.4 271.4 495.4 Q 335.3 521.4 399.3 559.1 Z" fill="#4a5d46" fill-opacity="0.185" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 399.1 506.6 Q 459.8 435.0 520.4 469.0 Q 459.8 495.0 399.1 506.6 Z" fill="#4a5d46" fill-opacity="0.133" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 399.0 454.2 Q 336.9 366.9 274.9 400.9 Q 336.9 426.9 399.0 454.2 Z" fill="#4a5d46" fill-opacity="0.109" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 399.1 401.7 Q 451.0 331.3 502.8 365.3 Q 451.0 391.3 399.1 401.7 Z" fill="#4a5d46" fill-opacity="0.139" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 399.4 349.3 Q 352.7 259.6 306.1 293.6 Q 352.7 319.6 399.4 349.3 Z" fill="#4a5d46" fill-opacity="0.189" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="233.8" rx="15.9" ry="31.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(8.1 400 256.440382367)"/>
+    <ellipse cx="400" cy="232.6" rx="16.9" ry="33.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(55.4 400 256.440382367)"/>
+    <ellipse cx="400" cy="234.3" rx="16.5" ry="30.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(105.8 400 256.440382367)"/>
+    <ellipse cx="400" cy="229.5" rx="16.5" ry="37.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(155.2 400 256.440382367)"/>
+    <ellipse cx="400" cy="230.4" rx="18.6" ry="36.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(214.5 400 256.440382367)"/>
+    <ellipse cx="400" cy="230.0" rx="17.1" ry="36.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(267.4 400 256.440382367)"/>
+    <ellipse cx="400" cy="231.2" rx="19.1" ry="35.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(313.3 400 256.440382367)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">NO. 02 HERBAL SOLACE</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

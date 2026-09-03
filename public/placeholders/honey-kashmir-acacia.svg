@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Kashmir White Acacia — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 381.4842359162867 540, 418.5157640837133 378.4266777150333, 400 258.4266777150333" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 396.3 611.8 Q 472.2 528.5 548.1 562.5 Q 472.2 588.5 396.3 611.8 Z" fill="#4a5d46" fill-opacity="0.124" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 393.2 567.1 Q 331.6 490.9 270.0 524.9 Q 331.6 550.9 393.2 567.1 Z" fill="#4a5d46" fill-opacity="0.135" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 391.0 522.3 Q 459.9 438.6 528.8 472.6 Q 459.9 498.6 391.0 522.3 Z" fill="#4a5d46" fill-opacity="0.111" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 389.9 477.6 Q 330.3 389.9 270.6 423.9 Q 330.3 449.9 389.9 477.6 Z" fill="#4a5d46" fill-opacity="0.188" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 390.0 432.8 Q 445.2 362.2 500.5 396.2 Q 445.2 422.2 390.0 432.8 Z" fill="#4a5d46" fill-opacity="0.165" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 391.4 388.1 Q 345.2 313.7 299.1 347.7 Q 345.2 373.7 391.4 388.1 Z" fill="#4a5d46" fill-opacity="0.118" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 393.7 343.3 Q 431.3 268.9 468.9 302.9 Q 431.3 328.9 393.7 343.3 Z" fill="#4a5d46" fill-opacity="0.169" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="234.4" rx="18.0" ry="33.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(8.3 400 258.4266777150333)"/>
+    <ellipse cx="400" cy="235.2" rx="16.1" ry="32.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(58.7 400 258.4266777150333)"/>
+    <ellipse cx="400" cy="236.6" rx="16.4" ry="30.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(113.2 400 258.4266777150333)"/>
+    <ellipse cx="400" cy="234.5" rx="15.0" ry="33.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(158.4 400 258.4266777150333)"/>
+    <ellipse cx="400" cy="231.8" rx="21.9" ry="37.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(210.5 400 258.4266777150333)"/>
+    <ellipse cx="400" cy="233.0" rx="15.3" ry="35.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(258.5 400 258.4266777150333)"/>
+    <ellipse cx="400" cy="236.3" rx="19.2" ry="30.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(309.4 400 258.4266777150333)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">KASHMIR WHITE ACACIA</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

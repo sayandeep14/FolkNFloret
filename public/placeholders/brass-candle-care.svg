@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Brass Candle Care Suite — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 422.0435045589693 540, 377.9564954410307 376.87561419792473, 400 256.87561419792473" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 404.5 611.6 Q 475.4 516.1 546.3 550.1 Q 475.4 576.1 404.5 611.6 Z" fill="#4a5d46" fill-opacity="0.172" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.1 566.7 Q 336.1 491.6 264.1 525.6 Q 336.1 551.6 408.1 566.7 Z" fill="#4a5d46" fill-opacity="0.118" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 410.7 521.8 Q 478.2 452.0 545.6 486.0 Q 478.2 512.0 410.7 521.8 Z" fill="#4a5d46" fill-opacity="0.123" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 412.0 476.9 Q 360.0 404.8 308.1 438.8 Q 360.0 464.8 412.0 476.9 Z" fill="#4a5d46" fill-opacity="0.118" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 411.9 431.9 Q 463.0 348.1 514.2 382.1 Q 463.0 408.1 411.9 431.9 Z" fill="#4a5d46" fill-opacity="0.150" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 410.3 387.0 Q 354.8 317.1 299.3 351.1 Q 354.8 377.1 410.3 387.0 Z" fill="#4a5d46" fill-opacity="0.148" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 407.5 342.1 Q 448.3 271.9 489.2 305.9 Q 448.3 331.9 407.5 342.1 Z" fill="#4a5d46" fill-opacity="0.131" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="231.3" rx="15.9" ry="35.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(7.9 400 256.87561419792473)"/>
+    <ellipse cx="400" cy="231.6" rx="21.2" ry="35.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(53.8 400 256.87561419792473)"/>
+    <ellipse cx="400" cy="229.7" rx="16.6" ry="37.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(112.0 400 256.87561419792473)"/>
+    <ellipse cx="400" cy="228.4" rx="21.5" ry="39.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(162.1 400 256.87561419792473)"/>
+    <ellipse cx="400" cy="229.5" rx="15.8" ry="38.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(206.8 400 256.87561419792473)"/>
+    <ellipse cx="400" cy="229.4" rx="15.4" ry="38.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(268.5 400 256.87561419792473)"/>
+    <ellipse cx="400" cy="234.0" rx="20.5" ry="31.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(313.1 400 256.87561419792473)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">BRASS CANDLE CARE SUITE</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

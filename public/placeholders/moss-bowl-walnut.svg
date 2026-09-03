@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Preserved Moss Bowl, Walnut — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 416.0680867335759 540, 383.9319132664241 392.0779736805707, 400 272.0779736805707" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 403.3 613.4 Q 480.6 521.0 558.0 555.0 Q 480.6 581.0 403.3 613.4 Z" fill="#4a5d46" fill-opacity="0.122" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 406.2 563.0 Q 342.1 478.0 278.0 512.0 Q 342.1 538.0 406.2 563.0 Z" fill="#4a5d46" fill-opacity="0.176" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.2 512.6 Q 472.1 437.1 536.0 471.1 Q 472.1 497.1 408.2 512.6 Z" fill="#4a5d46" fill-opacity="0.115" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.8 462.2 Q 354.6 391.0 300.3 425.0 Q 354.6 451.0 408.8 462.2 Z" fill="#4a5d46" fill-opacity="0.106" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 408.0 411.7 Q 453.9 315.1 499.9 349.1 Q 453.9 375.1 408.0 411.7 Z" fill="#4a5d46" fill-opacity="0.157" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 405.8 361.3 Q 353.7 269.9 301.5 303.9 Q 353.7 329.9 405.8 361.3 Z" fill="#4a5d46" fill-opacity="0.193" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="248.8" rx="18.7" ry="32.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(3.2 400 272.0779736805707)"/>
+    <ellipse cx="400" cy="248.6" rx="20.3" ry="32.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(55.6 400 272.0779736805707)"/>
+    <ellipse cx="400" cy="246.1" rx="20.6" ry="36.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(112.2 400 272.0779736805707)"/>
+    <ellipse cx="400" cy="245.0" rx="15.5" ry="37.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(159.8 400 272.0779736805707)"/>
+    <ellipse cx="400" cy="244.9" rx="19.4" ry="37.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(208.3 400 272.0779736805707)"/>
+    <ellipse cx="400" cy="245.6" rx="18.7" ry="36.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(267.1 400 272.0779736805707)"/>
+    <ellipse cx="400" cy="246.0" rx="20.2" ry="36.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(310.9 400 272.0779736805707)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="27" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">PRESERVED MOSS BOWL, WALNUT</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Raw Sidr — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 394.0572889894247 540, 405.9427110105753 381.55686186626554, 400 261.55686186626554" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 398.8 612.2 Q 463.2 516.4 527.5 550.4 Q 463.2 576.4 398.8 612.2 Z" fill="#4a5d46" fill-opacity="0.140" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 397.5 550.0 Q 337.2 454.8 276.9 488.8 Q 337.2 514.8 397.5 550.0 Z" fill="#4a5d46" fill-opacity="0.191" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 396.8 487.9 Q 453.8 398.3 510.8 432.3 Q 453.8 458.3 396.8 487.9 Z" fill="#4a5d46" fill-opacity="0.137" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 396.9 425.7 Q 344.4 343.1 292.0 377.1 Q 344.4 403.1 396.9 425.7 Z" fill="#4a5d46" fill-opacity="0.181" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 397.6 363.6 Q 435.7 286.1 473.7 320.1 Q 435.7 346.1 397.6 363.6 Z" fill="#4a5d46" fill-opacity="0.171" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="235.3" rx="17.1" ry="36.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(9.2 400 261.55686186626554)"/>
+    <ellipse cx="400" cy="236.6" rx="18.7" ry="34.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(54.1 400 261.55686186626554)"/>
+    <ellipse cx="400" cy="237.0" rx="18.8" ry="34.1" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(111.6 400 261.55686186626554)"/>
+    <ellipse cx="400" cy="233.8" rx="15.5" ry="38.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(164.0 400 261.55686186626554)"/>
+    <ellipse cx="400" cy="234.4" rx="17.8" ry="37.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(210.7 400 261.55686186626554)"/>
+    <ellipse cx="400" cy="239.3" rx="18.7" ry="30.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(263.4 400 261.55686186626554)"/>
+    <ellipse cx="400" cy="237.3" rx="19.5" ry="33.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(310.6 400 261.55686186626554)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="36" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">RAW SIDR</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

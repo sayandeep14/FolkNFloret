@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="The Biophilic Sanctuary Chest — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 382.99402341712266 540, 417.00597658287734 368.78154357895255, 400 248.78154357895255" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 396.6 610.7 Q 478.9 513.8 561.3 547.8 Q 478.9 573.8 396.6 610.7 Z" fill="#4a5d46" fill-opacity="0.166" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 394.1 570.6 Q 330.7 489.6 267.4 523.6 Q 330.7 549.6 394.1 570.6 Z" fill="#4a5d46" fill-opacity="0.179" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 392.2 530.5 Q 450.5 437.1 508.9 471.1 Q 450.5 497.1 392.2 530.5 Z" fill="#4a5d46" fill-opacity="0.112" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 391.0 490.4 Q 326.0 394.0 261.1 428.0 Q 326.0 454.0 391.0 490.4 Z" fill="#4a5d46" fill-opacity="0.197" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 390.7 450.3 Q 438.4 354.2 486.2 388.2 Q 438.4 414.2 390.7 450.3 Z" fill="#4a5d46" fill-opacity="0.125" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 391.2 410.2 Q 346.9 315.0 302.5 349.0 Q 346.9 375.0 391.2 410.2 Z" fill="#4a5d46" fill-opacity="0.168" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 392.5 370.1 Q 441.8 289.7 491.0 323.7 Q 441.8 349.7 392.5 370.1 Z" fill="#4a5d46" fill-opacity="0.104" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 394.6 330.0 Q 355.9 248.6 317.2 282.6 Q 355.9 308.6 394.6 330.0 Z" fill="#4a5d46" fill-opacity="0.175" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="220.6" rx="20.7" ry="39.2" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(4.7 400 248.78154357895255)"/>
+    <ellipse cx="400" cy="223.8" rx="19.9" ry="34.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(55.2 400 248.78154357895255)"/>
+    <ellipse cx="400" cy="220.4" rx="21.9" ry="39.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(110.2 400 248.78154357895255)"/>
+    <ellipse cx="400" cy="226.8" rx="16.0" ry="30.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(158.0 400 248.78154357895255)"/>
+    <ellipse cx="400" cy="221.7" rx="15.4" ry="37.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(211.0 400 248.78154357895255)"/>
+    <ellipse cx="400" cy="221.9" rx="21.0" ry="37.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(257.6 400 248.78154357895255)"/>
+    <ellipse cx="400" cy="222.5" rx="18.6" ry="36.6" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(320.0 400 248.78154357895255)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="27" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">THE BIOPHILIC SANCTUARY CHEST</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

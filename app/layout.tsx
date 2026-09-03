@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./tokens.css";
+import "./chrome.css";
 
 export const metadata: Metadata = {
   title: "Folks & Florets — The Art of Keeping",
@@ -7,6 +8,13 @@ export const metadata: Metadata = {
     "Preserved botanicals, hand-poured candles and estate provisions, composed into keepsake suites for the moments meant to be kept.",
 };
 
+/**
+ * The root carries only what every route needs: the document, the fonts, the
+ * tokens and the shared chrome styles. The marketing page's WebGL layer and
+ * smooth scroll are mounted one level down, in its own route group, because
+ * they must not run on a checkout page — Lenis fights native form scrolling,
+ * and the pinned ScrollTriggers assume a page whose height never changes.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="The Grand Heirloom Suite — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 403.3152580773458 540, 396.6847419226542 386.7772663664073, 400 266.7772663664073" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 400.7 612.8 Q 479.9 542.9 559.1 576.9 Q 479.9 602.9 400.7 612.8 Z" fill="#4a5d46" fill-opacity="0.183" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.2 574.5 Q 346.3 502.9 291.5 536.9 Q 346.3 562.9 401.2 574.5 Z" fill="#4a5d46" fill-opacity="0.147" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.5 536.1 Q 456.2 458.3 510.8 492.3 Q 456.2 518.3 401.5 536.1 Z" fill="#4a5d46" fill-opacity="0.138" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.8 497.8 Q 346.9 427.4 292.1 461.4 Q 346.9 487.4 401.8 497.8 Z" fill="#4a5d46" fill-opacity="0.129" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.8 459.5 Q 461.7 367.9 521.7 401.9 Q 461.7 427.9 401.8 459.5 Z" fill="#4a5d46" fill-opacity="0.150" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.7 421.1 Q 347.5 347.5 293.3 381.5 Q 347.5 407.5 401.7 421.1 Z" fill="#4a5d46" fill-opacity="0.192" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.5 382.8 Q 448.2 302.4 494.9 336.4 Q 448.2 362.4 401.5 382.8 Z" fill="#4a5d46" fill-opacity="0.110" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 401.1 344.4 Q 360.2 272.6 319.2 306.6 Q 360.2 332.6 401.1 344.4 Z" fill="#4a5d46" fill-opacity="0.103" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="242.8" rx="17.9" ry="33.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(1.7 400 266.7772663664073)"/>
+    <ellipse cx="400" cy="243.8" rx="15.0" ry="31.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(60.7 400 266.7772663664073)"/>
+    <ellipse cx="400" cy="240.3" rx="17.4" ry="36.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(111.9 400 266.7772663664073)"/>
+    <ellipse cx="400" cy="242.7" rx="19.1" ry="33.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(159.9 400 266.7772663664073)"/>
+    <ellipse cx="400" cy="238.2" rx="16.0" ry="39.7" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(206.2 400 266.7772663664073)"/>
+    <ellipse cx="400" cy="241.9" rx="15.7" ry="34.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(267.5 400 266.7772663664073)"/>
+    <ellipse cx="400" cy="240.3" rx="15.4" ry="36.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(312.3 400 266.7772663664073)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">THE GRAND HEIRLOOM SUITE</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

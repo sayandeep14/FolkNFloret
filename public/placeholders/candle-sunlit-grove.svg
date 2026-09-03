@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="No. 03 Sunlit Grove — photography to come">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#f4ede2"/>
+      <stop offset="1" stop-color="#e6dbcb"/>
+    </linearGradient>
+    <radialGradient id="v" cx="0.5" cy="0.42" r="0.72">
+      <stop offset="0.55" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2a1b24" stop-opacity="0.07"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#g)"/>
+  <g>
+    <path d="M 400 660 C 368.2105767936446 540, 431.7894232063554 398.2733807247132, 400 278.2733807247132" fill="none" stroke="#4a5d46" stroke-opacity="0.5" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M 393.6 614.2 Q 452.7 526.8 511.9 560.8 Q 452.7 586.8 393.6 614.2 Z" fill="#4a5d46" fill-opacity="0.123" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 389.0 577.0 Q 324.9 500.4 260.9 534.4 Q 324.9 560.4 389.0 577.0 Z" fill="#4a5d46" fill-opacity="0.156" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 385.4 539.8 Q 459.2 460.1 533.1 494.1 Q 459.2 520.1 385.4 539.8 Z" fill="#4a5d46" fill-opacity="0.108" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 383.2 502.5 Q 334.1 424.1 285.1 458.1 Q 334.1 484.1 383.2 502.5 Z" fill="#4a5d46" fill-opacity="0.177" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 382.5 465.3 Q 436.3 392.9 490.1 426.9 Q 436.3 452.9 382.5 465.3 Z" fill="#4a5d46" fill-opacity="0.144" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 383.5 428.1 Q 328.9 357.8 274.3 391.8 Q 328.9 417.8 383.5 428.1 Z" fill="#4a5d46" fill-opacity="0.143" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 386.0 390.9 Q 430.7 321.4 475.4 355.4 Q 430.7 381.4 386.0 390.9 Z" fill="#4a5d46" fill-opacity="0.115" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <path d="M 389.8 353.7 Q 345.5 264.1 301.2 298.1 Q 345.5 324.1 389.8 353.7 Z" fill="#4a5d46" fill-opacity="0.157" stroke="#4a5d46" stroke-opacity="0.4" stroke-width="1.4"/>
+    <ellipse cx="400" cy="251.1" rx="18.0" ry="37.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(11.1 400 278.2733807247132)"/>
+    <ellipse cx="400" cy="252.0" rx="21.8" ry="36.5" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(62.5 400 278.2733807247132)"/>
+    <ellipse cx="400" cy="253.5" rx="21.7" ry="34.4" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(106.5 400 278.2733807247132)"/>
+    <ellipse cx="400" cy="253.1" rx="16.1" ry="34.9" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(154.5 400 278.2733807247132)"/>
+    <ellipse cx="400" cy="254.3" rx="16.1" ry="33.3" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(216.8 400 278.2733807247132)"/>
+    <ellipse cx="400" cy="253.8" rx="20.4" ry="34.0" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(266.6 400 278.2733807247132)"/>
+    <ellipse cx="400" cy="254.7" rx="18.4" ry="32.8" fill="#c9a24a" fill-opacity="0.16" stroke="#8d8074" stroke-opacity="0.42" stroke-width="1.2" transform="rotate(319.0 400 278.2733807247132)"/>
+  </g>
+  <rect width="800" height="1000" fill="url(#v)"/>
+  <rect x="26" y="26" width="748" height="948" fill="none" stroke="#c9a24a" stroke-opacity="0.3" stroke-width="1"/>
+
+  <text x="400" y="820" text-anchor="middle" font-family="Cormorant Garamond, Didot, Georgia, serif" font-size="31" letter-spacing="6" fill="#2a1b24" fill-opacity="0.78">NO. 03 SUNLIT GROVE</text>
+  <text x="400" y="860" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" letter-spacing="4.5" fill="#8d8074">PHOTOGRAPHY TO COME</text>
+</svg>

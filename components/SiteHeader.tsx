@@ -7,7 +7,20 @@ import { scrollLock } from "@/lib/scroll-lock";
 import { scrollState } from "@/lib/scroll-store";
 import { GlassFilter } from "@/components/GlassFilter";
 
-export function SiteHeader() {
+/**
+ * `glass` is the floating liquid-glass capsule that belongs over the WebGL
+ * journey. `solid` is for shop routes: the refraction reads as a smudge over a
+ * pale product grid, and there is nothing behind it worth bending anyway.
+ */
+export type HeaderVariant = "glass" | "solid";
+
+export function SiteHeader({ variant = "glass" }: { variant?: HeaderVariant }) {
+  const glass = variant === "glass";
+  // Section links are anchors on the marketing page. From a shop route they
+  // have to leave the page first, or they resolve to nothing.
+  const home = glass ? "#top" : "/";
+  const href = (target: string) =>
+    glass || !target.startsWith("#") ? target : `/${target}`;
   const [condensed, setCondensed] = useState(false);
   const [open, setOpen] = useState(false);
   const frame = useRef(0);
@@ -149,19 +162,26 @@ export function SiteHeader() {
 
   const close = useCallback(() => setOpen(false), []);
 
+  const menu = [
+    ...nav.map((item) => ({ ...item, href: href(item.href) })),
+    { label: "Shop", href: "/shop" },
+    { label: "Your bag", href: "/cart" },
+    { label: "Account", href: "/account" },
+  ];
+
   return (
     <>
-      <GlassFilter />
+      {glass ? <GlassFilter /> : null}
 
       <header
-        className={`site-header${condensed ? " is-condensed" : ""}${
-          open ? " is-open" : ""
-        }`}
+        className={`site-header site-header--${variant}${
+          condensed ? " is-condensed" : ""
+        }${open ? " is-open" : ""}`}
       >
         {/* The glass surface, separate from the fixed positioning frame so it
             can float centred on wide screens and go full-bleed on narrow ones. */}
         <div className="site-header__bar">
-          <a className="site-header__mark" href="#top" onClick={close}>
+          <a className="site-header__mark" href={home} onClick={close}>
             <span>Folks</span>
             <i aria-hidden="true">&amp;</i>
             <span>Florets</span>
@@ -171,11 +191,40 @@ export function SiteHeader() {
 
           <nav className="site-header__nav" aria-label="Primary">
             {nav.map((item) => (
-              <a key={item.href} href={item.href}>
+              <a key={item.href} href={href(item.href)}>
                 {item.label}
               </a>
             ))}
+            <a href="/shop">Shop</a>
           </nav>
+
+          {/* Account and cart. Inert until phases 5 and 4 respectively — the
+              cart badge appears once there is a cart to count. */}
+          <div className="site-header__tools">
+            <a
+              className="site-header__tool"
+              href="/account"
+              aria-label="Your account"
+              data-cursor
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="8.2" r="3.6" />
+                <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" />
+              </svg>
+            </a>
+
+            <a
+              className="site-header__tool"
+              href="/cart"
+              aria-label="Your bag"
+              data-cursor
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M5.4 8h13.2l-1.1 12H6.5z" />
+                <path d="M9 8V6.2a3 3 0 0 1 6 0V8" />
+              </svg>
+            </a>
+          </div>
 
           <button
             ref={toggleRef}
@@ -204,7 +253,7 @@ export function SiteHeader() {
         aria-label="Menu"
       >
         <nav className="site-menu__nav" aria-label="Mobile">
-          {nav.map((item, index) => (
+          {menu.map((item, index) => (
             <span key={item.href} className="site-menu__row" data-menu-item>
               <a href={item.href} onClick={close}>
                 <span className="site-menu__no">
