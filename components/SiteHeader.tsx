@@ -162,9 +162,9 @@ export function SiteHeader() {
             can float centred on wide screens and go full-bleed on narrow ones. */}
         <div className="site-header__bar">
           <a className="site-header__mark" href="#top" onClick={close}>
-            <span>Folk</span>
+            <span>Folks</span>
             <i aria-hidden="true">&amp;</i>
-            <span>Floret</span>
+            <span>Florets</span>
           </a>
 
           {/* <p className="site-header__note">{brand.note}</p> */}

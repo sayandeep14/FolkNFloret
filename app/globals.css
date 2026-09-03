@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Folk & Floret — design system
+   Folks & Florets — design system
    The WebGL layer supplies the page background, so almost everything here is
    transparent and relies on scrims for contrast rather than solid fills.
    ========================================================================== */
@@ -724,7 +724,7 @@ a:focus-visible {
   font-size: var(--step-brand);
   text-transform: uppercase;
   /* Caps need air where lowercase needed tightening — the negative tracking
-     that suited "Folk & Floret" reads as cramped set in capitals. */
+     that suited "Folks & Florets" reads as cramped set in capitals. */
   letter-spacing: 0.015em;
   /* Stacked, so the two lines want to sit close enough to read as one mark. */
   line-height: 0.88;

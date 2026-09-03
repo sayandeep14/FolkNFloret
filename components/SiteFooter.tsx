@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="site-footer__top">
           <div className="site-footer__brand">
             <p className="site-footer__mark">
-              Folk <i aria-hidden="true">&amp;</i> Floret
+              Folks <i aria-hidden="true">&amp;</i> Florets
             </p>
             <p className="site-footer__tagline">{brand.tagline}</p>
             <p className="site-footer__address">{footer.address}</p>

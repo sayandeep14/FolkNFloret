@@ -1,0 +1,357 @@
+# Folks & Florets — Marketplace Build Roadmap
+
+Turning the current site into a shop that takes money.
+
+Work top to bottom. Each phase ends in something demonstrable, and nothing in a
+phase depends on a later one. Tick items as they land.
+
+---
+
+## Where we are starting from
+
+What exists today is a **single-page marketing site**, not an application:
+
+- Next.js 16 App Router, React 19, TypeScript. One route (`/`), fully static.
+- All copy is hard-coded in `lib/content.ts`. There is no database, no server
+  code, no API route, no user, no session, no order.
+- A full-screen fixed WebGL canvas (`components/canvas/`) runs behind the whole
+  document, plus Lenis smooth scroll and several pinned GSAP ScrollTriggers.
+
+That last point is the single most important constraint in this document, and
+Phase 0 exists entirely because of it. **The canvas and Lenis must not run on
+shop pages.** Reasons, in order of severity:
+
+1. A checkout page that also renders 280 instanced petals and a post-processing
+   chain will drop frames on a mid-range Android while someone is trying to pay.
+2. Lenis hijacks scrolling. It fights native form behaviour, `scrollIntoView`
+   on validation errors, and the browser's own focus scrolling.
+3. Pinned ScrollTriggers assume a page whose height never changes. A cart whose
+   rows can be removed changes height constantly.
+
+So the shop is not "more sections on the existing page." It is a second
+experience that shares the design system and the header, and nothing else.
+
+---
+
+## Decisions to make before Phase 1
+
+These change the schema, so they are worth settling first. My recommendation is
+given for each; overrule freely, but pick something.
+
+| # | Question | Recommendation |
+|---|---|---|
+| D1 | Do we hold real stock, or make to order? | **Track stock.** Candles and honey are batch goods; overselling a hamper you cannot assemble is the worst failure mode in gifting. |
+| D2 | Guest checkout, or accounts required? | **Guest checkout, with an optional account at the end.** Forcing signup before a first purchase is the largest single drop-off in Indian D2C. |
+| D3 | Are hampers products, or baskets of products? | **Bundle products with a component list.** A suite has its own price, photo and packaging — it is not the sum of its parts — but stock must decrement for every component. |
+| D4 | How are bespoke commissions handled? | **Enquiry, not checkout.** They are quoted individually. A form that creates a lead, not a cart item. |
+| D5 | Payment provider | **Razorpay.** Prices are in ₹, the buyer is in India, and it covers UPI, cards, netbanking and wallets in one integration. Stripe's India support for domestic-only businesses is not worth the friction. |
+| D6 | Do we offer Cash on Delivery? | **No, at least at launch.** COD on a ₹14,000 keepsake trunk is a returns liability, and it breaks the prepaid-only assumption that keeps Phase 7 simple. |
+| D7 | Who fulfils and ships? | Decide now: self-ship with manual AWB entry, or an aggregator (Shiprocket / Delhivery). It changes Phase 8. |
+
+---
+
+## Phase 0 — Foundations
+
+Restructure so commerce can be added without dragging the WebGL along.
+**No user-visible change. This is the phase people skip and regret.**
+
+- [ ] Split routes into groups: `app/(marketing)/` for the current page,
+      `app/(shop)/` for everything new. Each group gets its own `layout.tsx`.
+- [ ] Move `SceneMount`, `SmoothScroll`, `Cursor` and `EpilogueTracker` out of
+      the shared root and into the **marketing layout only**.
+- [ ] Verify: a shop route renders with no WebGL context created and native
+      scrolling intact. Check `document.querySelectorAll('canvas').length === 0`.
+- [ ] Extract the design tokens block from `app/globals.css` into
+      `app/tokens.css` and import it in both layouts, so the shop inherits the
+      palette and type scale without inheriting the journey's layout rules.
+- [ ] Make `SiteHeader` work in two modes: the floating liquid-glass capsule on
+      marketing, and a solid, always-opaque bar on shop pages. The glass
+      refraction over a white product grid looks like a smudge.
+- [ ] Add cart and account affordances to the header (count badge, account
+      link) — inert for now.
+- [ ] Build the shop UI primitives against existing styles: `Button`, `Input`,
+      `Select`, `Field` (label + error + hint), `Money`, `Badge`,
+      `Breadcrumb`, `EmptyState`, `Skeleton`.
+- [ ] Add `<Money>` as the *only* place currency is formatted. Store paise as
+      integers everywhere; never a float, never a formatted string.
+- [ ] Error and loading conventions: `error.tsx`, `not-found.tsx`,
+      `loading.tsx` per shop route segment.
+
+**Done when:** `/shop` renders an empty styled page, in brand, with no canvas
+and no Lenis, and the header shows a cart icon.
+
+---
+
+## Phase 1 — Data model and database
+
+- [ ] Provision Postgres. **Neon** or **Supabase** — both have a usable free
+      tier and work with Vercel.
+- [ ] Add **Prisma** (better tooling and migrations) or **Drizzle** (lighter,
+      SQL-shaped). Either is fine; Prisma is the safer default.
+- [ ] Model the schema. Minimum viable set:
+
+```
+Product        id, slug, title, latin, house, subtitle, description,
+               careNotes, status(draft|active|archived), isBundle,
+               seoTitle, seoDescription
+ProductVariant id, productId, sku, name, priceInPaise, compareAtPaise,
+               weightGrams, stockOnHand, stockReserved, position
+BundleItem     bundleVariantId, componentVariantId, quantity
+ProductImage   id, productId, url, alt, width, height, position
+Collection     id, slug, title, description        -- Aromatics, Epicurean, Preserved
+ProductCollection  productId, collectionId, position
+Customer       id, email(unique), name, phone, createdAt
+Address        id, customerId, name, line1, line2, city, state, pincode,
+               phone, isDefault
+Cart           id, customerId?, token(unique), status, expiresAt
+CartItem       id, cartId, variantId, quantity, unitPriceInPaise
+Order          id, orderNumber(unique), customerId?, email, status,
+               subtotal, shipping, tax, discount, total,   -- all paise
+               shippingAddress(json snapshot), billingAddress(json snapshot),
+               placedAt
+OrderItem      id, orderId, variantId, titleSnapshot, unitPriceInPaise,
+               quantity, taxRateBps
+Payment        id, orderId, provider, providerOrderId, providerPaymentId,
+               status, amountInPaise, rawPayload(json)
+Shipment       id, orderId, carrier, awb, status, shippedAt, deliveredAt
+DiscountCode   code, type(percent|fixed), value, minSubtotal, usageLimit,
+               usedCount, startsAt, endsAt
+Enquiry        id, name, email, phone, occasion, budget, message, status
+```
+
+- [ ] **Snapshot rule:** `OrderItem` copies title, price and tax rate at time of
+      purchase. Orders must not change when a product is later edited. This is
+      the most common and most damaging schema mistake in a first store.
+- [ ] **Money rule:** every amount is an integer of paise. No `Float`,
+      no `Decimal` guesswork, no rupee strings in the database.
+- [ ] **Stock rule:** `stockOnHand` and `stockReserved` are separate. Available
+      = onHand − reserved. Reserve at checkout start, release on expiry.
+- [ ] Seed script from `fnf.md`: three collections, the full product line, and
+      the three suite tiers as bundles.
+- [ ] Variants worth getting right at seed time:
+      candles → 3 fragrances (Sylvan Mist, Herbal Solace, Sunlit Grove);
+      honey → 3 varietals (Kashmir Acacia, Himalayan Wild Forest, Raw Sidr);
+      moss bowl → 2 bases (walnut, cast stone).
+
+**Done when:** `npx prisma studio` shows the real catalog and every price is an
+integer.
+
+---
+
+## Phase 2 — Product catalog
+
+- [ ] `app/(shop)/shop/page.tsx` — all products, filterable by collection.
+- [ ] `app/(shop)/collections/[slug]/page.tsx` — Aromatics, Epicurean,
+      Preserved, The Suites.
+- [ ] `app/(shop)/products/[slug]/page.tsx` — the PDP.
+- [ ] `ProductCard`: image, title, latin name, from-price, house.
+- [ ] PDP contents, in this order: gallery, title + latin, price, variant
+      selector, quantity, add to cart, then the long-form sections — what it is,
+      the packaging architecture, materials and dimensions, care, delivery.
+      **The packaging detail in `fnf.md` is the differentiator; give it real
+      estate, not a collapsed accordion at the bottom.**
+- [ ] Out-of-stock and low-stock states on both card and PDP.
+- [ ] Bundle PDPs list their components with links.
+- [ ] Sorting: featured, price ascending, price descending, newest.
+- [ ] `generateStaticParams` + ISR (`revalidate`) so catalog pages are static
+      and fast; revalidate on admin write via `revalidateTag`.
+- [ ] `generateMetadata` per product, plus Open Graph images.
+- [ ] JSON-LD `Product` + `Offer` structured data.
+
+**Done when:** every item in `fnf.md` is browsable at a real URL with a real
+price, and Lighthouse SEO is ≥ 95 on a PDP.
+
+---
+
+## Phase 3 — Product photography and media
+
+Blocking for Phase 2 to look like anything. **There are currently no product
+photographs in this repo** — `assets/ref/` holds mood references only.
+
+- [ ] Shot list per SKU: hero on stone, three-quarter with lid off, scale/detail
+      macro, the packaging closed, the packaging open, one styled lifestyle.
+- [ ] Consistent art direction: warm alabaster ground, single soft key from the
+      left, brass and oak reading warm, no colour cast fights. The site is a
+      near-black room — product images must not arrive as a colour riot, which
+      is the exact failure that killed the earlier photoreal direction.
+- [ ] Storage: Vercel Blob, Cloudinary or S3 + CloudFront. Not the repo.
+- [ ] Serve through `next/image` with `sizes` set; AVIF/WebP; explicit
+      dimensions to hold layout.
+- [ ] Alt text for every image, written as description not keyword soup.
+
+---
+
+## Phase 4 — Cart
+
+- [ ] Cart identity: signed HTTP-only cookie holding a cart token. Same cart
+      works for guests and, after login, merges into the customer's cart.
+- [ ] Server actions: `addItem`, `updateQuantity`, `removeItem`, `applyDiscount`.
+- [ ] **Re-price on the server every read.** Never trust a price sent from the
+      client. The client sends a variant id and a quantity, nothing more.
+- [ ] Validate stock on add and again at checkout.
+- [ ] Cart drawer (slide-over) plus a full `/cart` page for small screens.
+- [ ] Optimistic UI with `useOptimistic`, reconciled against the server result.
+- [ ] Order summary component: subtotal, shipping, GST, discount, total —
+      shared verbatim between cart, checkout and the order confirmation, so the
+      three can never disagree.
+- [ ] Empty state that routes back into the collections.
+
+**Done when:** items survive a page reload and a browser restart, and editing a
+product's price in the database changes the cart total on next load.
+
+---
+
+## Phase 5 — Customer accounts
+
+- [ ] **Auth.js v5** (NextAuth) with the Prisma adapter. Clerk is the faster
+      route if you would rather not own auth at all — decide once, it is
+      expensive to swap.
+- [ ] Sign-in methods: **email magic link** as the primary (no passwords to
+      leak, no reset flow to build) and **Google** as the convenience option.
+      Add phone OTP later if the audience demands it.
+- [ ] `/account` — order history.
+- [ ] `/account/orders/[orderNumber]` — a single order with its shipment status.
+- [ ] `/account/addresses` — address book, CRUD, one default.
+- [ ] `/account/profile` — name, phone, email preferences.
+- [ ] Middleware protecting `/account/*`; redirect to sign-in with a
+      `callbackUrl` and honour it after.
+- [ ] Merge the guest cart into the customer cart on sign-in.
+- [ ] Rate-limit the sign-in endpoint (Upstash Redis or equivalent).
+
+**Done when:** a guest can add to cart, sign in, and find their cart intact.
+
+---
+
+## Phase 6 — Checkout
+
+- [ ] `/checkout` as a single page with three sections — contact, delivery,
+      payment — not a multi-page wizard. Fewer navigations, less abandonment.
+- [ ] Address form with Indian fields: name, line 1, line 2, landmark, city,
+      state (dropdown), 6-digit PIN, 10-digit phone.
+- [ ] PIN code lookup to auto-fill city and state, and to check serviceability.
+- [ ] Validation with **Zod**, shared between client and server action. One
+      schema, two consumers.
+- [ ] "Billing address same as delivery" toggle.
+- [ ] Gift options — recipient name, gift message for the card, hide prices in
+      the parcel, preferred delivery date. **This is a gifting house; treat gift
+      handling as a first-class feature, not a checkbox.**
+- [ ] Shipping rate calculation (flat, by weight, or free above a threshold).
+- [ ] GST calculation, and the CGST/SGST vs IGST split by destination state.
+- [ ] Reserve stock when checkout begins; release it if payment does not
+      complete within 15 minutes.
+- [ ] Create the `Order` in `pending` state *before* redirecting to payment.
+
+---
+
+## Phase 7 — Payments
+
+- [ ] Razorpay account, KYC, and both test and live key pairs.
+- [ ] Keys in environment variables. `RAZORPAY_KEY_SECRET` is server-only and
+      must never appear in a `NEXT_PUBLIC_` name.
+- [ ] Server action creating a Razorpay Order from our `Order`.
+- [ ] Razorpay Checkout on the client, prefilled with the customer's details.
+- [ ] Verify the payment signature **server-side** with HMAC-SHA256. A
+      client-reported success is not a payment.
+- [ ] **Webhook** at `/api/webhooks/razorpay`:
+  - [ ] Verify the webhook signature before parsing anything.
+  - [ ] Handle `payment.captured`, `payment.failed`, `order.paid`, `refund.processed`.
+  - [ ] Make it idempotent — store the event id, ignore repeats. Razorpay
+        *will* deliver the same event more than once.
+  - [ ] Treat the webhook, not the browser redirect, as the source of truth. A
+        customer who closes the tab after paying must still get their order.
+- [ ] Order state machine: `pending → paid → processing → shipped → delivered`,
+      with `payment_failed`, `cancelled`, `refunded` as terminal branches.
+      Transitions in one module; no scattered status writes.
+- [ ] Decrement stock on `paid`, not before.
+- [ ] `/checkout/success/[orderNumber]` and a failure page that retries rather
+      than dead-ends.
+- [ ] Test the full matrix in Razorpay test mode: success, failure, UPI timeout,
+      and the tab closed mid-payment.
+
+**Done when:** a test payment produces a `paid` order, decremented stock and a
+confirmation email, and closing the tab mid-payment still produces all three.
+
+---
+
+## Phase 8 — Orders, fulfilment and email
+
+- [ ] Transactional email via **Resend** with **React Email** templates:
+      order confirmation, payment failed, shipped with tracking, delivered,
+      refund processed.
+- [ ] Templates in the brand's register — Cormorant display, generous space,
+      one gold rule. A default Bootstrap receipt undoes a lot of Phase 0.
+- [ ] Order confirmation shows gift message and delivery date when present.
+- [ ] Packing slip view for the studio, printable, **without prices** when the
+      order is flagged as a gift.
+- [ ] Shipping integration per D7, or a manual AWB field plus a "mark shipped"
+      action.
+- [ ] Order tracking page reachable by order number + email, no login needed.
+- [ ] Cancellation window and a refund action that calls the Razorpay refund
+      API and moves the order state.
+
+---
+
+## Phase 9 — Admin
+
+- [ ] `/admin` behind a role check on `Customer.role`.
+- [ ] Orders: list, filter by status, open one, transition its state, refund.
+- [ ] Products: create, edit, upload images, reorder, publish/unpublish.
+- [ ] Inventory: adjust stock with a reason, low-stock view.
+- [ ] Discount codes: create, limit, expire.
+- [ ] Enquiries inbox for bespoke commissions and corporate suites (D4).
+- [ ] `revalidateTag` on every write so the static catalog refreshes.
+
+If this phase looks large, it is. A defensible shortcut for launch: skip the
+product editor, keep the catalog in the seed script, and build only the orders
+view. You cannot skip the orders view.
+
+---
+
+## Phase 10 — Compliance, trust and the boring necessities
+
+India-specific and non-optional for taking money:
+
+- [ ] Terms of Service, Privacy Policy, Refund & Cancellation Policy, Shipping
+      Policy. Razorpay checks for these during activation.
+- [ ] GSTIN displayed; GST-compliant invoice PDF per order.
+- [ ] **FSSAI licence number** displayed on the site and on every edible
+      product page — honey, chocolate, tisanes, nuts. Legally required.
+- [ ] Per `fnf.md` §4: batch/lot and best-before on edible PDPs; a preserved
+      botanical care note (dry storage, away from moisture); a candle safety
+      note (never leave burning unattended, trim the wick).
+- [ ] Contact page with a real address and phone.
+- [ ] Cookie consent if analytics are added.
+- [ ] `robots.txt`, `sitemap.xml` generated from the catalog.
+- [ ] Analytics: Vercel Analytics or Plausible, plus commerce events —
+      view item, add to cart, begin checkout, purchase.
+
+---
+
+## Phase 11 — Launch checklist
+
+- [ ] Every price re-verified against `fnf.md` by a human. The figures in the
+      catalog are *suggested* retail.
+- [ ] Razorpay switched to live keys; one real ₹1 order placed and refunded.
+- [ ] Webhook endpoint reachable from the public internet and verified in the
+      Razorpay dashboard.
+- [ ] Order confirmation email lands in Gmail's inbox, not Promotions or Spam.
+      Configure SPF, DKIM and DMARC on the sending domain.
+- [ ] Full purchase on a real mid-range Android over 4G, not just a desktop.
+- [ ] Lighthouse ≥ 90 performance on the PDP and the cart.
+- [ ] Keyboard-only pass through the entire purchase flow.
+- [ ] Screen-reader pass on the cart and checkout.
+- [ ] Stock counts match physical inventory.
+- [ ] Database backups on and tested by restoring one.
+- [ ] Error tracking (Sentry) reporting from production.
+- [ ] The marketing page still runs at 60fps after all of the above.
+
+---
+
+## Suggested order of work
+
+Phases 0 → 1 → 3 (start photography in parallel, it has the longest lead time)
+→ 2 → 4 → 6 → 7 → 5 → 8 → 9 → 10 → 11.
+
+Auth (5) deliberately lands *after* payments. Guest checkout means the store can
+take money before it can create an account, and shipping revenue earlier is
+worth more than shipping a profile page.

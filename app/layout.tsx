@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Folk & Floret — The Art of Keeping",
+  title: "Folks & Florets — The Art of Keeping",
   description:
     "Preserved botanicals, hand-poured candles and estate provisions, composed into keepsake suites for the moments meant to be kept.",
 };

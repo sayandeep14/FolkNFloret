@@ -4,7 +4,7 @@
  */
 
 export const brand = {
-  name: "Folk & Floret",
+  name: "Folks & Florets",
   tagline: "The Art of Keeping",
   note: "Preserved · Poured · Tempered · Kept",
 };
@@ -20,7 +20,7 @@ export const chapters = [
   {
     index: "I",
     eyebrow: "Welcome",
-    title: ["Folk", "Floret"],
+    title: ["Folks", "Florets"],
     body: "An artisanal house of preserved botanicals, hand-poured light and estate provisions — composed for the moments meant to be kept.",
     cue: "Scroll to begin",
   },
@@ -109,7 +109,7 @@ export const suites = {
 export const craft = {
   eyebrow: "The Craft",
   titleLines: ["Nothing here", "is meant to wilt"],
-  body: "A Folk & Floret commission begins as a conversation and ends at a doorway. Between the two, weeks of slow and deliberate work.",
+  body: "A Folks & Florets commission begins as a conversation and ends at a doorway. Between the two, weeks of slow and deliberate work.",
   steps: [
     {
       no: "01",
@@ -165,5 +165,5 @@ export const footer = {
     },
   ],
   address: "The Botanical Studio, Kotagiri, Nilgiris",
-  legal: "© 2026 Folk & Floret. Composed to be kept.",
+  legal: "© 2026 Folks & Florets. Composed to be kept.",
 };
