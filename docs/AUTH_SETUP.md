@@ -9,19 +9,32 @@ you cannot find it, look for the value described rather than the label.
 
 ---
 
-## The callback URL
-
-Both providers need to know where to send the browser back to. For this app it
-is always:
+## The callback URL — find it, do not assume it
 
 ```
-https://YOUR-DOMAIN/api/auth/callback/google
+https://YOUR-CANONICAL-HOST/api/auth/callback/google
 ```
 
-That path is not arbitrary — it is where `app/api/auth/[...nextauth]/route.ts`
-lives, and changing it means also setting `basePath` in `auth.ts`. Get it wrong
-by a character and Google returns `redirect_uri_mismatch`, which is the single
-most common failure here.
+The path is fixed by where `app/api/auth/[...nextauth]/route.ts` lives.
+**The host is the part that catches people**, because Auth.js builds the
+callback from whatever host actually served the request — and `folknfloret.com`
+and `www.folknfloret.com` are different hosts to Google even when one redirects
+to the other.
+
+This project's canonical host is **`www.folknfloret.com`**; the apex 308s to
+it. Vercel picks that for you when you add a domain, and it is easy to register
+the wrong one and get `redirect_uri_mismatch` with no clue which half is wrong,
+because Google will not tell you what it received.
+
+So ask the deployment:
+
+```bash
+npm run check:oauth -- https://www.folknfloret.com
+```
+
+It walks the handshake far enough to read the `redirect_uri` and prints it,
+stopping before any credential is involved. Register exactly what it prints.
+Run it against the apex and it tells you which host is canonical instead.
 
 ---
 
@@ -48,8 +61,9 @@ issue credentials until it exists.
    - **User support email** — yours.
    - **App logo** — optional. Uploading one triggers Google's brand
      verification, which can take days. Skip it for now.
-   - **Application home page** — `https://folknfloret.com`
-   - **Authorised domains** — `folknfloret.com`
+   - **Application home page** — `https://www.folknfloret.com`
+   - **Authorised domains** — `folknfloret.com` (the registrable domain here,
+     without `www` — this field is not the redirect URI and the rules differ)
    - **Developer contact** — yours.
 4. **Scopes: add none.** The defaults (`openid`, `email`, `profile`) are all
    this app asks for, and they are what keep you out of Google's verification
@@ -75,15 +89,17 @@ second most common failure here, and it fails silently for everyone except you.
 3. Name it something you will recognise later, e.g. `folknfloret-web`.
 4. **Authorised JavaScript origins** — add:
    ```
-   https://folknfloret.com
+   https://www.folknfloret.com
    http://localhost:3000
    ```
 5. **Authorised redirect URIs** — add both, exactly:
    ```
-   https://folknfloret.com/api/auth/callback/google
+   https://www.folknfloret.com/api/auth/callback/google
    http://localhost:3000/api/auth/callback/google
    ```
-   No trailing slash. `http` for localhost, `https` for the domain.
+   No trailing slash. `http` for localhost, `https` for the domain. Confirm the
+   first one against `npm run check:oauth` rather than typing it from memory —
+   the `www` is load-bearing.
 6. **Create.** Google shows the **Client ID** and **Client secret** once, in a
    dialog. The secret can be re-revealed later from the same page, but copy
    both now.
@@ -104,13 +120,14 @@ the same two, plus `AUTH_SECRET`, which is already in your `.env.local` and
 Also set, in production only:
 
 ```
-AUTH_URL="https://folknfloret.com"
+AUTH_URL="https://www.folknfloret.com"
 ```
 
 Auth.js otherwise builds the callback from whatever host the request arrived
-on. Someone landing on the `*.vercel.app` address would generate a callback URL
-Google has never heard of, and the sign-in fails. Pinning it avoids registering
-every Vercel domain you will ever have.
+on. Someone landing on the `*.vercel.app` address, or on the apex before the
+redirect, generates a callback URL Google has never heard of. Pinning it makes
+the behaviour deterministic and saves registering every Vercel domain you will
+ever have. It must match the canonical host exactly, `www` included.
 
 ### Preview deployments
 
@@ -149,7 +166,8 @@ but the DNS is already in front of you.
 ## Checking it worked
 
 ```bash
-curl -s https://folknfloret.com/api/auth/providers
+npm run check:oauth -- https://www.folknfloret.com   # what Google is being sent
+curl -s https://www.folknfloret.com/api/auth/providers
 ```
 
 Returns `{}` when nothing is configured, and lists each provider once its keys

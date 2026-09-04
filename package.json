@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "check:env": "node scripts/check-env-example.mjs",
     "check:catalog": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/check-catalog.mjs",
+    "check:oauth": "node scripts/check-oauth.mjs",
     "db:generate": "prisma generate",
     "db:check": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/db-check.mjs",
     "db:migrate": "prisma migrate dev",
