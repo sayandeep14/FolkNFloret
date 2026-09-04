@@ -104,6 +104,111 @@ production rather than a special case.
 | `studio.localhost:3000/orders/NOPE` | 404 |
 | `studio.localhost:3000/api/auth/csrf` | 200 — staff must be able to sign in |
 
+### Adding the subdomain, step by step
+
+DNS for `folknfloret.com` is at **GoDaddy** — the nameservers are
+`ns29`/`ns30.domaincontrol.com`. The apex is an A record to Vercel and `www` is
+a CNAME to a per-project Vercel target. There is no wildcard, so `studio` needs
+a record of its own.
+
+**Do these in order.** Steps 5 and 6 in particular: reversing them breaks
+sign-in on the storefront.
+
+#### 1. Tell Vercel about the domain first
+
+Vercel → the project → **Settings → Domains → Add**. Enter
+`studio.folknfloret.com`.
+
+Vercel will show the record it wants — a **CNAME**, with a value that looks
+like `a148b747b80c4960.vercel-dns-017.com` (the same shape as the one `www`
+already uses). **Copy the value Vercel shows you** rather than the one from
+this document; it is per-project and can differ.
+
+Do this before touching GoDaddy. Vercel starts checking the moment the domain
+is added, so the record is verified as soon as it propagates.
+
+#### 2. Add the record at GoDaddy
+
+GoDaddy → **My Products → Domains → folknfloret.com → DNS → Add New Record**.
+
+| Field | Value |
+|---|---|
+| Type | `CNAME` |
+| Name | `studio` — just that, not the full domain |
+| Value | whatever Vercel showed in step 1 |
+| TTL | 600 seconds, or the shortest offered |
+
+GoDaddy appends the domain to the Name field itself. Entering
+`studio.folknfloret.com` there produces `studio.folknfloret.com.folknfloret.com`,
+which is the single most common way to lose twenty minutes here.
+
+#### 3. Wait, and check
+
+```bash
+dig +short studio.folknfloret.com
+```
+
+Blank means it has not propagated. Usually a few minutes, occasionally an hour.
+Vercel's Domains page will move from *Invalid Configuration* to a tick, and
+will issue the certificate on its own.
+
+#### 4. Confirm it reaches the app
+
+```bash
+curl -sI https://studio.folknfloret.com/ | head -1
+```
+
+**307** is correct — it is redirecting you to sign in. A 404 means DNS resolves
+but Vercel has not attached the domain to this project; anything else means the
+certificate is not ready yet.
+
+#### 5. Register all three redirect URIs with Google
+
+Google Cloud → **APIs & Services → Credentials → your OAuth client →
+Authorised redirect URIs**. There must be three:
+
+```
+https://folknfloret.com/api/auth/callback/google
+https://www.folknfloret.com/api/auth/callback/google
+https://studio.folknfloret.com/api/auth/callback/google
+```
+
+Add the studio one to **Authorised JavaScript origins** as well.
+
+#### 6. Only now, remove AUTH_URL
+
+Vercel → **Settings → Environment Variables** → delete `AUTH_URL`, then
+redeploy.
+
+Until this moment, every sign-in callback goes to the apex, so the studio host
+could never complete one. Afterwards, each host signs its own — which is what
+two hostnames need, and why step 5 has to come first.
+
+```bash
+npm run check:oauth -- https://studio.folknfloret.com
+```
+
+It prints the exact redirect URI being sent. It must match what you registered.
+
+#### 7. Sign in, and check the storefront still works
+
+- `studio.folknfloret.com` → sign in → the orders queue, in its own dark bar.
+  You need a `STAFF` or `ADMIN` role; see OPERATIONS.
+- `www.folknfloret.com/signin` → still works. This is the one to re-check
+  after step 6, because that is what the change could have broken.
+- `www.folknfloret.com/studio` → **404**. The admin lives at one address.
+
+#### 8. Put a gate in front of it
+
+Vercel → **Settings → Deployment Protection**, or Cloudflare Access with an
+email allowlist, scoped to `studio.folknfloret.com` only.
+
+This is the step that actually matters. The role check is what protects the
+studio; the gate is what makes a stolen session cookie survivable. Everything
+above only ensures there is one door to put it on.
+
+---
+
 ### The AUTH_URL change, in the right order
 
 `AUTH_URL` is currently pinned to the apex. Auth.js builds its callback from
