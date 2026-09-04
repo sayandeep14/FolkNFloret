@@ -13,8 +13,8 @@ is only needed to take real money.
 4. You get `rzp_test_...` and a secret. **The secret is shown once.**
 
 ```
-RAZORPAY_KEY_ID="rzp_test_..."
-RAZORPAY_KEY_SECRET="..."
+RAZORPAY_KEY_ID="rzp_test_TXwTlasf0acR4g"
+RAZORPAY_KEY_SECRET="6qDMzgO0tMRyaUeXlNQzFtua"
 ```
 
 The key *id* is handed to the browser deliberately — Razorpay Checkout needs
@@ -43,7 +43,7 @@ latency optimisation; a customer who pays and closes the tab never runs it.
    ```
    Put the same value in both places:
    ```
-   RAZORPAY_WEBHOOK_SECRET="<the value you just generated>"
+   RAZORPAY_WEBHOOK_SECRET="0587d5bd9aa186ae7152f190b1803d8613b3bc892ca6a224f51b553a51ca3d48"
    ```
 4. **Active events** — subscribe to exactly these four:
    - `payment.captured`

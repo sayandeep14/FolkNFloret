@@ -1,6 +1,11 @@
 import "server-only";
 import type { OrderStatus, Prisma } from "@/lib/generated/prisma";
 import { db } from "@/lib/db";
+import {
+  notifyPaid,
+  notifyPaymentFailed,
+  notifyRefunded,
+} from "@/lib/order-notify";
 
 /**
  * Every order status change goes through this module. Scattering
@@ -14,7 +19,10 @@ const ALLOWED: Record<OrderStatus, OrderStatus[]> = {
   // A failed payment is retryable: Razorpay hands back a fresh attempt on the
   // same order, so this is not terminal.
   PAYMENT_FAILED: ["PENDING", "PAID", "CANCELLED"],
-  PAID: ["PROCESSING", "REFUNDED", "CANCELLED"],
+  // SHIPPED is reachable directly. A studio of this size packs and posts in
+  // one movement; PROCESSING exists for the days when it does not, and making
+  // it compulsory would only mean clicking through a state nobody occupied.
+  PAID: ["PROCESSING", "SHIPPED", "REFUNDED", "CANCELLED"],
   PROCESSING: ["SHIPPED", "REFUNDED", "CANCELLED"],
   SHIPPED: ["DELIVERED", "REFUNDED"],
   DELIVERED: ["REFUNDED"],
@@ -72,6 +80,27 @@ export async function transition(
  * Razorpay guarantees will happen — cannot decrement twice.
  */
 export async function markPaid(
+  orderId: string,
+  payment: {
+    providerPaymentId: string;
+    providerOrderId?: string;
+    amountInPaise: number;
+    method?: string;
+    raw?: unknown;
+  },
+): Promise<{ alreadyPaid: boolean }> {
+  const result = await applyPayment(orderId, payment);
+
+  // After the transaction, not inside it: a slow mail API must not hold a
+  // database transaction open, and a receipt for an order that then rolled
+  // back would be worse than a late one. Only on the transition that actually
+  // changed something, so a webhook redelivery sends nothing.
+  if (!result.alreadyPaid) await notifyPaid(orderId);
+
+  return result;
+}
+
+async function applyPayment(
   orderId: string,
   payment: {
     providerPaymentId: string;
@@ -157,7 +186,7 @@ export async function markPaymentFailed(
   orderId: string,
   detail: { providerPaymentId?: string; reason?: string; raw?: unknown },
 ): Promise<void> {
-  await transition(orderId, "PAYMENT_FAILED");
+  const moved = await transition(orderId, "PAYMENT_FAILED");
 
   if (detail.providerPaymentId) {
     await db.payment.upsert({
@@ -174,6 +203,10 @@ export async function markPaymentFailed(
       update: { status: "FAILED", failureReason: detail.reason ?? null },
     });
   }
+
+  // Only on the first failure. A customer retrying three times should not
+  // collect three identical letters.
+  if (moved.ok && moved.changed) await notifyPaymentFailed(orderId);
 }
 
 /** Gives stock back and marks the money returned. */
@@ -181,6 +214,8 @@ export async function markRefunded(
   orderId: string,
   detail: { providerPaymentId?: string; amountInPaise?: number },
 ): Promise<void> {
+  let refunded = false;
+
   await db.$transaction(async (tx) => {
     const moved = await transition(orderId, "REFUNDED", { tx });
     if (!moved.ok || !moved.changed) return;
@@ -200,5 +235,8 @@ export async function markRefunded(
         data: { status: "REFUNDED" },
       });
     }
+    refunded = true;
   });
+
+  if (refunded) await notifyRefunded(orderId);
 }

@@ -502,21 +502,55 @@ store that works from one that loses orders.
 
 ---
 
-## Phase 8 — Orders, fulfilment and email
+## Phase 8 — Orders, fulfilment and email ✅ *mostly complete*
 
-- [ ] Transactional email via **Resend** with **React Email** templates:
-      order confirmation, payment failed, shipped with tracking, delivered,
-      refund processed.
-- [ ] Templates in the brand's register — Cormorant display, generous space,
-      one gold rule. A default Bootstrap receipt undoes a lot of Phase 0.
-- [ ] Order confirmation shows gift message and delivery date when present.
-- [ ] Packing slip view for the studio, printable, **without prices** when the
-      order is flagged as a gift.
-- [ ] Shipping integration per D7, or a manual AWB field plus a "mark shipped"
-      action.
-- [ ] Order tracking page reachable by order number + email, no login needed.
-- [ ] Cancellation window and a refund action that calls the Razorpay refund
-      API and moves the order state.
+- [x] Transactional email via **Resend**, five React Email templates: order
+      confirmation, payment failed, shipped with tracking, delivered, refunded.
+- [x] Templates in the brand's register — Georgia rather than Cormorant,
+      because a web font in email is unreliable enough not to be worth the
+      bytes, and a serif falling back to a serif keeps the voice.
+- [x] Confirmation carries the gift message, recipient and requested date.
+- [x] **Packing slip** at `/studio/orders/[n]/packing-slip`, printable, with
+      prices omitted whenever the order is a gift with prices hidden.
+- [x] Manual AWB and a mark-shipped action (D7's aggregator: see below).
+- [x] **Order tracking** at `/track`, by order number *and* email, no login.
+- [x] Refund action calling the Razorpay refund API, then moving our state.
+
+### Verified end to end, against the live database and the real Resend account
+
+A webhook capture paid an order, moved stock and sent a receipt; marking it
+shipped recorded the AWB and sent tracking; marking it delivered sent the last
+letter. Resend confirms all three. Mail went to `delivered@resend.dev`, their
+sink address, so nothing reached a person.
+
+Also checked: a wrong email on `/track` gets the same answer as a missing
+order — the difference would confirm which order numbers exist. `/studio`
+redirects anyone without a STAFF or ADMIN role. And for a gift order **no
+price appears on the tracking page or the packing slip**, because whoever is
+holding the order number may well be the recipient.
+
+### One bug the tests caught
+
+The state machine required `PAID → PROCESSING → SHIPPED`, while the shipping
+action assumed PROCESSING was optional — so marking a paid order shipped
+failed outright. `PAID → SHIPPED` is now allowed: a studio this size packs and
+posts in one movement, and making the middle state compulsory would only mean
+clicking through one nobody occupied.
+
+### Deliberately not done
+
+- **Aggregator API.** D7 chose Shiprocket or Delhivery, which needs an account
+  neither of us has yet. `Shipment.provider` already names its provider rather
+  than assuming one, so wiring the API later means filling these fields from
+  a response instead of a form — no migration — and the manual action stays
+  the fallback for anything hand-carried.
+- **Customer-initiated cancellation.** Refunds are a studio action today. A
+  self-service cancellation window needs a policy decision first: how long, and
+  whether it holds once a parcel is manifested.
+- **Emails are not queued.** A send failure is logged and swallowed so it can
+  never break an order or stall a webhook, but there is no retry. At this
+  volume a missed receipt is a support reply; if that changes, the fix is an
+  outbox table rather than a retry in the request path.
 
 ---
 

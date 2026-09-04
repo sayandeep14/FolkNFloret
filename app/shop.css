@@ -942,3 +942,192 @@
     position: static;
   }
 }
+
+/* Tracking ----------------------------------------------------------------- */
+
+.track-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+  margin: 1.6rem 0 2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+}
+
+.track-stages li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.track-stages span {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--shop-line);
+}
+
+.track-stages li[data-done] {
+  color: var(--shop-ink);
+}
+
+.track-stages li[data-done] span {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+/* Studio ------------------------------------------------------------------- */
+
+.fulfil {
+  margin-top: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.fulfil__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--shop-line);
+}
+
+.fulfil h3 {
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+}
+
+/* Packing slip — goes in the box, so it prints on paper and owes the screen
+   nothing. */
+
+.slip {
+  max-width: 46rem;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #fff;
+  color: #221822;
+  border: 1px solid var(--shop-line);
+  font-size: 0.92rem;
+}
+
+.slip header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 2px solid var(--gold);
+}
+
+.slip__mark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.slip__tag,
+.slip__meta {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+}
+
+.slip__meta {
+  text-align: right;
+}
+
+.slip h2 {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+  margin: 1.8rem 0 0.6rem;
+}
+
+.slip address {
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.slip__items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.6rem;
+}
+
+.slip__items th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--shop-line);
+}
+
+.slip__items td {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #f0eae0;
+  vertical-align: top;
+}
+
+.slip__items tfoot td {
+  font-weight: 500;
+  border-bottom: 0;
+  padding-top: 1rem;
+}
+
+.slip__gift blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  padding: 0.8rem 0 0.8rem 1rem;
+  border-left: 2px solid var(--gold);
+}
+
+.slip__note {
+  margin-top: 1.4rem;
+  padding: 0.7rem 0.9rem;
+  background: #faf4e8;
+  border: 1px solid var(--gold);
+  font-size: 0.84rem;
+}
+
+.slip__footer {
+  margin-top: 2.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--shop-line);
+  font-size: 0.76rem;
+  color: var(--shop-muted);
+  line-height: 1.6;
+}
+
+@media print {
+  /* Only the slip goes in the box. */
+  .site-header,
+  .site-footer,
+  .ui-breadcrumb,
+  .drawer {
+    display: none !important;
+  }
+
+  .shop__main {
+    padding: 0;
+  }
+
+  .slip {
+    margin: 0;
+    border: 0;
+    max-width: none;
+  }
+}
