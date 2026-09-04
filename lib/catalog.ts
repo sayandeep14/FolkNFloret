@@ -238,7 +238,15 @@ export async function safeSlugs<T extends { slug: string }>(
   try {
     return (await load()).map(({ slug }) => ({ slug }));
   } catch (error) {
-    console.warn("catalog: could not prerender slugs, falling back to on-demand", error);
+    // Loud on purpose. A build with no reachable database still succeeds — it
+    // just prerenders nothing — and a silently un-prerendered catalogue is a
+    // trap worth shouting about, because the site will look fine and be slow.
+    console.error(
+      "\n[catalog] Could not reach the database during the build.\n" +
+        "[catalog] No product pages were prerendered; they will render on demand.\n" +
+        "[catalog] If this is a deploy, check DATABASE_URL is set for this environment.\n",
+      error instanceof Error ? error.message : error,
+    );
     return [];
   }
 }

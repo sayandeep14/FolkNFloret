@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/site";
 import "./tokens.css";
 import "./chrome.css";
 import "./ui.css";
@@ -7,6 +8,9 @@ import { CartProvider } from "@/components/cart/CartProvider";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 
 export const metadata: Metadata = {
+  // Absolute base for og:image and canonicals. Without it Next resolves them
+  // against localhost and every shared link previews as broken.
+  metadataBase: new URL(SITE_URL),
   title: "Folks & Florets — The Art of Keeping",
   description:
     "Preserved botanicals, hand-poured candles and estate provisions, composed into keepsake suites for the moments meant to be kept.",

@@ -218,12 +218,22 @@ Not needed today; noted so it is not a surprise in Phase 11.
 
 - Vercel: set `DATABASE_URL` and `DIRECT_URL` under **Settings → Environment
   Variables** for Production and Preview. Vercel is serverless and reconnects
-  constantly, so production must use the **transaction pooler** URL.
-- `lib/generated/` is gitignored, so the build must run `prisma generate`
-  first. Add it to the `build` script when you first deploy:
-  `"build": "prisma generate && next build"`.
+  constantly, so production must use the **transaction pooler** URL (port
+  6543); `DIRECT_URL` is the session pooler (5432) and is only used by
+  migrations.
+- `lib/generated/` is gitignored, so the build runs `prisma generate` first —
+  already wired into the `build` script.
+- **The build does not require a database.** `prisma generate` needs only the
+  schema, `lib/db.ts` builds its client on first use rather than on import,
+  and `safeSlugs` catches a failed catalogue read. A build without
+  `DATABASE_URL` therefore succeeds and prints a loud `[catalog]` warning,
+  prerendering nothing and serving every product page on demand. That is a
+  working site, not a broken one — but it is slow, so read the warning.
 - Migrations in CI run `npm run db:deploy`, never `db:migrate` — the latter is
   interactive and can offer to reset the database.
+- Set `NEXT_PUBLIC_SITE_URL` once there is a custom domain. Until then the
+  origin is inferred from `VERCEL_URL`, which keeps preview share cards
+  pointing at the preview rather than at production.
 
 ---
 
