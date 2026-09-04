@@ -554,19 +554,20 @@ clicking through one nobody occupied.
 
 ---
 
-## Phase 9 — Admin
+## Phase 9 — Admin → moved to its own plan
 
-- [ ] `/admin` behind a role check on `Customer.role`.
-- [ ] Orders: list, filter by status, open one, transition its state, refund.
-- [ ] Products: create, edit, upload images, reorder, publish/unpublish.
-- [ ] Inventory: adjust stock with a reason, low-stock view.
-- [ ] Discount codes: create, limit, expire.
-- [ ] Enquiries inbox for bespoke commissions and corporate suites (D4).
-- [ ] `revalidateTag` on every write so the static catalog refreshes.
+This grew past a phase. It now lives in
+**[docs/STUDIO_ROADMAP.md](./STUDIO_ROADMAP.md)**, to be served at
+`studio.folknfloret.com`.
 
-If this phase looks large, it is. A defensible shortcut for launch: skip the
-product editor, keep the catalog in the seed script, and build only the orders
-view. You cannot skip the orders view.
+The short version of the decision recorded there: a separate **subdomain**, but
+**not** a separate application. The studio needs the same schema, the same
+order state machine, the same pricing and the same primitives — a second app
+would mean copies that drift, or a monorepo, and neither is worth it at this
+size. One deploy, two hostnames, routed in middleware.
+
+Phase 8 already shipped the beginnings under `/studio`: the orders queue, one
+order, mark shipped and delivered, refunds, and the packing slip.
 
 ---
 
