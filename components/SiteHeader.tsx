@@ -205,7 +205,8 @@ export function SiteHeader({ variant = "glass" }: { variant?: HeaderVariant }) {
             <a href="/shop">Shop</a>
           </nav>
 
-          {/* Account is still inert (Phase 5). The bag is live. */}
+          {/* Both live: the account link needs a session, and the bag
+              opens the drawer rather than navigating. */}
           <div className="site-header__tools">
             <a
               className="site-header__tool"

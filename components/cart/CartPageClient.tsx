@@ -76,14 +76,16 @@ export function CartPageClient({ initialCart }: { initialCart: CartView }) {
           </div>
         </form>
 
-        {/* Checkout is Phase 6. Rendered so the layout and focus order are
-            settled; wiring it is a change of href, not of markup. */}
-        <Button full disabled>
+        {/* A link, not a button: middle-click and open-in-new-tab should work,
+            and there is nothing to submit — checkout re-reads the bag from the
+            server anyway. An empty bag never reaches here, and /checkout sends
+            anyone who arrives with one back. */}
+        <ButtonLink href="/checkout" full>
           Checkout
-        </Button>
+        </ButtonLink>
         <p className="cart-page__note">
-          Checkout opens next. Prices include GST; delivery is calculated on the
-          bag total.
+          Prices include GST. Delivery is calculated on the bag total, and your
+          pieces are held for fifteen minutes once you place the order.
         </p>
       </aside>
     </div>
