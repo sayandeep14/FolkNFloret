@@ -78,14 +78,21 @@ deployment.
 
 ## 4. Test the whole matrix
 
-With test keys, place an order and pay. Razorpay's test instruments:
+With test keys, place an order and pay.
+
+**Use UPI, not a card.** Indian Razorpay accounts are domestic-only until
+international payments are separately enabled, and the card most test guides
+reach for — `4111 1111 1111 1111` — is treated as international. It fails with
+*"this business accepts domestic (Indian) card payments only"*, which reads
+like a bug in the shop and is not one. That exact failure is already recorded
+against two orders here.
 
 | To test | Use |
 |---|---|
-| Success | card `4111 1111 1111 1111`, any future expiry, any CVV |
-| Failure | card `4000 0000 0000 0002` |
-| UPI success | UPI id `success@razorpay` |
-| UPI failure | UPI id `failure@razorpay` |
+| **Success** | UPI id `success@razorpay` |
+| **Failure** | UPI id `failure@razorpay` |
+| Netbanking | any bank, then choose Success on Razorpay's simulated page |
+| Cards | only once international payments are enabled on the account |
 
 Four cases worth walking, not one:
 

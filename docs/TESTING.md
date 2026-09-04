@@ -111,14 +111,15 @@ Open `/`.
 
 ## 6 · Payment
 
-Razorpay test instruments:
+**Pay by UPI, not by card.** The account is domestic-only, so the usual
+`4111 1111 1111 1111` test card is rejected as international — a real failure
+message that looks like a broken shop and is not one.
 
 | To test | Use |
 |---|---|
-| Success | card `4111 1111 1111 1111`, any future expiry, any CVV |
-| Failure | card `4000 0000 0000 0002` |
-| UPI success | `success@razorpay` |
-| UPI failure | `failure@razorpay` |
+| **Success** | UPI id `success@razorpay` |
+| **Failure** | UPI id `failure@razorpay` |
+| Netbanking | any bank, then Success on the simulated page |
 
 Four cases, not one:
 
