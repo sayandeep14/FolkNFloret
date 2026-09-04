@@ -2,23 +2,31 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/lib/generated/prisma";
 
 /**
- * One client per process. Next's dev server re-evaluates modules on every
- * change, and a fresh PrismaClient each time exhausts the connection pool
- * within a handful of saves — so in development it is parked on globalThis.
+ * One client per process, built on first *use* rather than on import.
  *
- * Prisma 7 takes its connection through a driver adapter rather than from the
- * schema, which is why the URL is read here and not in schema.prisma.
+ * Lazy because a build host may have no DATABASE_URL — the first deploy,
+ * before the variables are set — and importing this module must not be what
+ * fails there. Catalogue reads degrade gracefully, so a build without a
+ * database produces a working site whose pages render on demand.
  *
- * The client is built on first *use*, not on import. A build host may have no
- * DATABASE_URL — the very first deploy, before the variables are set — and
- * importing this module must not be what fails there. Catalogue reads already
- * degrade gracefully (see `safeSlugs`), so a build without a database produces
- * a working site whose pages render on demand instead of a build that dies
- * while collecting page data.
+ * Memoised in a module-level variable, which is the part that matters: the
+ * proxy below resolves the client on *every* property access, so anything that
+ * rebuilds it per access builds a fresh connection pool per query. That is not
+ * hypothetical — an earlier version only memoised outside production, and in
+ * production a single add-to-bag opened six pools and six TLS handshakes to a
+ * database on another continent. It took twelve seconds.
+ *
+ * globalThis is used as well, but only in development, where Next re-evaluates
+ * modules on every change and a fresh client each time exhausts the pool
+ * within a handful of saves.
  */
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
-function create(): PrismaClient {
+let client: PrismaClient | undefined = globalForPrisma.prisma;
+
+function resolve(): PrismaClient {
+  if (client) return client;
+
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(
@@ -27,7 +35,7 @@ function create(): PrismaClient {
     );
   }
 
-  const client = new PrismaClient({
+  client = new PrismaClient({
     adapter: new PrismaPg({ connectionString }),
     log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
   });
@@ -36,15 +44,11 @@ function create(): PrismaClient {
   return client;
 }
 
-function resolve(): PrismaClient {
-  return globalForPrisma.prisma ?? create();
-}
-
 export const db = new Proxy({} as PrismaClient, {
   get(_target, property) {
-    const client = resolve();
-    const value = Reflect.get(client, property) as unknown;
+    const resolved = resolve();
+    const value = Reflect.get(resolved, property) as unknown;
     // Bind so `$transaction`, `$connect` and friends keep their receiver.
-    return typeof value === "function" ? value.bind(client) : value;
+    return typeof value === "function" ? value.bind(resolved) : value;
   },
 });

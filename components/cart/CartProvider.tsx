@@ -7,14 +7,31 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import {
-  addItem as addItemAction,
-  applyDiscount as applyDiscountAction,
-  getCart,
-  removeItem as removeItemAction,
-  updateQuantity as updateQuantityAction,
-} from "@/app/actions/cart";
 import { EMPTY_CART, type CartResult, type CartView } from "@/lib/cart-types";
+
+/**
+ * The bag talks to a route handler, not to a Server Action.
+ *
+ * Actions called from a statically prerendered page run on the server and then
+ * never resolve on the client, which is every product page on this site — the
+ * bag appeared to do nothing while the database filled with orphaned carts.
+ * `fetch` behaves the same wherever it is called from.
+ */
+async function request(body: unknown): Promise<CartResult> {
+  const response = await fetch("/api/cart", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!response.ok) throw new Error(`cart: ${response.status}`);
+  return (await response.json()) as CartResult;
+}
+
+async function fetchCart(): Promise<CartView> {
+  const response = await fetch("/api/cart");
+  if (!response.ok) throw new Error(`cart: ${response.status}`);
+  return (await response.json()) as CartView;
+}
 
 /**
  * A readable companion to the HttpOnly cart cookie, holding nothing but the
@@ -116,7 +133,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setPending(true);
     setError(null);
     try {
-      const fresh = await getCart();
+      const fresh = await fetchCart();
       setCart(fresh);
       setLoaded(true);
     } catch {
@@ -143,12 +160,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     add: async (variantId, quantity = 1) => {
       // No load needed: the action returns the whole cart anyway.
       setOpen(true);
-      await run(() => addItemAction(variantId, quantity));
+      await run(() => request({ op: "add", variantId, quantity }));
     },
     setQuantity: async (itemId, quantity) =>
-      run(() => updateQuantityAction(itemId, quantity)),
-    remove: async (itemId) => run(() => removeItemAction(itemId)),
-    applyDiscount: async (code) => run(() => applyDiscountAction(code)),
+      run(() => request({ op: "update", itemId, quantity })),
+    remove: async (itemId) => run(() => request({ op: "remove", itemId })),
+    applyDiscount: async (code) => run(() => request({ op: "discount", code })),
   };
 
   return <CartContext value={value}>{children}</CartContext>;

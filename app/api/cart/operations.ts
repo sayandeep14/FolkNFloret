@@ -1,5 +1,4 @@
-"use server";
-
+import "server-only";
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
 import {
@@ -11,13 +10,21 @@ import {
 import type { CartResult, CartView } from "@/lib/cart-types";
 
 /**
- * The cart's whole write surface. Every action returns the recomputed cart, so
- * the client never has to guess what happened and never has to hold its own
+ * The cart's whole write surface. Every operation returns the recomputed cart,
+ * so the client never has to guess what happened and never has to hold its own
  * idea of the totals.
  *
  * The client sends a variant id and a quantity. It never sends a price — the
  * server re-reads that from the catalogue every time. A price arriving from a
  * browser is a price an attacker chose.
+ *
+ * These were Server Actions until they were found not to work: an action
+ * invoked from a statically prerendered page runs on the server and then never
+ * resolves on the client. Every add-to-bag happens on a product page, and
+ * every product page is prerendered, so the bag was broken in production while
+ * the database quietly filled with orphaned carts. Route handlers behave the
+ * same on static and dynamic pages, so the transport moved and the logic did
+ * not. See app/api/cart/route.ts.
  */
 
 const MAX_PER_LINE = 10;
@@ -64,15 +71,38 @@ export async function addItem(
   const wanted = Math.floor(quantity);
   if (!Number.isFinite(wanted) || wanted < 1) return fail("Choose a quantity.");
 
+  // One read, not two. This used to fetch the variant and then call
+  // availabilityOfVariant, which fetches the same row again — and every round
+  // trip to the database is ~200ms from outside its region.
   const variant = await db.productVariant.findUnique({
     where: { id: variantId },
-    include: { product: true },
+    include: {
+      product: true,
+      components: { include: { componentVariant: true } },
+    },
   });
   if (!variant || variant.product.status !== "ACTIVE") {
     return fail("That piece is no longer available.");
   }
 
-  const available = await availabilityOfVariant(variantId);
+  const own = Math.max(0, variant.stockOnHand - variant.stockReserved);
+  const available = variant.product.isBundle
+    ? variant.components.reduce(
+        (limit, component) =>
+          Math.min(
+            limit,
+            Math.floor(
+              Math.max(
+                0,
+                component.componentVariant.stockOnHand -
+                  component.componentVariant.stockReserved,
+              ) / component.quantity,
+            ),
+          ),
+        own,
+      )
+    : own;
+
   if (available <= 0) return fail("That piece has sold out.");
 
   const cart = await getWritableCart();
