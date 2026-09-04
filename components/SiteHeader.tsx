@@ -6,6 +6,7 @@ import { brand, nav } from "@/lib/content";
 import { scrollLock } from "@/lib/scroll-lock";
 import { scrollState } from "@/lib/scroll-store";
 import { GlassFilter } from "@/components/GlassFilter";
+import { GlassRefraction } from "@/components/GlassRefraction";
 import { CartButton } from "@/components/cart/CartButton";
 
 /**
@@ -172,7 +173,12 @@ export function SiteHeader({ variant = "glass" }: { variant?: HeaderVariant }) {
 
   return (
     <>
-      {glass ? <GlassFilter /> : null}
+      {glass ? (
+        <>
+          <GlassFilter />
+          <GlassRefraction />
+        </>
+      ) : null}
 
       <header
         className={`site-header site-header--${variant}${

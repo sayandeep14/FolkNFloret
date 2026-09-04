@@ -77,8 +77,9 @@ export function CartDrawer() {
         aria-modal="true"
         aria-label="Your bag"
         // Hidden from the tree entirely when closed, so nothing behind the
-        // scrim is reachable by keyboard or screen reader.
-        {...(open ? {} : { inert: "" as unknown as boolean })}
+        // scrim is reachable by keyboard or screen reader. React 19 takes a
+        // real boolean here; an empty string is read as false.
+        inert={!open}
       >
         <header className="drawer__head">
           <h2>Your bag</h2>

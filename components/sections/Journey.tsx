@@ -36,7 +36,12 @@ export function Journey() {
       panel,
       opacity: gsap.quickSetter(panel, "opacity") as (v: number) => void,
       y: gsap.quickSetter(panel, "y", "px") as (v: number) => void,
-      scale: gsap.quickSetter(panel, "scale") as (v: number) => void,
+      // Both axes explicitly. `quickSetter(el, "scale")` looks like it should
+      // work, but GSAP resolves the alias to the property name "scaleX,scaleY"
+      // and then sets it as an attribute — an invalid qualified name, so it
+      // throws on every paint.
+      scaleX: gsap.quickSetter(panel, "scaleX") as (v: number) => void,
+      scaleY: gsap.quickSetter(panel, "scaleY") as (v: number) => void,
     }));
     const setRail = railRef.current
       ? (gsap.quickSetter(railRef.current, "scaleY") as (v: number) => void)
@@ -60,7 +65,7 @@ export function Journey() {
         }
       }
 
-      setters.forEach(({ panel, opacity, y, scale }, index) => {
+      setters.forEach(({ panel, opacity, y, scaleX, scaleY }, index) => {
         const offset = u - index;
         const distance = Math.abs(offset);
         // Ease the falloff so chapters bleed into each other rather than blink.
@@ -69,7 +74,9 @@ export function Journey() {
 
         opacity(alpha);
         y(offset * -70);
-        scale(1 - distance * 0.04);
+        const size = 1 - distance * 0.04;
+        scaleX(size);
+        scaleY(size);
         panel.style.pointerEvents = alpha > 0.65 ? "auto" : "none";
         panel.setAttribute("aria-hidden", alpha > 0.2 ? "false" : "true");
       });

@@ -264,14 +264,14 @@ a:focus-visible {
     padding 0.7s var(--ease-out);
 }
 
-/* Refraction, where the browser can do it. Kept in its own rule so that a
-   browser which parses url() in backdrop-filter but cannot render it still
-   falls back to the clear-blur version above rather than losing the panel. */
-@supports (backdrop-filter: url("#liquid-glass")) {
-  .site-header__bar {
-    backdrop-filter: blur(18px) saturate(190%) brightness(1.12)
-      url("#liquid-glass");
-  }
+/* Refraction, only where it has been verified — see GlassRefraction.tsx.
+   This was gated on `@supports (backdrop-filter: url(...))`, which WebKit
+   answers true to and then renders through a compositor path that crashes it.
+   A feature query cannot distinguish "parses" from "survives", so the gate
+   names what it means instead. Everything else keeps the clear-blur bar. */
+.has-glass-refraction .site-header__bar {
+  backdrop-filter: blur(18px) saturate(190%) brightness(1.12)
+    url("#liquid-glass");
 }
 
 .glass-filter {

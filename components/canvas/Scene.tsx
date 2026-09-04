@@ -46,12 +46,23 @@ const LOW: Quality = {
 function detectQuality(): Quality {
   if (typeof window === "undefined") return HIGH;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
-  const memory = (navigator as Navigator & { deviceMemory?: number })
-    .deviceMemory;
-  const cores = navigator.hardwareConcurrency ?? 4;
+  const nav = navigator as Navigator & {
+    deviceMemory?: number;
+    userAgentData?: unknown;
+  };
+  const cores = nav.hardwareConcurrency ?? 4;
 
   if (coarse || window.innerWidth < 900) return LOW;
-  if ((memory !== undefined && memory <= 4) || cores <= 4) return MID;
+  if ((nav.deviceMemory !== undefined && nav.deviceMemory <= 4) || cores <= 4) {
+    return MID;
+  }
+
+  // deviceMemory is Chromium-only. Everywhere else it is undefined, and the
+  // old check read that as "plenty" and handed Safari the top tier including
+  // depth of field — the most expensive pass here — on a browser whose WebGL
+  // headroom we cannot measure. Unmeasurable is not the same as ample.
+  if (nav.userAgentData === undefined) return MID;
+
   return HIGH;
 }
 
