@@ -344,45 +344,99 @@ a product's price in the database changes the cart total on next load.
 
 ---
 
-## Phase 5 — Customer accounts
+## Phase 5 — Customer accounts ✅ *complete, pending provider keys*
 
-- [ ] **Auth.js v5** (NextAuth) with the Prisma adapter. Clerk is the faster
-      route if you would rather not own auth at all — decide once, it is
-      expensive to swap.
-- [ ] Sign-in methods: **email magic link** as the primary (no passwords to
-      leak, no reset flow to build) and **Google** as the convenience option.
-      Add phone OTP later if the audience demands it.
-- [ ] `/account` — order history.
-- [ ] `/account/orders/[orderNumber]` — a single order with its shipment status.
-- [ ] `/account/addresses` — address book, CRUD, one default.
-- [ ] `/account/profile` — name, phone, email preferences.
-- [ ] Middleware protecting `/account/*`; redirect to sign-in with a
-      `callbackUrl` and honour it after.
-- [ ] Merge the guest cart into the customer cart on sign-in.
-- [ ] Rate-limit the sign-in endpoint (Upstash Redis or equivalent).
+- [x] **Auth.js v5** with the Prisma adapter. Pinned at `5.0.0-beta.32`, which
+      is what the App Router ecosystem runs on; the beta tag has been stable a
+      long time but it is a beta and worth knowing.
+- [x] Email magic link (Resend) and Google. **Providers are assembled from
+      whichever credentials are present** — a deployment with no keys still
+      sells, and the sign-in page says sign-in is unavailable rather than
+      throwing on every route that reads a session.
+- [x] `/account` order history · `/account/orders/[orderNumber]` ·
+      `/account/addresses` · `/account/profile`.
+- [x] Middleware protecting `/account/*`, redirecting with a `callbackUrl`.
+- [x] Guest cart merges into the account cart on sign-in.
+- [x] Rate limiting on the magic-link endpoint, on the address *and* the IP.
 
-**Done when:** a guest can add to cart, sign in, and find their cart intact.
+### What you still need to supply
+
+Sign-in cannot work until these are set. Everything else does.
+
+| Variable | Where from |
+|---|---|
+| `AUTH_SECRET` | already generated into `.env.local` |
+| `AUTH_RESEND_KEY`, `EMAIL_FROM` | resend.com, after verifying the sending domain |
+| `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Google Cloud console, redirect URI `https://YOUR-DOMAIN/api/auth/callback/google` |
+
+### Three decisions
+
+**`Customer` was renamed to `User`.** `@auth/prisma-adapter` addresses
+`prisma.user` by name. Done while the table had zero rows; after the first
+sign-up it would have meant migrating live data rather than a clean drop.
+
+**Rate limiting lives in Postgres, not memory.** Every serverless invocation is
+a fresh process, so an in-process counter resets constantly and limits nothing
+— and a magic-link endpoint is exactly what gets turned into a mail cannon.
+Upstash is the answer at volume; a table needs no third service to launch.
+
+**Middleware checks only for a session cookie.** Prisma cannot run on the edge.
+The account layout does the real `auth()` check, which also catches a cookie
+whose session has been revoked.
 
 ---
 
-## Phase 6 — Checkout
+## Phase 6 — Checkout ✅ *complete*
 
-- [ ] `/checkout` as a single page with three sections — contact, delivery,
-      payment — not a multi-page wizard. Fewer navigations, less abandonment.
-- [ ] Address form with Indian fields: name, line 1, line 2, landmark, city,
-      state (dropdown), 6-digit PIN, 10-digit phone.
-- [ ] PIN code lookup to auto-fill city and state, and to check serviceability.
-- [ ] Validation with **Zod**, shared between client and server action. One
-      schema, two consumers.
-- [ ] "Billing address same as delivery" toggle.
-- [ ] Gift options — recipient name, gift message for the card, hide prices in
-      the parcel, preferred delivery date. **This is a gifting house; treat gift
-      handling as a first-class feature, not a checkbox.**
-- [ ] Shipping rate calculation (flat, by weight, or free above a threshold).
-- [ ] GST calculation, and the CGST/SGST vs IGST split by destination state.
-- [ ] Reserve stock when checkout begins; release it if payment does not
-      complete within 15 minutes.
-- [ ] Create the `Order` in `pending` state *before* redirecting to payment.
+- [x] `/checkout` as one page with three sections — contact, delivery, gift.
+      Not a wizard: every navigation between steps is a place to abandon.
+- [x] Indian address fields, with state as a dropdown of all 36 states and
+      union territories.
+- [x] **PIN code lookup** fills city and state from India Post, proxied through
+      `/api/pincode/[code]` and cached for a day. Advisory: a failed lookup
+      blocks nothing, and the fields stay editable — the Post Office's district
+      and the customer's idea of their city do not always agree, and theirs is
+      the one on the parcel.
+- [x] One Zod schema in `lib/address.ts`, used by the account address book and
+      by checkout, on client and server. Phone numbers normalise on the way in.
+- [x] "Billing address is the same" toggle, with an explicit hidden field for
+      the off state — an unchecked checkbox sends nothing, and the server would
+      have read absent as "same".
+- [x] Gift options: recipient, a message for the card, hide prices in the
+      parcel, preferred delivery date. First-class, not a checkbox.
+- [x] Shipping: flat ₹150, free above ₹2,500, with the shortfall shown.
+- [x] GST is computed per line at each item's own rate. Verified with a mixed
+      bag: honey at 5% beside chocolate at 18% gives ₹195.28 on ₹2,140.
+- [x] Stock reserved when the order is placed, released after 15 minutes.
+- [x] `Order` created in `PENDING` **before** payment.
+
+**Verified end to end:** a guest filled the form, the PIN lookup resolved
+643217 to Nilgiris, Tamil Nadu, the order was created with correct snapshots
+(title, SKU, HSN, unit price, tax rate), the gift fields and address snapshot
+persisted, and stock moved to reserved. Expiring that reservation and starting
+another checkout cancelled the stale order and gave its stock back, leaving
+only the new hold.
+
+### Two decisions
+
+**The order exists before the money does.** A customer who pays and then closes
+the tab must still end up with an order, and that is only possible if the order
+is already there for Phase 7's webhook to find.
+
+**Reserving is one conditional update per line inside a transaction** —
+`updateMany` with a stock guard returns a count, so two simultaneous checkouts
+for the last suite cannot both succeed. Checking availability first and writing
+after would be a race.
+
+**The cart is not emptied on order placement.** Payment has not happened; a
+failed payment has to leave the customer with their bag, not an empty shop and
+no order. Phase 7 clears it on `paid`.
+
+**`redirect()` from the action was replaced with an explicit hand-off.** It
+threw its control-flow signal through `useActionState` and the browser stayed
+put — with the order already created, which is the worst of both. The action
+returns the order number and the form navigates. One line of client code, and
+observable when it breaks.
 
 ---
 

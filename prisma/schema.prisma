@@ -382,6 +382,11 @@ model Order {
   payments  Payment[]
   shipments Shipment[]
 
+  /// While an order is PENDING its lines hold stock. Past this moment the
+  /// hold is void and a sweep may release it — otherwise an abandoned
+  /// checkout would keep a suite out of the shop indefinitely.
+  reservationExpiresAt DateTime?
+
   placedAt  DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -389,6 +394,7 @@ model Order {
   @@index([userId])
   @@index([status])
   @@index([email])
+  @@index([status, reservationExpiresAt])
 }
 
 model OrderItem {

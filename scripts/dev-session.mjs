@@ -1,5 +1,17 @@
-// Creates a test user and a session row so the account pages can be exercised
-// without a mail provider. Removed again by `node _session.mjs clean`.
+/**
+ * Development only. Creates a test user, an address and a session row so the
+ * account and checkout pages can be exercised before a mail provider exists.
+ * Prints the session token; put it in an `authjs.session-token` cookie.
+ *
+ *   node scripts/dev-session.mjs        # create, prints the token
+ *   node scripts/dev-session.mjs clean  # remove the user and everything of theirs
+ *
+ * Never run this against production: it writes a session nobody authenticated
+ * for. It refuses if NODE_ENV says production.
+ */
+if (process.env.NODE_ENV === "production") {
+  throw new Error("dev-session is not for production.");
+}
 import { Client } from "pg";
 import { randomBytes } from "node:crypto";
 process.loadEnvFile(".env.local");
