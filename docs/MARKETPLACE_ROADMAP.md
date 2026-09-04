@@ -7,6 +7,19 @@ phase depends on a later one. Tick items as they land.
 
 ---
 
+## The other documents
+
+| | |
+|---|---|
+| [OPERATIONS.md](./OPERATIONS.md) | Changing prices, stock, copy and keys — and what breaks when |
+| [TESTING.md](./TESTING.md) | Walking the whole shop by hand, with expected results |
+| [SUPABASE_SETUP.md](./SUPABASE_SETUP.md) | The database |
+| [AUTH_SETUP.md](./AUTH_SETUP.md) | Google and magic-link sign-in |
+| [RAZORPAY_SETUP.md](./RAZORPAY_SETUP.md) | Payments |
+| [STUDIO_ROADMAP.md](./STUDIO_ROADMAP.md) | The internal admin |
+
+---
+
 ## Where we are starting from
 
 What exists today is a **single-page marketing site**, not an application:
