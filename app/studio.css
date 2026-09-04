@@ -1,0 +1,106 @@
+/* ==========================================================================
+   The Studio
+   Shares the shop's tokens and primitives on purpose — it should look plainer
+   than the storefront, not different. Denser type, denser rows, no ornament.
+   ========================================================================== */
+
+.studio {
+  min-height: 100vh;
+  background: var(--shop-ground);
+  color: var(--shop-ink);
+}
+
+.studio__bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: 0.9rem clamp(1rem, 3vw, 2rem);
+  background: var(--shop-ink);
+  color: var(--shop-ground);
+}
+
+.studio__mark {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.studio__mark i {
+  font-style: italic;
+  opacity: 0.6;
+}
+
+.studio__mark span {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+}
+
+.studio__bar nav {
+  display: flex;
+  gap: 1.4rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.studio__bar nav a {
+  opacity: 0.72;
+}
+
+.studio__bar nav a:hover {
+  opacity: 1;
+}
+
+.studio__who {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-size: 0.78rem;
+}
+
+.studio__who span {
+  opacity: 0.66;
+}
+
+/* The sign-out button inherits the shop's ghost styling, which assumes a light
+   ground. On the bar it needs the opposite. */
+.studio__who .ui-button--ghost {
+  border-color: rgb(244 237 226 / 0.3);
+  color: var(--shop-ground);
+}
+
+.studio__who .ui-button--ghost:hover {
+  border-color: var(--shop-ground);
+  background: rgb(244 237 226 / 0.1);
+}
+
+.studio__main {
+  width: min(100% - 2rem, 78rem);
+  margin-inline: auto;
+  padding-block: clamp(1.5rem, 4vh, 2.5rem) 4rem;
+}
+
+/* Denser than the storefront's equivalents. */
+.studio .order-list li a {
+  padding: 0.8rem 0;
+  font-size: 0.92rem;
+}
+
+.studio .display--md {
+  font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.4rem);
+}
+
+.studio .shop__head {
+  gap: 0.5rem;
+  margin-bottom: 1.6rem;
+}

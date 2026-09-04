@@ -72,28 +72,57 @@ Everything below adds to that rather than replacing it.
 
 ---
 
-## Phase S0 — The subdomain and the gate
+## Phase S0 — The subdomain and the gate ✅ *code complete, awaiting DNS*
 
-Nothing new to *do* in the studio; this is what makes it a studio.
+- [ ] **Yours:** add `studio.folknfloret.com` to the Vercel project and point
+      DNS at it. Everything below is already deployed and waiting for it.
+- [x] Middleware routes on `Host`. On `studio.*` it serves the studio from the
+      root, so `studio.folknfloret.com/orders/FF-…` works; links written as
+      `/studio/…` keep working too, so the same components serve both. On the
+      storefront hosts `/studio/*` **404s**, so the admin exists at exactly one
+      address.
+- [x] `/account/*` still behind a session cookie.
+- [x] The studio has its own route group and its own layout: no WebGL, no
+      smooth scroll, **no cart drawer and no bag** — verified.
+- [x] `robots: noindex, nofollow, nocache` on the whole group, plus
+      `Disallow: /studio` in `robots.txt`.
+- [ ] **Yours:** remove `AUTH_URL` and register the studio callback with
+      Google. Do this *with* the DNS change, not before — see below.
+- [ ] **Yours:** turn on a network gate for the subdomain only.
 
-- [ ] Add `studio.folknfloret.com` to the Vercel project and point DNS at it.
-- [ ] Middleware routes on `Host`:
-      - on `studio.*`, rewrite `/` → `/studio` and `/orders/x` → `/studio/orders/x`
-      - on `studio.*`, 404 anything that is not a studio route or `/api/auth/*`
-      - on the storefront hosts, **404 `/studio/*`**
-- [ ] Remove `AUTH_URL`; rely on `trustHost` so each host signs its own
-      sessions. Register the studio callback with Google:
-      `https://studio.folknfloret.com/api/auth/callback/google`
-      Confirm with `npm run check:oauth -- https://studio.folknfloret.com`.
-- [ ] `robots: { index: false, follow: false }` on every studio route, and
-      `Disallow: /studio` in `robots.txt` for good measure.
-- [ ] Turn on a network gate for the subdomain only (Vercel Deployment
-      Protection, or Cloudflare Access with an allowlist).
-- [ ] A studio layout of its own: denser, no marketing chrome, no cart drawer.
-      It is a tool, not a shopfront.
+### Verified locally
 
-**Done when:** `studio.folknfloret.com` shows the orders queue to a signed-in
-staff member, and `www.folknfloret.com/studio` returns 404 to everyone.
+`studio.localhost:3000` works as the studio host — browsers resolve any
+`*.localhost` to loopback, so development exercises the same code path as
+production rather than a special case.
+
+| | |
+|---|---|
+| `localhost:3000/studio` | 404 |
+| `studio.localhost:3000/` without a session | 307 → `/signin?callbackUrl=/` |
+| `studio.localhost:3000/` as STAFF | the queue, in its own chrome |
+| `studio.localhost:3000/orders/NOPE` | 404 |
+| `studio.localhost:3000/api/auth/csrf` | 200 — staff must be able to sign in |
+
+### The AUTH_URL change, in the right order
+
+`AUTH_URL` is currently pinned to the apex. Auth.js builds its callback from
+that, which is why sign-in works today — and why the studio host would fail if
+you added it now: staff would be sent to `folknfloret.com/api/auth/callback/...`
+and land back on the storefront with no studio session.
+
+Removing `AUTH_URL` makes Auth.js derive the callback per host, which is what
+two hostnames need. But it also changes the storefront's callback from the apex
+to whichever host the visitor is on — almost always `www`. So:
+
+1. Register **all three** redirect URIs with Google first:
+   `https://folknfloret.com/...`, `https://www.folknfloret.com/...`,
+   `https://studio.folknfloret.com/...`
+2. Then remove `AUTH_URL` from Vercel.
+3. Then `npm run check:oauth -- https://studio.folknfloret.com` and confirm
+   what it prints matches what you registered.
+
+Doing it the other way round breaks sign-in on the storefront.
 
 ---
 

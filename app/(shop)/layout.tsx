@@ -1,6 +1,9 @@
 import "../shop.css";
+import "../cart.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { CartProvider } from "@/components/cart/CartProvider";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 /**
  * No canvas, no Lenis, no custom cursor. Shop routes scroll natively so that
@@ -10,12 +13,15 @@ export default function ShopLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="shop">
-      <SiteHeader variant="solid" />
-      <main className="shop__main" id="top">
-        {children}
-      </main>
-      <SiteFooter />
-    </div>
+    <CartProvider>
+      <div className="shop">
+        <SiteHeader variant="solid" />
+        <main className="shop__main" id="top">
+          {children}
+        </main>
+        <SiteFooter />
+      </div>
+      <CartDrawer />
+    </CartProvider>
   );
 }

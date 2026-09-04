@@ -3,9 +3,6 @@ import { SITE_URL } from "@/lib/site";
 import "./tokens.css";
 import "./chrome.css";
 import "./ui.css";
-import "./cart.css";
-import { CartProvider } from "@/components/cart/CartProvider";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 
 export const metadata: Metadata = {
   // Absolute base for og:image and canonicals. Without it Next resolves them
@@ -45,10 +42,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <CartProvider>
-          {children}
-          <CartDrawer />
-        </CartProvider>
+        {children}
       </body>
     </html>
   );
