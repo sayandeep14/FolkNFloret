@@ -162,7 +162,7 @@ model ProductCollection {
 }
 
 // ---------------------------------------------------------------------------
-// Customers
+// Accounts
 // ---------------------------------------------------------------------------
 
 enum Role {
@@ -171,15 +171,22 @@ enum Role {
   ADMIN
 }
 
-model Customer {
-  id    String  @id @default(cuid())
-  email String  @unique
-  name  String?
-  phone String?
-  role  Role    @default(CUSTOMER)
+/// Named User rather than Customer because Auth.js's Prisma adapter addresses
+/// `prisma.user` by name. Renamed while the table was still empty; after the
+/// first sign-up it would have meant migrating live rows.
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  phone         String?
+  role          Role      @default(CUSTOMER)
 
   marketingOptIn Boolean @default(false)
 
+  accounts  Account[]
+  sessions  Session[]
   addresses Address[]
   carts     Cart[]
   orders    Order[]
@@ -188,10 +195,65 @@ model Customer {
   updatedAt DateTime @updatedAt
 }
 
+// ---------------------------------------------------------------------------
+// Auth.js — shapes fixed by @auth/prisma-adapter, not by us
+// ---------------------------------------------------------------------------
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// Magic-link tokens. Single use: the adapter deletes on redemption.
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+/// A fixed-window counter, used to stop the magic-link endpoint being turned
+/// into a mail cannon. In the database rather than in memory because every
+/// serverless invocation is a fresh process with its own memory.
+model RateLimit {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+
+  @@index([windowStart])
+}
+
 model Address {
   id         String   @id @default(cuid())
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   name      String
   line1     String
@@ -207,7 +269,7 @@ model Address {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([customerId])
+  @@index([userId])
 }
 
 // ---------------------------------------------------------------------------
@@ -226,8 +288,8 @@ model Cart {
   /// Opaque value held in a signed cookie, so a guest keeps their cart.
   token String @unique
 
-  customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  userId String?
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   status    CartStatus @default(ACTIVE)
   expiresAt DateTime?
@@ -240,7 +302,7 @@ model Cart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([customerId])
+  @@index([userId])
   @@index([status, expiresAt])
 }
 
@@ -286,10 +348,10 @@ model Order {
   /// Human-facing and quotable over the phone. Not the primary key.
   orderNumber String @unique
 
-  customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
-  /// Guest checkout means the email is on the order, not only on a customer.
-  email      String
+  userId String?
+  user   User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
+  /// Guest checkout means the email is on the order, not only on an account.
+  email  String
   phone      String?
 
   status OrderStatus @default(PENDING)
@@ -324,7 +386,7 @@ model Order {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  @@index([customerId])
+  @@index([userId])
   @@index([status])
   @@index([email])
 }

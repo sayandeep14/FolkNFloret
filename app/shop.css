@@ -522,3 +522,277 @@
     scroll-snap-align: start;
   }
 }
+
+/* Account and sign-in --------------------------------------------------------
+   Both live on the shop's alabaster ground and reuse its primitives. */
+
+.auth {
+  max-width: 26rem;
+  margin-inline: auto;
+  text-align: center;
+  padding-block: clamp(1rem, 4vh, 3rem);
+}
+
+.auth h1 {
+  margin-block: 0.4rem 1rem;
+}
+
+.auth__methods {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth__or {
+  text-align: center;
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+}
+
+.auth__note {
+  margin-top: 2rem;
+  font-size: 0.84rem;
+  color: var(--shop-muted);
+}
+
+.account__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.account__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
+  margin: 2rem 0 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--shop-line);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.account__tabs a {
+  color: var(--shop-muted);
+}
+
+.account__tabs a:hover {
+  color: var(--shop-ink);
+}
+
+/* Orders ------------------------------------------------------------------- */
+
+.order-list li a {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto auto;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--shop-line);
+}
+
+.order-list li a:hover {
+  color: var(--gold);
+}
+
+.order-list__no {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.order-list__date,
+.order-list__items {
+  font-size: 0.86rem;
+  color: var(--shop-muted);
+}
+
+.order-list__total {
+  font-variant-numeric: tabular-nums;
+}
+
+.order {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+  margin-top: 2rem;
+}
+
+.order__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.order__head h2 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.6rem;
+}
+
+.order__lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--shop-line);
+}
+
+.order__lines li em,
+.order__lines li small {
+  display: block;
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--shop-muted);
+}
+
+.order__gift {
+  margin-top: 2rem;
+  padding: 1.2rem;
+  border: 1px solid var(--shop-line);
+}
+
+.order__gift blockquote {
+  margin-top: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.order__aside {
+  padding: 1.6rem;
+  border: 1px solid var(--shop-line);
+  background: #fbf7f1;
+}
+
+.order__aside h3 {
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--shop-muted);
+  margin: 1.6rem 0 0.6rem;
+}
+
+.order__aside h3:first-child {
+  margin-top: 0;
+}
+
+.order__aside address {
+  font-style: normal;
+  line-height: 1.7;
+  font-size: 0.92rem;
+}
+
+/* Address book ------------------------------------------------------------- */
+
+.address-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.address-fields__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 1rem;
+}
+
+.address-book ul {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.6rem;
+}
+
+.address-book li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--shop-line);
+}
+
+.address-book__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.address-book__name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.address-book__body {
+  font-size: 0.88rem;
+  color: var(--shop-muted);
+  max-width: 44ch;
+}
+
+.address-book__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Profile ------------------------------------------------------------------ */
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 28rem;
+}
+
+.checkbox {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  color: var(--shop-muted);
+  cursor: pointer;
+}
+
+.checkbox input {
+  margin-top: 0.25rem;
+  accent-color: var(--shop-ink);
+}
+
+.profile-form__saved {
+  margin-left: 0.9rem;
+  font-size: 0.84rem;
+  color: var(--gold);
+}
+
+@media (max-width: 860px) {
+  .order {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .order-list li a {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.4rem;
+  }
+}

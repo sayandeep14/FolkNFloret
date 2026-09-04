@@ -227,24 +227,24 @@ export async function availabilityOfVariant(variantId: string): Promise<number> 
 }
 
 /**
- * Moves a guest cart onto a customer at sign-in (Phase 5 calls this). Lines
- * are merged rather than replaced: someone who filled a bag signed-out and had
- * one waiting from last week should end up with both.
+ * Moves a guest cart onto an account at sign-in. Lines are merged rather than
+ * replaced: someone who filled a bag signed-out and had one waiting from last
+ * week should end up with both.
  */
-export async function mergeIntoCustomer(customerId: string): Promise<void> {
+export async function mergeIntoUser(userId: string): Promise<void> {
   const token = (await cookies()).get(CART_COOKIE)?.value;
   if (!token) return;
 
   const guest = await db.cart.findUnique({ where: { token }, include: { items: true } });
-  if (!guest || guest.customerId === customerId) return;
+  if (!guest || guest.userId === userId) return;
 
   const existing = await db.cart.findFirst({
-    where: { customerId, status: "ACTIVE", NOT: { id: guest.id } },
+    where: { userId, status: "ACTIVE", NOT: { id: guest.id } },
     include: { items: true },
   });
 
   if (!existing) {
-    await db.cart.update({ where: { id: guest.id }, data: { customerId } });
+    await db.cart.update({ where: { id: guest.id }, data: { userId } });
     return;
   }
 
