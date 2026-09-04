@@ -367,7 +367,10 @@ Sign-in cannot work until these are set. Everything else does.
 |---|---|
 | `AUTH_SECRET` | already generated into `.env.local` |
 | `AUTH_RESEND_KEY`, `EMAIL_FROM` | resend.com, after verifying the sending domain |
-| `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Google Cloud console, redirect URI `https://YOUR-DOMAIN/api/auth/callback/google` |
+| `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Google Cloud console |
+| `AUTH_URL` | production only, pins the OAuth callback to the canonical domain |
+
+Step by step: **[docs/AUTH_SETUP.md](./AUTH_SETUP.md)**.
 
 ### Three decisions
 

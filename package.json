@@ -7,6 +7,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
+    "check:env": "node scripts/check-env-example.mjs",
     "check:catalog": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/check-catalog.mjs",
     "db:generate": "prisma generate",
     "db:check": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/db-check.mjs",
