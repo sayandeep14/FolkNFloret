@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { Breadcrumb, Badge } from "@/components/ui";
 import { Money } from "@/components/ui/Money";
 import { OrderSummary } from "@/components/cart/OrderSummary";
 import { RESERVATION_MINUTES } from "@/lib/checkout";
+import { razorpayConfig, isTestMode } from "@/lib/razorpay";
+import { PayButton } from "@/components/checkout/PayButton";
 
 export const metadata: Metadata = { title: "Your order — Folks & Florets" };
 export const dynamic = "force-dynamic";
 
 /**
- * The order exists and holds its stock; the money does not yet. Phase 7 puts
- * Razorpay Checkout on this page. Until then it is an honest holding state
- * rather than a fake success.
+ * The order exists and holds its stock. This is where the money is taken.
  */
 export default async function PendingOrderPage({
   params,
@@ -25,6 +25,15 @@ export default async function PendingOrderPage({
     include: { items: true },
   });
   if (!order) notFound();
+
+  // Already settled: nothing to pay, so send them to the receipt.
+  if (order.status !== "PENDING" && order.status !== "PAYMENT_FAILED") {
+    redirect(`/checkout/success/${order.orderNumber}`);
+  }
+
+  const configured = Boolean(razorpayConfig());
+  const expired =
+    order.reservationExpiresAt !== null && order.reservationExpiresAt < new Date();
 
   // A server-rendered countdown is stale the moment it is sent, and reading
   // the clock during render is impure. The expiry time itself is a fact.
@@ -49,13 +58,19 @@ export default async function PendingOrderPage({
           </header>
 
           <p className="lede">
-            Your order is reserved and your pieces are held.
-            {order.status === "PENDING"
-              ? ` Payment opens shortly — the hold lasts ${RESERVATION_MINUTES} minutes${
+            {expired
+              ? "The hold on this order has expired and the pieces have gone back to the shop. Start again from your bag."
+              : `Your pieces are held for ${RESERVATION_MINUTES} minutes${
                   heldUntil ? `, until ${heldUntil}` : ""
-                }.`
-              : ""}
+                }. Pay to confirm them.`}
           </p>
+
+          {order.status === "PAYMENT_FAILED" ? (
+            <p className="drawer__notice" role="status">
+              That payment did not go through. Nothing has been charged, and
+              your pieces are still held — try again below.
+            </p>
+          ) : null}
 
           <ul>
             {order.items.map((item) => (
@@ -80,6 +95,23 @@ export default async function PendingOrderPage({
         </section>
 
         <aside className="order__aside">
+          <h3>Pay</h3>
+          <PayButton
+            orderNumber={order.orderNumber}
+            disabledReason={
+              expired
+                ? "The hold has expired — start again from your bag."
+                : !configured
+                  ? "Payments are not switched on for this deployment yet."
+                  : undefined
+            }
+          />
+          {configured && isTestMode() ? (
+            <p className="cart-page__note">
+              Test mode. Use the Razorpay test cards — no money moves.
+            </p>
+          ) : null}
+
           <h3>Summary</h3>
           <OrderSummary
             summary={{

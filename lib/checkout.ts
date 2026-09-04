@@ -134,6 +134,7 @@ export async function placeOrder(
           return await tx.order.create({
             data: {
               orderNumber: number,
+              cartId,
               userId: input.userId ?? null,
               email: input.email,
               phone: input.phone,
@@ -182,8 +183,8 @@ export async function placeOrder(
     });
 
     // The cart stays ACTIVE until the money arrives: a failed payment has to
-    // leave the customer with their bag intact, not an empty shop and no order.
-    void cartId;
+    // leave the customer with their bag intact, not an empty shop and no
+    // order. markPaid retires it, using the id recorded above.
     return { ok: true, orderNumber: created.orderNumber };
   } catch (error) {
     const message = error instanceof Error ? error.message : "";

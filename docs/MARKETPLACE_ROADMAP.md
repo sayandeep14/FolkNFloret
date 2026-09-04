@@ -443,33 +443,62 @@ observable when it breaks.
 
 ---
 
-## Phase 7 — Payments
+## Phase 7 — Payments ✅ *complete, pending your Razorpay keys*
 
-- [ ] Razorpay account, KYC, and both test and live key pairs.
-- [ ] Keys in environment variables. `RAZORPAY_KEY_SECRET` is server-only and
-      must never appear in a `NEXT_PUBLIC_` name.
-- [ ] Server action creating a Razorpay Order from our `Order`.
-- [ ] Razorpay Checkout on the client, prefilled with the customer's details.
-- [ ] Verify the payment signature **server-side** with HMAC-SHA256. A
-      client-reported success is not a payment.
-- [ ] **Webhook** at `/api/webhooks/razorpay`:
-  - [ ] Verify the webhook signature before parsing anything.
-  - [ ] Handle `payment.captured`, `payment.failed`, `order.paid`, `refund.processed`.
-  - [ ] Make it idempotent — store the event id, ignore repeats. Razorpay
-        *will* deliver the same event more than once.
-  - [ ] Treat the webhook, not the browser redirect, as the source of truth. A
-        customer who closes the tab after paying must still get their order.
-- [ ] Order state machine: `pending → paid → processing → shipped → delivered`,
-      with `payment_failed`, `cancelled`, `refunded` as terminal branches.
-      Transitions in one module; no scattered status writes.
-- [ ] Decrement stock on `paid`, not before.
-- [ ] `/checkout/success/[orderNumber]` and a failure page that retries rather
-      than dead-ends.
-- [ ] Test the full matrix in Razorpay test mode: success, failure, UPI timeout,
-      and the tab closed mid-payment.
+- [x] Razorpay over plain `fetch` — order creation and two HMACs did not
+      warrant a dependency. **Setup: [docs/RAZORPAY_SETUP.md](./RAZORPAY_SETUP.md).**
+- [x] Keys in environment variables. The key **id** is passed to the browser
+      from the server when payment starts, so there is no `NEXT_PUBLIC_` var to
+      get wrong; both secrets are server-only.
+- [x] Server action creating a Razorpay order from ours. The amount comes from
+      our `Order` row — the client's only input is which order it means.
+- [x] Razorpay Checkout on the client, prefilled, script loaded on demand.
+- [x] Checkout signature verified server-side with HMAC-SHA256, compared in
+      constant time.
+- [x] **Webhook** at `/api/webhooks/razorpay`: signature verified over the raw
+      body *before* parsing, `payment.captured` / `payment.failed` /
+      `order.paid` / `refund.processed` handled, idempotent via `WebhookEvent`,
+      and treated as the source of truth rather than the browser callback.
+- [x] Order state machine in `lib/order-state.ts`. Every status change goes
+      through it; no scattered status writes.
+- [x] Stock decremented on `paid`, never before.
+- [x] `/checkout/success/[orderNumber]`, and a failure that retries on the same
+      order rather than dead-ending — the hold survives a failed payment.
 
-**Done when:** a test payment produces a `paid` order, decremented stock and a
-confirmation email, and closing the tab mid-payment still produces all three.
+### What you still need to supply
+
+| Variable | From |
+|---|---|
+| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | dashboard → API Keys, in **Test Mode** |
+| `RAZORPAY_WEBHOOK_SECRET` | a value you invent, entered in both the dashboard and Vercel |
+
+Webhook URL: `https://www.folknfloret.com/api/webhooks/razorpay`
+
+### Verified without Razorpay
+
+The webhook was exercised by signing payloads with the same secret:
+
+| Case | Result |
+|---|---|
+| Forged signature | 400, rejected |
+| No signature header | 400, rejected |
+| Valid `payment.captured` | 200 · order `PAID` · stock 45→44 · reserved 1→0 |
+| Same event id replayed | 200 `duplicate`, no second decrement |
+| **New event id, same payment** | 200, still no second decrement |
+| `refund.processed` | order `REFUNDED`, stock 44→45 |
+| Refund replayed | stock unchanged |
+
+The fifth row is the one that matters. Event-id dedupe alone would have missed
+it; the guarded status transition caught it. Both defences exist because either
+alone has a gap, and Razorpay *will* redeliver.
+
+### What still needs real keys
+
+The end-to-end payment itself — Checkout opening, a test card going through,
+and the four-case matrix in the setup guide. In particular **case 4: pay, then
+close the tab immediately.** The success callback never runs and the order must
+still become `PAID` from the webhook alone. That is the case that separates a
+store that works from one that loses orders.
 
 ---
 

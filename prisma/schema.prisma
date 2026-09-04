@@ -378,6 +378,11 @@ model Order {
   discountCodeId String?
   discountCode   DiscountCode? @relation(fields: [discountCodeId], references: [id], onDelete: SetNull)
 
+  /// The bag this came from, so payment can retire it. Kept as a plain id
+  /// rather than a relation: the cart may be swept long before the order is,
+  /// and an order must not depend on one existing.
+  cartId String?
+
   items     OrderItem[]
   payments  Payment[]
   shipments Shipment[]
